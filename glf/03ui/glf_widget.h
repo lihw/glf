@@ -14,22 +14,18 @@
 
 #include "../glf_common.h"
 
+#include <string>
+
 GLF_NAMESPACE_BEGIN
 
 typedef void (*WidgetCallback)(void* value);
 
 class Widget 
 {
-    friend class Widget_Master;
-
 public:
-    Widget(Widget* parent = NULL);
+    Widget(const char* name);
     virtual ~Widget();
 
-    GLF_INLINE Widget* parent() { return m_parent; };
-    void setParent(Widget* parent);
-
-public:
     void setPosition(GLint x, GLint y);
     void setSize(GLint width, GLint height);
 
@@ -45,9 +41,9 @@ public:
 
     virtual void render() = 0;
 
-    virtual void onMouseOver(int x, int y);
-    virtual bool onMouseButton(int button, int action, int mods);
-    virtual bool onMouseMove(int x, int y);
+    virtual void onMouseOver(GLint x, GLint y);
+    virtual bool onMouseButton(GLint button, GLint action, GLint mods);
+    virtual bool onMouseMove(GLint x, GLint y);
 
     void setCallback(void* value, WidgetCallback callback = 0);
 
@@ -57,9 +53,8 @@ protected:
     int   _x;    // The widget left bottom corner x;
     int   _y;    // The widget left bottom corner y;
 
-    char _name[1024];      // The label of widget
+    std::string _name;      // The label of widget
 
-    Widget* _parent;    // The parent
     bool    _visible;   // Visible or hidden
     bool    _enabled;   // functional or disabled
 

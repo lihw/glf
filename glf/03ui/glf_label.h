@@ -19,24 +19,13 @@
 
 GLF_NAMESPACE_BEGIN
 
-class Label
+class Label : public Widget
 {
 public:
-    Label(const char* labelText, GLuint x, GLuint y, const GLfloat* color);
-    ~Label();
+    Label(const char* name, GLuint x, GLuint y, const GLubyte* color);
+    virtual ~Label();
 
-    void setText(const char* text);
-    void setColor(const GLfloat* color);
-    void setPosition(GLuint x, GLuint y);
-
-    void render();
-
-private:
-    char*   _text;
-    GLuint  _x;
-    GLuint  _y;
-    BFont   _font;
-    GLfloat _color[4];
+    virtual void render();
 };
 
 GLF_NAMESPACE_END

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------- 
-// glf_bfont.h
+// glf_bitmap_font.h
 // A fixed bitmap for displaying the rendering information, like FPS.
 // The font only contains ASCII 32 (space) to ASCII 126 (tide ~).
 //
@@ -10,8 +10,8 @@
 // Hongwei Li (hongwei.li@amd.com)
 // -------------------------------------------------------------- 
 
-#ifndef GLF_BFONT_H
-#define GLF_BFONT_H
+#ifndef GLF_BITMAP_FONT_H
+#define GLF_BITMAP_FONT_H
 
 #include "../glf_common.h"
 
@@ -23,35 +23,29 @@ GLF_NAMESPACE_BEGIN
 class Texture;
 class Rect;
 
-enum BitmapFontEnum
-{
-    BITMAP_FONT_8X13,
-    BITMAP_FONT_9X15,
-};
+#define BITMAP_FONT_FIRST_CHARACTER 32
+#define BITMAP_FONT_LAST_CHARACTER 126
+#define BITMAP_FONT_NUMBER (BITMAP_FONT_LAST_CHARACTER - BITMAP_FONT_FIRST_CHARACTER + 1)
 
-class BFont
+class BitmapFont
 {
 public:
     // Constructor.
-    BFont(BitmapFontEnum font);
+    BitmapFont();
 
     // Destructor. Release all resources.
-    ~BFont();
+    ~BitmapFont();
 
-    // Draw a text onto the screen. The characters not in
-    // ASCII 32 to 126 are replaced with "?".
+    // Draw a text onto the screen. The characters not supported
+    // are replaced with "?".
     // \param text the text message.
     // \param x the x coordinate of left bottom corner of the text to draw.
     // \param y ditto.
     void drawText(const char* text, GLuint x, GLuint y, const GLfloat* color);
 
-    // Get the font width.
-    GLF_INLINE GLuint getWidth() const
-    { return _fontSize[0]; }
-
-    // Get the font height
-    GLF_INLINE GLuint getHeight() const
-    { return _fontSize[1]; }
+    // Get the font width and height.
+    GLuint getWidth(char c) const
+    GLuint getHeight(char c) const
 
 private:
     // Create the font texture, shader and geometry.
@@ -60,18 +54,12 @@ private:
     // Draw the character at the position.
     void drawCharacter(char character, GLuint x, GLuint y);
 
-    // Expand a bitmap to a gray image.
-    // \param bitmap the bitmap
-    // \param image the expanded result.
-    void expandBitmap(const GLubyte* bitmap, GLubyte* image) const;
-
 private:
-    Texture*     _texture;
+    Texture*     _textures[BITMAP_FONT_NUMBER];
     Rect*        _rect;
     glm::mat4    _projection;
-    GLuint       _fontSize[2];
 };
 
 GLF_NAMESPACE_END
 
-#endif // !GLF_BFONT_H
+#endif // !GLF_BITMAP_FONT_H
