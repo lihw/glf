@@ -1,0 +1,68 @@
+
+#ifndef KxWIDGET_H_
+#define KxWIDGET_H_
+
+#include <controls/widgets/button/KxButtonGroup.h>
+#include <controls/widgets/button/KxCheckBox.h>
+#include <controls/widgets/button/KxRadioButton.h>
+#include <controls/widgets/button/KxToolRadioButton.h>
+
+#include <controls/widgets/display/KxLabel.h>
+#include <controls/widgets/display/KxLabelledComboBox.h>
+#include <controls/widgets/display/KxMessageBox.h>
+#include <controls/widgets/display/KxProgressBar.h>
+#include <controls/widgets/display/KxProgressIndicator.h>
+#include <controls/widgets/display/KxStaticPicture.h>
+
+#include <controls/widgets/group/KxCheckBoxGrp.h>
+#include <controls/widgets/group/KxColorSliderGrp.h>
+#include <controls/widgets/group/KxConnectableWidgetGrp.h>
+#include <controls/widgets/group/KxFloatFieldGrp.h>
+#include <controls/widgets/group/KxFloatSliderGrp.h>
+#include <controls/widgets/group/KxIntFieldGrp.h>
+#include <controls/widgets/group/KxIntSliderGrp.h>
+#include <controls/widgets/group/KxOptionMenuGrp.h>
+#include <controls/widgets/group/KxRadioButtonGrp.h>
+#include <controls/widgets/group/KxSliderGrp.h>
+#include <controls/widgets/group/KxTextFieldGrp.h>
+#include <controls/widgets/group/KxWidgetGrp.h>
+
+#include <controls/widgets/icontext/KxIconTextButton.h>
+#include <controls/widgets/icontext/KxIconTextCheckBox.h>
+#include <controls/widgets/icontext/KxIconTextControl.h>
+#include <controls/widgets/icontext/KxIconTextRadioButton.h>
+#include <controls/widgets/icontext/KxIconTextStaticLabel.h>
+#include <controls/widgets/icontext/KxShelfButton.h>
+#include <controls/widgets/icontext/KxSymbolButton.h>
+#include <controls/widgets/icontext/KxSymbolCheckBox.h>
+
+#include <controls/widgets/input/KxField.h>
+#include <controls/widgets/input/KxFloatField.h>
+#include <controls/widgets/input/KxInputDialog.h>
+#include <controls/widgets/input/KxIntField.h>
+#include <controls/widgets/input/KxNumericField.h>
+#include <controls/widgets/input/KxScrollField.h>
+
+#include <controls/widgets/scroll/KxFloatScrollBar.h>
+#include <controls/widgets/scroll/KxIntScrollBar.h>
+#include <controls/widgets/scroll/KxScrollArea.h>
+
+#include <controls/widgets/slider/KxFloatSlider.h>
+#include <controls/widgets/slider/KxIntSlider.h>
+#include <controls/widgets/slider/KxSlider.h>
+#include <controls/widgets/slider/KxSliderDataAbstraction.h>
+#include <controls/widgets/slider/KxSliderFloatDataAbstraction.h>
+
+#include <controls/widgets/tab/KxTabBar.h>
+#include <controls/widgets/tab/KxTabWidget.h>
+
+#include <controls/widgets/table/KxItemDelegate.h>
+#include <controls/widgets/table/KxListWidget.h>
+#include <controls/widgets/table/KxTable.h>
+#include <controls/widgets/table/KxTableView.h>
+
+#include <controls/widgets/tree/KxTreeWidget.h>
+
+#include <controls/widgets/window/KxDockWidget.h>
+
+#endif // !KxWIDGET_H_

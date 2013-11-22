@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>checkboxOff.png</file>
+        <file>checkboxOn.png</file>
+        <file>closeAttribute.png</file>
+        <file>closeObject.png</file>
+        <file>downArrow.png</file>
+        <file>muted.png</file>
+        <file>norm.png</file>
+        <file>openAttribute.png</file>
+        <file>openObject.png</file>
+        <file>optionBox.png</file>
+        <file>pinned.png</file>
+        <file>popupToolIndicator.png</file>
+        <file>referenceProxy.png</file>
+        <file>referenceProxySharedEdits.png</file>
+        <file>rightArrow.png</file>
+        <file>templated.png</file>
+        <file>Tree_Collapsed.png</file>
+        <file>Tree_Expanded.png</file>
+        <file>Tree_Expanded_Down.png</file>
+        <file>unmuted.png</file>
+        <file>unpinned.png</file>
+        <file>sphere.png</file>
+        <file>circle.png</file>
+    </qresource>
+</RCC>

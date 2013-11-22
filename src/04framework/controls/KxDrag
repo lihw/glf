@@ -1,0 +1,13 @@
+
+#ifndef KxDRAG_H_
+#define KxDRAG_H_
+
+#include <controls/drag/dragitem/KxPrimitiveDragItem.h>
+#include <controls/drag/dragitem/KxDragItem.h>
+
+#include <controls/drag/KxDragData.h>
+#include <controls/drag/KxDragHandler.h>
+#include <controls/drag/KxDragItemDataType.h>
+#include <controls/drag/KxDragManager.h>
+
+#endif // !KxDRAG_H_

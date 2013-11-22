@@ -1,0 +1,16 @@
+﻿""
+{
+"FILE_VERSION" = "9237"
+"ENLISTMENT_CHOICE" = "NEVER"
+"PROJECT_FILE_RELATIVE_PATH" = ""
+"NUMBER_OF_EXCLUDED_FILES" = "6"
+"EXCLUDED_FILE0" = "GeneratedFiles\\Debug\\moc_GLFApplication.cpp"
+"EXCLUDED_FILE1" = "GeneratedFiles\\Debug\\moc_GLFControlWindow.cpp"
+"EXCLUDED_FILE2" = "GeneratedFiles\\Release\\moc_GLFApplication.cpp"
+"EXCLUDED_FILE3" = "GeneratedFiles\\Release\\moc_GLFControlWindow.cpp"
+"EXCLUDED_FILE4" = "GeneratedFiles\\Debug\\moc_GLFOutputWindow.cpp"
+"EXCLUDED_FILE5" = "GeneratedFiles\\Release\\moc_GLFOutputWindow.cpp"
+"ORIGINAL_PROJECT_FILE_PATH" = ""
+"NUMBER_OF_NESTED_PROJECTS" = "0"
+"SOURCE_CONTROL_SETTINGS_PROVIDER" = "PROJECT"
+}

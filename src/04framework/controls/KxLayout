@@ -1,0 +1,21 @@
+
+#ifndef KxLAYOUT_H_
+#define KxLAYOUT_H_
+
+#include <controls/layouts/KxBaseFrameLayout.h>
+#include <controls/layouts/KxColumnLayout.h>
+#include <controls/layouts/KxFlowLayout.h>
+#include <controls/layouts/KxFormLayout.h>
+#include <controls/layouts/KxFrameLayout.h>
+#include <controls/layouts/KxGridLayout.h>
+#include <controls/layouts/KxLayoutWidget.h>
+#include <controls/layouts/KxMenuBarLayout.h>
+#include <controls/layouts/KxPaneLayout.h>
+#include <controls/layouts/KxRowColumnLayout.h>
+#include <controls/layouts/KxRowLayout.h>
+#include <controls/layouts/KxScrollLayout.h>
+#include <controls/layouts/KxTabLayout.h>
+#include <controls/layouts/KxLayoutHelper.h>
+
+
+#endif // !KxLAYOUT_H_

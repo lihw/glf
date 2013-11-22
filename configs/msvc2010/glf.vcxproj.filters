@@ -1,0 +1,1213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{4ac7a50a-803e-4e3d-9643-f87694d36e38}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{5f952bf9-ad90-4b6f-8337-e62227c5ae1a}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="01system">
+      <UniqueIdentifier>{ab2241e2-79df-4318-9602-fdfacd718684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02opengl">
+      <UniqueIdentifier>{0e5016f0-cb49-4a1a-815d-c91a198ef21d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03utility">
+      <UniqueIdentifier>{1739066e-5872-4aa9-8284-199a173b29d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework">
+      <UniqueIdentifier>{3c9cb4ea-7305-43e5-be7d-591266fc9503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls">
+      <UniqueIdentifier>{55cffa93-3f02-41b7-9832-2eb1dac48e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\base">
+      <UniqueIdentifier>{530f6c5d-8167-4f95-a2a0-ae6506854260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\color">
+      <UniqueIdentifier>{edfc8439-7eae-4b34-8940-8bcf74fd8573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\drag">
+      <UniqueIdentifier>{1c5a5318-439c-4ec5-8b27-cce8473dc9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\drag\dragitem">
+      <UniqueIdentifier>{6da9da4b-9f2f-4064-920b-d32d3b921f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\layouts">
+      <UniqueIdentifier>{65fe5650-ae22-4ff7-84c0-d840d5f8d973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\menus">
+      <UniqueIdentifier>{0f17683f-fd8a-41b7-9988-078a14ec5fa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\style">
+      <UniqueIdentifier>{43023706-676e-47de-a558-6ebfa0b712f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\utils">
+      <UniqueIdentifier>{8039fdd5-4519-4221-a13e-9acd8f359c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets">
+      <UniqueIdentifier>{ee2ad65f-c4b5-4721-895b-ffbf64a08144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\button">
+      <UniqueIdentifier>{c14c6593-d861-422a-adbb-82882c39ae6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\display">
+      <UniqueIdentifier>{0ebf6e6a-edff-41b6-bdd1-f0c97cd17658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\group">
+      <UniqueIdentifier>{1da7d407-bfe3-433a-a424-61e33721ca1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\icontext">
+      <UniqueIdentifier>{9078cbbd-3322-42a2-b687-7f2e7072c756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\input">
+      <UniqueIdentifier>{dd80e3c5-d8da-46ba-81f7-31be66594b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\scroll">
+      <UniqueIdentifier>{cedb157e-73ec-49e4-a837-482ca36c932a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\slider">
+      <UniqueIdentifier>{e1dcb178-b520-47c7-8ce9-93c9f268d1a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\tab">
+      <UniqueIdentifier>{aca27824-d067-4a42-a5d3-1cb91c19e78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\table">
+      <UniqueIdentifier>{a363a93f-0026-46a9-abdf-0ecd586e9607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\tree">
+      <UniqueIdentifier>{73e45020-305d-4b1f-aa39-a8961b4d8d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04framework\controls\widgets\window">
+      <UniqueIdentifier>{559cf189-0061-46f1-96a7-c89a16affda0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\01system\glf_assert.cpp">
+      <Filter>01system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\glf_bitmap.cpp">
+      <Filter>01system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\glf_log.cpp">
+      <Filter>01system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_atomic.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_framebuffer.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_glerror.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_image_storage.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_shader.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_shader_uniform.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_texture.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\02opengl\glf_vertex_array.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_arcball.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_camera.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_geometry.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_line.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_rect.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\main.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\base\KxFoundation.cpp">
+      <Filter>04framework\controls\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\base\KxGlobalState.cpp">
+      <Filter>04framework\controls\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\base\KxQtHelper.cpp">
+      <Filter>04framework\controls\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\base\KxUIInventory.cpp">
+      <Filter>04framework\controls\base</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxUIInventory.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxUIInventory.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\color\KxPortColor.cpp">
+      <Filter>04framework\controls\color</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\drag\KxDragData.cpp">
+      <Filter>04framework\controls\drag</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxDragData.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxDragData.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\drag\KxDragManager.cpp">
+      <Filter>04framework\controls\drag</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxDragManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxDragManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\drag\dragitem\KxDragItem.cpp">
+      <Filter>04framework\controls\drag\dragitem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\drag\dragitem\KxPrimitiveDragItem.cpp">
+      <Filter>04framework\controls\drag\dragitem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxBaseFrameLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxBaseFrameLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxBaseFrameLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxColumnLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxColumnLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxColumnLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxFlowLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFlowLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFlowLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxFormLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFormLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFormLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxFrameLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFrameLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFrameLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxGridLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxGridLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxGridLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxLayoutHelper.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxLayoutWidget.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxLayoutWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxLayoutWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxMenuBarLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxMenuBarLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxMenuBarLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxPaneLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxPaneLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxPaneLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxRowColumnLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxRowColumnLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxRowColumnLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxRowLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxRowLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxRowLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxScrollLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxScrollLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxScrollLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\layouts\KxTabLayout.cpp">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTabLayout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTabLayout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\menus\KxMenuItem.cpp">
+      <Filter>04framework\controls\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxMenuItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxMenuItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\menus\KxOptionMenu.cpp">
+      <Filter>04framework\controls\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxOptionMenu.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxOptionMenu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\menus\KxPopupMenu.cpp">
+      <Filter>04framework\controls\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxPopupMenu.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxPopupMenu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\utils\KxCusorShape.cpp">
+      <Filter>04framework\controls\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxDeferredWaitCursor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxDeferredWaitCursor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\utils\KxDerferredWaitCursor.cpp">
+      <Filter>04framework\controls\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\utils\KxUtils.cpp">
+      <Filter>04framework\controls\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\utils\KxWaitCursor.cpp">
+      <Filter>04framework\controls\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\style\KxDarkStyle.cpp">
+      <Filter>04framework\controls\style</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxDarkStyle.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxDarkStyle.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\button\KxButtonGroup.cpp">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxButtonGroup.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxButtonGroup.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\button\KxCheckBox.cpp">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxCheckBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxCheckBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\button\KxRadioButton.cpp">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxRadioButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxRadioButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\button\KxToolRadioButton.cpp">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxToolRadioButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxToolRadioButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxLabel.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxLabel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxLabel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxLabelledComboBox.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxLabelledComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxLabelledComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxMessageBox.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxProgressBar.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxProgressBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxProgressBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxProgressIndicator.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\display\KxStaticPicture.cpp">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxStaticPicture.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxStaticPicture.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxCheckBoxGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxCheckBoxGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxCheckBoxGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxColorGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_kxcolorgrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_kxcolorgrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxColorSliderGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxColorSliderGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxColorSliderGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxConnectableWidgetGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxConnectableWidgetGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxFloatFieldGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFloatFieldGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFloatFieldGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxFloatSliderGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFloatSliderGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFloatSliderGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxIntFieldGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIntFieldGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIntFieldGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxIntSliderGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIntSliderGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIntSliderGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxOptionMenuGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxOptionMenuGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxOptionMenuGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxRadioButtonGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxRadioButtonGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxRadioButtonGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxSliderGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxSliderGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxSliderGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxTextFieldGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTextFieldGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTextFieldGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\group\KxWidgetGrp.cpp">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxWidgetGrp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxWidgetGrp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextButton.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIconTextButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIconTextButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextCheckBox.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIconTextCheckBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIconTextCheckBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextControl.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIconTextControl.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIconTextControl.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextRadioButton.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIconTextRadioButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIconTextRadioButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextStaticLabel.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIconTextStaticLabel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIconTextStaticLabel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxShelfButton.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxShelfButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxShelfButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxSymbolButton.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxSymbolButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxSymbolButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\icontext\KxSymbolCheckBox.cpp">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxSymbolCheckBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxSymbolCheckBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxField.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxField.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxField.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxFloatField.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFloatField.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFloatField.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxInputDialog.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxInputDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxInputDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxIntField.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIntField.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIntField.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxNumericField.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxNumericField.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxNumericField.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\input\KxScrollField.cpp">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxScrollField.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxScrollField.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\tree\KxTreeWidget.cpp">
+      <Filter>04framework\controls\widgets\tree</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTreeWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTreeWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\table\KxItemDelegate.cpp">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxItemDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxItemDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\table\KxListWidget.cpp">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxListWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxListWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\table\KxTable.cpp">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTable.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTable.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\table\KxTableView.cpp">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTableView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTableView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\tab\KxTabBar.cpp">
+      <Filter>04framework\controls\widgets\tab</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTabBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTabBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\tab\KxTabWidget.cpp">
+      <Filter>04framework\controls\widgets\tab</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxTabWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxTabWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\slider\KxFloatSlider.cpp">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFloatSlider.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFloatSlider.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\slider\KxIntSlider.cpp">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIntSlider.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIntSlider.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\slider\KxSlider.cpp">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxSlider.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxSlider.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\slider\KxSliderDataAbstraction.cpp">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\slider\KxSliderFloatDataAbstraction.cpp">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\scroll\KxFloatScrollBar.cpp">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxFloatScrollBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxFloatScrollBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\scroll\KxIntScrollBar.cpp">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxIntScrollBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxIntScrollBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\scroll\KxScrollArea.cpp">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxScrollArea.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxScrollArea.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\controls\widgets\window\KxDockWidget.cpp">
+      <Filter>04framework\controls\widgets\window</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KxDockWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KxDockWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_application.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_application.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_application.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_control_window.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_control_window.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_control_window.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_main_window.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_main_window.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_main_window.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_output_window.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_output_window.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_output_window.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_render_widget.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_render_widget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_render_widget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
+      <Filter>04framework\controls\base</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\drag\KxDragData.h">
+      <Filter>04framework\controls\drag</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\drag\KxDragManager.h">
+      <Filter>04framework\controls\drag</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxBaseFrameLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxColumnLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxFlowLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxFormLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxFrameLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxGridLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxLayoutWidget.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxMenuBarLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxPaneLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxRowColumnLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxRowLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxScrollLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\layouts\KxTabLayout.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\menus\KxMenuItem.h">
+      <Filter>04framework\controls\menus</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\menus\KxOptionMenu.h">
+      <Filter>04framework\controls\menus</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\menus\KxPopupMenu.h">
+      <Filter>04framework\controls\menus</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\utils\KxDeferredWaitCursor.h">
+      <Filter>04framework\controls\utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\style\KxDarkStyle.h">
+      <Filter>04framework\controls\style</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\button\KxButtonGroup.h">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\button\KxCheckBox.h">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\button\KxRadioButton.h">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\button\KxToolRadioButton.h">
+      <Filter>04framework\controls\widgets\button</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\display\KxLabel.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\display\KxLabelledComboBox.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\display\KxProgressBar.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\display\KxStaticPicture.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxCheckBoxGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\kxcolorgrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxColorSliderGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxConnectableWidgetGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxFloatFieldGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxFloatSliderGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxIntFieldGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxIntSliderGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxOptionMenuGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxRadioButtonGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxSliderGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxTextFieldGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\group\KxWidgetGrp.h">
+      <Filter>04framework\controls\widgets\group</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextButton.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextCheckBox.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextControl.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextRadioButton.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxIconTextStaticLabel.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxShelfButton.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxSymbolButton.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\icontext\KxSymbolCheckBox.h">
+      <Filter>04framework\controls\widgets\icontext</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxField.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxFloatField.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxInputDialog.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxIntField.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxNumericField.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\input\KxScrollField.h">
+      <Filter>04framework\controls\widgets\input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\tree\KxTreeWidget.h">
+      <Filter>04framework\controls\widgets\tree</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\table\KxItemDelegate.h">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\table\KxListWidget.h">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\table\KxTable.h">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\table\KxTableView.h">
+      <Filter>04framework\controls\widgets\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\tab\KxTabBar.h">
+      <Filter>04framework\controls\widgets\tab</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\tab\KxTabWidget.h">
+      <Filter>04framework\controls\widgets\tab</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\slider\KxFloatSlider.h">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\slider\KxIntSlider.h">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\slider\KxSlider.h">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\scroll\KxFloatScrollBar.h">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\scroll\KxIntScrollBar.h">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\scroll\KxScrollArea.h">
+      <Filter>04framework\controls\widgets\scroll</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\controls\widgets\window\KxDockWidget.h">
+      <Filter>04framework\controls\widgets\window</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_application.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_control_window.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_main_window.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_output_window.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_render_widget.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\01system\glf_assert.h">
+      <Filter>01system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\glf_bitmap.h">
+      <Filter>01system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\glf_log.h">
+      <Filter>01system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_atomic.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_framebuffer.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_glerror.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_image_storage.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_shader.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_shader_uniform.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_texture.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\02opengl\glf_vertex_array.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_arcball.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_camera.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_geometry.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_line.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_rect.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\HQtGui.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxExport.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxFoundation.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxGlobalState.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxIconnectableControl.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxIcontextMenuRequestor.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\base\KxQtHelper.h">
+      <Filter>04framework\controls\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\color\KxPortColor.h">
+      <Filter>04framework\controls\color</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\drag\KxDragHandler.h">
+      <Filter>04framework\controls\drag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\drag\KxDragItemDataType.h">
+      <Filter>04framework\controls\drag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\drag\KxDropHandler.h">
+      <Filter>04framework\controls\drag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\drag\dragitem\KxDragItem.h">
+      <Filter>04framework\controls\drag\dragitem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\drag\dragitem\KxPrimitiveDragItem.h">
+      <Filter>04framework\controls\drag\dragitem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\layouts\KxLayoutHelper.h">
+      <Filter>04framework\controls\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\utils\KXBasicCursors.h">
+      <Filter>04framework\controls\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\utils\KxCursorShape.h">
+      <Filter>04framework\controls\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\utils\KxUtils.h">
+      <Filter>04framework\controls\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\utils\KxWaitCursor.h">
+      <Filter>04framework\controls\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\widgets\display\KxMessageBox.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\widgets\display\KxProgressIndicator.h">
+      <Filter>04framework\controls\widgets\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\widgets\slider\KxSliderDataAbstraction.h">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\controls\widgets\slider\KxSliderFloatDataAbstraction.h">
+      <Filter>04framework\controls\widgets\slider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\04framework\glf_config.h">
+      <Filter>04framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

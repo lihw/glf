@@ -1,0 +1,13 @@
+
+#ifndef KxCONTROL_H_
+#define KxCONTROL_H_
+
+#include <controls/KxBase>
+#include <controls/KxColor>
+#include <controls/KxDrag>
+#include <controls/KxLayout>
+#include <controls/KxMenu>
+#include <controls/KxUtils>
+#include <controls/KxWidget>
+
+#endif // !KxCONTROL_H_
