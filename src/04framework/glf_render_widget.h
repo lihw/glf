@@ -15,7 +15,7 @@
 
 #include <QGLWidget>
 
-#include "glf_config.h"
+class GLFAbstractRenderer;
 
 class GLFRenderWidget : public QGLWidget
 {
@@ -54,6 +54,7 @@ protected:
 
 private:
     QTimer* _timer;
+    GLFAbstractRenderer* _renderer;
 };
 
 

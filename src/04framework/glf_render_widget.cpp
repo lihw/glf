@@ -21,6 +21,7 @@
 
 #include "../01system/glf_bitmap.h"
 #include "glf_application.h"
+#include "glf_abstract_renderer.h"
 
 GLFRenderWidget::GLFRenderWidget(int width, int height, const QGLFormat& format, QWidget* parent)
         : QGLWidget(format, parent)
@@ -30,6 +31,7 @@ GLFRenderWidget::GLFRenderWidget(int width, int height, const QGLFormat& format,
     // To receive the keyboard events.
     setFocusPolicy(Qt::StrongFocus);
 
+    _renderer = glfCreateRenderer();
     _timer = NULL;
 }
 
@@ -86,12 +88,28 @@ void GLFRenderWidget::initializeGL()
     
     // FIXME: change the update frequency.
     _timer->start(5);
+
+    // Initialize the user renderer
+    if (!_renderer->initialize())
+    {
+        delete _renderer;
+        _renderer = NULL;
+    }
 }
 
 void GLFRenderWidget::paintGL()
 {
-    glClearColor(1, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (_renderer != NULL)
+    {
+        _renderer->render();
+    }
+    else
+    {
+        // TODO: show an image that telss there is no
+        // available renderer.
+        glClearColor(1, 0, 0, 1);
+        glClearBuffer(GL_COLOR_BUFFER_BIT);
+    }
 }
 
 void GLFRenderWidget::dumpScreen()
@@ -109,16 +127,77 @@ void GLFRenderWidget::dumpScreen()
 
 void GLFRenderWidget::mousePressEvent(QMouseEvent* event)
 {
+    if (_renderer != NULL)
+    {
+        int buttons = 0;
+        if ((event->buttons() & Qt::LeftButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON1;
+        }
+        if ((event->buttons() & Qt::MiddleButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON2;
+        }
+        if ((event->buttons() & Qt::RightButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON3;
+        }
+
+        int modifiers = 0;
+        if ((event->modifiers() & Qt::ControlModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_CTRL;
+        }
+        if ((event->modifiers() & Qt::AltModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_ALT;
+        }
+        if ((event->modifiers() & Qt::ShiftModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_SHIFT;
+        }
+
+        _renderer->onMouseDown(event->pos().x, event->pos().y, 
+                buttons, modifiers);
+    }
+    
     QGLWidget::mousePressEvent(event);
 }
 
 void GLFRenderWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    if ((event->buttons() & Qt::LeftButton) != 0)
+    if (_renderer != NULL)
     {
-        //Q_ASSERT(_window != KW_NULL);
-        //_window->mouseMoveEvent(event->pos().x(), event->pos().y(), 
-        //        (event->modifiers() & Qt::ControlModifier) != 0);
+        int buttons = 0;
+        if ((event->buttons() & Qt::LeftButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON1;
+        }
+        if ((event->buttons() & Qt::MiddleButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON2;
+        }
+        if ((event->buttons() & Qt::RightButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON3;
+        }
+
+        int modifiers = 0;
+        if ((event->modifiers() & Qt::ControlModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_CTRL;
+        }
+        if ((event->modifiers() & Qt::AltModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_ALT;
+        }
+        if ((event->modifiers() & Qt::ShiftModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_SHIFT;
+        }
+
+        _renderer->onMouseMove(event->pos().x, event->pos().y, 
+                buttons, modifiers);
     }
     
     QGLWidget::mouseMoveEvent(event);
@@ -126,12 +205,38 @@ void GLFRenderWidget::mouseMoveEvent(QMouseEvent* event)
 
 void GLFRenderWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton)
+    if (_renderer != NULL)
     {
-        glfPrintLogMessage("pressed\n");
-        //Q_ASSERT(_window != KW_NULL);
-        //_window->mouseReleaseEvent(event->pos().x(), event->pos().y(), 
-        //        (event->modifiers() & Qt::ControlModifier) != 0);
+        int buttons = 0;
+        if ((event->buttons() & Qt::LeftButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON1;
+        }
+        if ((event->buttons() & Qt::MiddleButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON2;
+        }
+        if ((event->buttons() & Qt::RightButton) != 0) 
+        {
+            buttons |= GLFAbstractRenderer::MOUSE_BUTTON3;
+        }
+
+        int modifiers = 0;
+        if ((event->modifiers() & Qt::ControlModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_CTRL;
+        }
+        if ((event->modifiers() & Qt::AltModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_ALT;
+        }
+        if ((event->modifiers() & Qt::ShiftModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_SHIFT;
+        }
+
+        _renderer->onMouseUp(event->pos().x, event->pos().y, 
+                buttons, modifiers);
     }
     
     QGLWidget::mouseReleaseEvent(event);
@@ -139,55 +244,59 @@ void GLFRenderWidget::mouseReleaseEvent(QMouseEvent* event)
 
 void GLFRenderWidget::keyPressEvent(QKeyEvent* event)
 {
-    //kwUint32 state = KW_KEY_DEVICE_STATE_DOWN;
-    //if (event->modifiers() & Qt::ShiftModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_SHIFT;
-    //}
-    //if (event->modifiers() & Qt::AltModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_ALT;
-    //}
-    //if (event->modifiers() & Qt::ControlModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_CTRL;
-    //}
-    //
-    //Q_ASSERT(_window != KW_NULL);
-    //_window->keyPressEvent(event->key(), kwInputNativeGetTranslatedKey(event->key()), state);
+    if (_renderer != NULL)
+    {
+        int modifiers = 0;
+        if ((event->modifiers() & Qt::ControlModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_CTRL;
+        }
+        if ((event->modifiers() & Qt::AltModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_ALT;
+        }
+        if ((event->modifiers() & Qt::ShiftModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_SHIFT;
+        }
+
+        _renderer->onKeyDown(event->key(), modifiers);
+    }
     
     QGLWidget::keyPressEvent(event);
 }
 
 void GLFRenderWidget::keyReleaseEvent(QKeyEvent* event)
 {
-    //kwUint32 state = KW_KEY_DEVICE_STATE_UP;
-    //if (event->modifiers() & Qt::ShiftModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_SHIFT;
-    //}
-    //if (event->modifiers() & Qt::AltModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_ALT;
-    //}
-    //if (event->modifiers() & Qt::ControlModifier)
-    //{
-    //    state |= KW_KEY_DEVICE_STATE_CTRL;
-    //}
+    if (_renderer != NULL)
+    {
+        int modifiers = 0;
+        if ((event->modifiers() & Qt::ControlModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_CTRL;
+        }
+        if ((event->modifiers() & Qt::AltModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_ALT;
+        }
+        if ((event->modifiers() & Qt::ShiftModifiers))
+        {
+            modifiers |= GLFAbstractRenderer::KEYBOARD_SHIFT;
+        }
 
-    //Q_ASSERT(_window != KW_NULL);
-    //_window->keyReleaseEvent(event->key(), kwInputNativeGetTranslatedKey(event->key()), state);
+        _renderer->onKeyUp(event->key(), modifiers);
+    }
 
     QGLWidget::keyReleaseEvent(event);
 }
 
 void GLFRenderWidget::resizeEvent(QResizeEvent* event)
 {
-    //if (_window != KW_NULL)
-    //{
-    //    QSize s = event->size();
-    //    _window->resizeEvent(s.width(), s.height());
-    //}
+    if (_renderer != KW_NULL)
+    {
+        QSize s = event->size();
+        _renderer->onResized(s.width(), s.height());
+    }
     QGLWidget::resizeEvent(event);
 }
 
