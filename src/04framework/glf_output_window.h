@@ -22,6 +22,19 @@ class GLFOutputWindow : public KxDockWidget
 
 public:
     GLFOutputWindow(QWidget* parent);
+
+    void printMessage(const char* message);
+
+protected slots:
+    void onSave();
+    void onClear();
+
+private:
+    QTextEdit* _pTextEdit;
+    QPushButton* _pSaveButton;
+    QPushButton* _pClearButton;
+
+    static const int MAX_NUM_LINES = 16;
 };
 
 #endif 

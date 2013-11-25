@@ -11,6 +11,9 @@
 
 #include "glf_application.h"
 
+#include "glf_main_window.h"
+#include "glf_output_window.h"
+
 GLFApplication::GLFApplication(int& argc, char** argv)
     : QApplication(argc, argv)
 {
@@ -39,4 +42,11 @@ GLFMainWindow* glfGetMainWindow()
     return app->getMainWindow();
 }
 
+
+void glfPrintLogMessage(const char* message)
+{
+    GLFMainWindow* pMainWindow = glfGetMainWindow();
+    Q_ASSERT(pMainWindow != NULL);
+    pMainWindow->getOutputWindow()->printMessage(message);
+}
 

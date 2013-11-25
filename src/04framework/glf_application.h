@@ -33,8 +33,10 @@ private:
 };
 
 // Get the global application instance.
-extern GLFApplication* getApplication();
+extern GLFApplication* glfGetApplication();
 // Get the global main window.
-extern GLFMainWindow* getMainWindow();
+extern GLFMainWindow* glfGetMainWindow();
+// Print the message to the output window
+extern void glfPrintLogMessage(const char* message);
 
 #endif // !GLF_APPLICATION_H

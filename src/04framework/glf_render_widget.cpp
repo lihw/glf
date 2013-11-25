@@ -20,6 +20,7 @@
 #include <QApplication>
 
 #include "../01system/glf_bitmap.h"
+#include "glf_application.h"
 
 GLFRenderWidget::GLFRenderWidget(int width, int height, const QGLFormat& format, QWidget* parent)
         : QGLWidget(format, parent)
@@ -127,6 +128,7 @@ void GLFRenderWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton)
     {
+        glfPrintLogMessage("pressed\n");
         //Q_ASSERT(_window != KW_NULL);
         //_window->mouseReleaseEvent(event->pos().x(), event->pos().y(), 
         //        (event->modifiers() & Qt::ControlModifier) != 0);
