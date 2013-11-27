@@ -248,6 +248,50 @@ bool Shader::loadFromMemory(const char* vertexSource,
     return true;
 }
 
+
+bool Shader::loadFromLibrary(ShaderLibraryEnum vertexShader,
+                             ShaderLibraryEnum fragmentShader,
+                             ShaderLibraryEnum tessellationControlShader,
+                             ShaderLibraryEnum tessellationEvalShader,
+                             ShaderLibraryEnum geometryShader)
+{
+    GLF_ASSERT(vertexShader < ShaderLibrary::VS_SOURCE_NUMBER);
+    GLF_ASSERT(fragmentShader < ShaderLibrary::FS_SOURCE_NUMBER);
+
+    const char* vertexSource    = ShaderLibrary::VS_SOURCE[vertexShader];
+    const char* fragmentSource  = ShaderLibrary::FS_SOURCE[fragmentShader];
+    
+    const char* tessellationControlSource = NULL; 
+    const char* tessellationEvalSource    = NULL;   
+    const char* geometrySource            = NULL;           
+
+    if (tessellationEvalShader > NONE)
+    {
+        GLF_ASSERT(tessellationEvalShader < ShaderLibrary::TES_SOURCE_NUMBER);
+        tessellationEvalShader = ShaderLibrary::TES_SOURCE[tessellationEvalShader];
+    }
+    if (tessellationControlShader > NONE)
+    {
+        GLF_ASSERT(tessellationControlShader < ShaderLibrary::TCS_SOURCE_NUMBER);
+        tessellationControlShader = ShaderLibrary::TCS_SOURCE[tessellationControlShader];
+    }
+    if (geometryShader> NONE)
+    {
+        GLF_ASSERT(geometryShader < ShaderLibrary::GS_SOURCE_NUMBER);
+        geometryShader = ShaderLibrary::GS_SOURCE[geometryShader];
+    }
+
+    bool ret = loadFromMemory(vertexSource, 
+                              fragmentSource,
+                              tessellationControlSource,
+                              tessellationEvalSource,
+                              geometrySource);
+
+
+    return ret;
+
+}
+
 ShaderUniform* Shader::getUniform(const char* name)
 {
     char* uniformName = const_cast<char*>(name);

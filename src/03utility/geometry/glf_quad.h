@@ -19,8 +19,12 @@ GLF_NAMESPACE_BEGIN
 class Quad : public AbstractGeometry
 {
 public:
+    Quad(const GLfloat* points);
     Quad();
     virtual ~Quad();
+
+private:
+    void createQuad(const GLfloat* points);
 };
 
 GLF_NAMESPACE_END

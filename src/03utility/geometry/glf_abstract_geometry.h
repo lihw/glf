@@ -12,7 +12,7 @@
 #ifndef GLF_ABSTRACT_GEOMETRY_H
 #define GLF_ABSTRACT_GEOMETRY_H
 
-#include "../02opengl/glf_vertex_array.h"
+#include "../../02opengl/glf_vertex_array.h"
 
 GLF_NAMESPACE_BEGIN
 
@@ -26,6 +26,7 @@ public:
 
 protected:
     VertexArray   _vertexArray;
+    GLenum        _primitive;
 };
 
 GLF_NAMESPACE_END

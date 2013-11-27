@@ -96,6 +96,9 @@
     <Filter Include="04framework\controls\widgets\window">
       <UniqueIdentifier>{559cf189-0061-46f1-96a7-c89a16affda0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03utility\geometry">
+      <UniqueIdentifier>{d9d3d143-d662-4ab3-a0da-4768b42393ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\01system\glf_assert.cpp">
@@ -135,12 +138,6 @@
       <Filter>03utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp">
-      <Filter>03utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\03utility\glf_geometry.cpp">
-      <Filter>03utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\03utility\glf_line.cpp">
       <Filter>03utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\03utility\glf_rect.cpp">
@@ -866,6 +863,24 @@
     <ClCompile Include="..\..\src\04framework\glf_abstract_renderer.cpp">
       <Filter>04framework</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_abstract_geometry.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_grid.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_line_strip.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_quad.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_sphere.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_teapot.cpp">
+      <Filter>03utility\geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1134,12 +1149,6 @@
     <ClInclude Include="..\..\src\03utility\glf_camera.h">
       <Filter>03utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\03utility\glf_geometry.h">
-      <Filter>03utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\03utility\glf_line.h">
-      <Filter>03utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\03utility\glf_rect.h">
       <Filter>03utility</Filter>
     </ClInclude>
@@ -1214,6 +1223,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\04framework\glf_abstract_renderer.h">
       <Filter>04framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_abstract_geometry.h">
+      <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_grid.h">
+      <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_line_strip.h">
+      <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_quad.h">
+      <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_sphere.h">
+      <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_teapot.h">
+      <Filter>03utility\geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
 // Hongwei Li (hongwei.li@amd.com)
 // -------------------------------------------------------------- 
 
-#include "glf_geometry.h"
+#include "glf_abstract_geometry.h"
 
 GLF_NAMESPACE_BEGIN
 

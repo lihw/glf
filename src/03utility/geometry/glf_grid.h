@@ -1,7 +1,6 @@
-
 // -------------------------------------------------------------- 
-// glf_quad.h
-// The geometry of a quad
+// glf_grid.h
+// The grid
 //
 // An OpenGL framework.
 //
@@ -10,21 +9,25 @@
 // Hongwei Li (hongwei.li@amd.com)
 // -------------------------------------------------------------- 
 
-#ifndef GLF_QUAD_H
-#define GLF_QUAD_H
+#ifndef GLF_GRID_H
+#define GLF_GRID_H
 
 #include "glf_abstract_geometry.h"
 
 GLF_NAMESPACE_BEGIN
 
-class Quad : public AbstractGeometry
+// A grid plane on the y = 0 with specified width and height
+class Grid : public AbstractGeometry
 {
 public:
-    Quad();
-    virtual ~Quad();
+    Grid(GLuint hres, GLuint vres, GLfloat w, GLfloat h);
+    virtual ~Grid();
+
+private:
+    
 };
 
 GLF_NAMESPACE_END
 
-#endif // !GLF_QUAD_H
 
+#endif // !GLF_GRID_H
