@@ -16,7 +16,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -35,7 +35,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GLF_ROOT)\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GLF_ROOT)\output\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\src\04framework\controls\widgets\tab\KxTabWidget.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\widgets\tree\KxTreeWidget.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\widgets\window\KxDockWidget.cpp" />
+    <ClCompile Include="..\..\src\04framework\glf_abstract_renderer.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_application.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_control_window.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_main_window.cpp" />
@@ -653,6 +654,7 @@
     <ClInclude Include="..\..\src\04framework\controls\base\KxIconnectableControl.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxIcontextMenuRequestor.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxQtHelper.h" />
+    <ClInclude Include="..\..\src\04framework\glf_abstract_renderer.h" />
     <ClInclude Include="..\..\src\04framework\glf_config.h" />
     <CustomBuild Include="..\..\src\04framework\glf_render_widget.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

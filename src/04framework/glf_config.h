@@ -12,6 +12,8 @@
 #ifndef GLF_CONFIG_H
 #define GLF_CONFIG_H
 
+#include "../glf_common.h"
+
 struct GLFConfig
 {
     int windowWidth;
@@ -36,5 +38,7 @@ struct GLFConfig
         multisamples = 1;
     };
 };
+
+GLF_EXTERN void glfGenerateConfig(GLFConfig* config);
 
 #endif // !GLF_CONFIG_H

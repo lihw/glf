@@ -35,16 +35,17 @@ public:
         KEYBOARD_SHIFT = 0x20,
     };
     
-    virtual void onMouseButtonDown(int x, int y, int buttons, int modifiers) = 0;
-    virtual void onMouseButtonUp(int x, int y, int buttons, int modifiers) = 0;
-    virtual void onMouseMove(int x, int y, int buttons, int modifiers) = 0;
+    virtual void onMouseButtonDown(int x, int y, int buttons, int modifiers);
+    virtual void onMouseButtonUp(int x, int y, int buttons, int modifiers);
+    virtual void onMouseMove(int x, int y, int buttons, int modifiers);
 
-    virtual void onKeyDown(int key, int modifiers) = 0;
-    virtual void onKeyUp(int key, int modifiers) = 0;
+    virtual void onKeyDown(int key, int modifiers);
+    virtual void onKeyUp(int key, int modifiers);
 
-    void void onResized(int w, int h) = 0;
+    virtual void onResized(int w, int h);
 };
 
+GLF_EXTERN GLFAbstractRenderer* glfCreateRenderer();
 
 #endif // !GLF_ABSTRACT_RENDERER_H
 

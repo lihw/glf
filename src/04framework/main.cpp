@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 
     GLFApplication app(argc, argv);
     GLFConfig config;
+    glfGenerateConfig(&config);
     GLFMainWindow w(config);
     app.setMainWindow(&w);
 

@@ -18,5 +18,10 @@ GLFControlWindow::GLFControlWindow(QWidget* parent)
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget:: DockWidgetFloatable);
     setAllowedAreas(Qt::NoDockWidgetArea);
     setMinimumSize(120, 480);
+
+    _mainWidget = new QWidget(this);
+    setWidget(_mainWidget);
+
+    glfCreateControls(_mainWidget);
 }
 
