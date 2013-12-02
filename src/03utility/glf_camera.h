@@ -88,17 +88,12 @@ public:
         return _zfar;
     }
 
-    // When the window viewport is changed, we need to update the 
-    // camera accordingly.
-    void updateViewport(GLuint left, GLuint bottom, GLuint width, GLuint height);
-
 private:
     GLint          _projectionType;
     glm::mat4      _modelview;
     glm::mat4      _projection;
     glm::mat4      _projectionModelview;
     glm::mat3      _normal;
-    GLuint         _viewport[4];
     GLfloat        _fov;
     GLfloat        _znear;
     GLfloat        _zfar;

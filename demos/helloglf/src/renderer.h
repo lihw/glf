@@ -25,9 +25,11 @@ public:
 
 private:
     glf::Camera m_camera;
-    //glf::Teapot m_teapot;
+    glf::Mesh*  m_mesh;
     glf::Shader m_shader;
     glf::Arcball m_arcball;
+    GLint      m_width;
+    GLint      m_height;
 };
 
 #endif // !RENDERER_H

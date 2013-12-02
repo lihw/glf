@@ -35,7 +35,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GLF_ROOT)\output\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -81,15 +80,19 @@
     <ClCompile Include="..\..\src\02opengl\glf_glerror.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_image_storage.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_shader.cpp" />
+    <ClCompile Include="..\..\src\02opengl\glf_shader_library.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_shader_uniform.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_texture.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_vertex_array.cpp" />
     <ClCompile Include="..\..\src\03utility\geometry\glf_abstract_geometry.cpp" />
     <ClCompile Include="..\..\src\03utility\geometry\glf_grid.cpp" />
     <ClCompile Include="..\..\src\03utility\geometry\glf_line_strip.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_mesh.cpp" />
     <ClCompile Include="..\..\src\03utility\geometry\glf_quad.cpp" />
     <ClCompile Include="..\..\src\03utility\geometry\glf_sphere.cpp" />
-    <ClCompile Include="..\..\src\03utility\geometry\glf_teapot.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\glm.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\Model_3DS.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\rply.c" />
     <ClCompile Include="..\..\src\03utility\glf_arcball.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_rect.cpp" />
@@ -643,15 +646,19 @@
     <ClInclude Include="..\..\src\02opengl\glf_glerror.h" />
     <ClInclude Include="..\..\src\02opengl\glf_image_storage.h" />
     <ClInclude Include="..\..\src\02opengl\glf_shader.h" />
+    <ClInclude Include="..\..\src\02opengl\glf_shader_library.h" />
     <ClInclude Include="..\..\src\02opengl\glf_shader_uniform.h" />
     <ClInclude Include="..\..\src\02opengl\glf_texture.h" />
     <ClInclude Include="..\..\src\02opengl\glf_vertex_array.h" />
     <ClInclude Include="..\..\src\03utility\geometry\glf_abstract_geometry.h" />
     <ClInclude Include="..\..\src\03utility\geometry\glf_grid.h" />
     <ClInclude Include="..\..\src\03utility\geometry\glf_line_strip.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_mesh.h" />
     <ClInclude Include="..\..\src\03utility\geometry\glf_quad.h" />
     <ClInclude Include="..\..\src\03utility\geometry\glf_sphere.h" />
-    <ClInclude Include="..\..\src\03utility\geometry\glf_teapot.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\glm.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\Model_3DS.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\rply.h" />
     <ClInclude Include="..\..\src\03utility\glf_arcball.h" />
     <ClInclude Include="..\..\src\03utility\glf_camera.h" />
     <ClInclude Include="..\..\src\03utility\glf_rect.h" />

@@ -24,6 +24,7 @@
 #include "02opengl/glf_shader.h"
 #include "02opengl/glf_vertex_array.h"
 #include "02opengl/glf_framebuffer.h"
+#include "02opengl/glf_shader_library.h"
 
 //#include "03utility/glf_bitmap_font.h"
 #include "03utility/glf_camera.h"
@@ -33,6 +34,7 @@
 #include "03utility/geometry/glf_quad.h"
 #include "03utility/geometry/glf_line_strip.h"
 #include "03utility/geometry/glf_grid.h"
+#include "03utility/geometry/glf_mesh.h"
 
 #include "04framework/glf_application.h"
 #include "04framework/glf_config.h"

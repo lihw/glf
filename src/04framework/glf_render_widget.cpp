@@ -68,11 +68,11 @@ void GLFRenderWidget::initializeGL()
     // Get the information of OpenGL context.
     const char* profileStrings[] =
     {
-        "No Profile"
+        "No Profile",
         "Core Profile",
         "Compatibility Profile",
     };
-    qDebug("OpenGL %d.%d %s", format().minorVersion(), format().majorVersion(),
+    qDebug("OpenGL %d.%d %s", format().majorVersion(), format().minorVersion(),
         profileStrings[format().profile()]);
 
     qDebug("GL surface created. RGBA=(%d,%d,%d,%d), depth=%d, stencil=%d, multisample=%d", 
@@ -81,13 +81,18 @@ void GLFRenderWidget::initializeGL()
             format().blueBufferSize(),
             format().alphaBufferSize(),
             format().depthBufferSize(),
-            format().stencilBufferSize());
+            format().stencilBufferSize(),
+            format().samples());
     
     _timer = new QTimer(this);
     connect(_timer, SIGNAL(timeout()), this, SLOT(timeoutSlot()));
     
     // FIXME: change the update frequency.
     _timer->start(5);
+
+    // Initialize the viewport size
+    glViewport(0, 0, width(), height());
+
 
     // Initialize the user renderer
     if (!_renderer->initialize())

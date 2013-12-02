@@ -99,6 +99,9 @@
     <Filter Include="03utility\geometry">
       <UniqueIdentifier>{d9d3d143-d662-4ab3-a0da-4768b42393ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03utility\geometry\mesh">
+      <UniqueIdentifier>{d6fe288f-6ac9-490f-b345-e5851fe25020}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\01system\glf_assert.cpp">
@@ -878,8 +881,20 @@
     <ClCompile Include="..\..\src\03utility\geometry\glf_sphere.cpp">
       <Filter>03utility\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\03utility\geometry\glf_teapot.cpp">
+    <ClCompile Include="..\..\src\02opengl\glf_shader_library.cpp">
+      <Filter>02opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\glf_mesh.cpp">
       <Filter>03utility\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\glm.cpp">
+      <Filter>03utility\geometry\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\Model_3DS.cpp">
+      <Filter>03utility\geometry\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\geometry\mesh\rply.c">
+      <Filter>03utility\geometry\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1239,8 +1254,20 @@
     <ClInclude Include="..\..\src\03utility\geometry\glf_sphere.h">
       <Filter>03utility\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\03utility\geometry\glf_teapot.h">
+    <ClInclude Include="..\..\src\02opengl\glf_shader_library.h">
+      <Filter>02opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\glf_mesh.h">
       <Filter>03utility\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\glm.h">
+      <Filter>03utility\geometry\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\Model_3DS.h">
+      <Filter>03utility\geometry\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\geometry\mesh\rply.h">
+      <Filter>03utility\geometry\mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

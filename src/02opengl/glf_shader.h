@@ -15,6 +15,7 @@
 #include "../glf_common.h"
 
 #include "glf_shader_uniform.h"
+#include "glf_shader_library.h"
 
 #include <string>
 #include <map>
@@ -22,12 +23,6 @@
 
 
 GLF_NAMESPACE_BEGIN
-
-enum ShaderLibraryEnum
-{
-    NONE,
-    COLOR,
-};
 
 class Shader
 {
@@ -54,11 +49,11 @@ public:
                         const char* tessellationEvalSource = NULL,
                         const char* geometrySource = NULL);
 
-    bool loadFromLibrary(ShaderLibraryEnum vertexShader,
-                         ShaderLibraryEnum fragmentShader,
-                         ShaderLibraryEnum tessellationControlShader = NONE,
-                         ShaderLibraryEnum tessellationEvalShader = NONE,
-                         ShaderLibraryEnum geometryShader = NONE);
+    bool loadFromLibrary(GLuint vertexShader,
+                         GLuint fragmentShader,
+                         GLuint tessellationControlShader = ShaderLibrary::NONE,
+                         GLuint tessellationEvalShader = ShaderLibrary::NONE,
+                         GLuint geometryShader = ShaderLibrary::NONE);
 
     ShaderUniform* getUniform(const char* name);
 

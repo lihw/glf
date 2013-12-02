@@ -4,7 +4,9 @@
   <PropertyGroup Label="UserMacros">
     <GLF_ROOT>..\..\</GLF_ROOT>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <OutDir>$(GLF_ROOT)\lib\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup>
     <BuildMacro Include="GLF_ROOT">

@@ -12,6 +12,7 @@
 #include "glf_shader.h"
 
 #include "glf_glerror.h"
+#include "glf_shader_library.h"
 
 #include "../01system/glf_log.h"
 #include "../01system/glf_assert.h"
@@ -249,14 +250,14 @@ bool Shader::loadFromMemory(const char* vertexSource,
 }
 
 
-bool Shader::loadFromLibrary(ShaderLibraryEnum vertexShader,
-                             ShaderLibraryEnum fragmentShader,
-                             ShaderLibraryEnum tessellationControlShader,
-                             ShaderLibraryEnum tessellationEvalShader,
-                             ShaderLibraryEnum geometryShader)
+bool Shader::loadFromLibrary(GLuint vertexShader,
+                             GLuint fragmentShader,
+                             GLuint tessellationControlShader,
+                             GLuint tessellationEvalShader,
+                             GLuint geometryShader)
 {
-    GLF_ASSERT(vertexShader < ShaderLibrary::VS_SOURCE_NUMBER);
-    GLF_ASSERT(fragmentShader < ShaderLibrary::FS_SOURCE_NUMBER);
+    GLF_ASSERT(vertexShader < ShaderLibrary::SHADER_NUMBER);
+    GLF_ASSERT(fragmentShader < ShaderLibrary::SHADER_NUMBER);
 
     const char* vertexSource    = ShaderLibrary::VS_SOURCE[vertexShader];
     const char* fragmentSource  = ShaderLibrary::FS_SOURCE[fragmentShader];
@@ -265,20 +266,20 @@ bool Shader::loadFromLibrary(ShaderLibraryEnum vertexShader,
     const char* tessellationEvalSource    = NULL;   
     const char* geometrySource            = NULL;           
 
-    if (tessellationEvalShader > NONE)
+    if (tessellationEvalShader > ShaderLibrary::NONE &&
+        tessellationEvalShader < ShaderLibrary::SHADER_NUMBER)
     {
-        GLF_ASSERT(tessellationEvalShader < ShaderLibrary::TES_SOURCE_NUMBER);
-        tessellationEvalShader = ShaderLibrary::TES_SOURCE[tessellationEvalShader];
+        tessellationEvalSource = ShaderLibrary::TES_SOURCE[tessellationEvalShader];
     }
-    if (tessellationControlShader > NONE)
+    if (tessellationControlShader > ShaderLibrary::NONE &&
+        tessellationControlShader < ShaderLibrary::SHADER_NUMBER)
     {
-        GLF_ASSERT(tessellationControlShader < ShaderLibrary::TCS_SOURCE_NUMBER);
-        tessellationControlShader = ShaderLibrary::TCS_SOURCE[tessellationControlShader];
+        tessellationControlSource = ShaderLibrary::TCS_SOURCE[tessellationControlShader];
     }
-    if (geometryShader> NONE)
+    if (geometryShader > ShaderLibrary::NONE && 
+        geometryShader < ShaderLibrary::SHADER_NUMBER)
     {
-        GLF_ASSERT(geometryShader < ShaderLibrary::GS_SOURCE_NUMBER);
-        geometryShader = ShaderLibrary::GS_SOURCE[geometryShader];
+        geometrySource = ShaderLibrary::GS_SOURCE[geometryShader];
     }
 
     bool ret = loadFromMemory(vertexSource, 
