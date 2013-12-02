@@ -55,7 +55,7 @@ public:
     // When \param vertexIndices is NULL, numIndices points to the number of
     // vertices.
     bool create(GLenum pritimive,
-                GLfloat* vertices,
+                const GLfloat* vertices,
                 GLuint numVertices,
                 VertexAttribDescriptor* vertexAttribs,
                 GLuint numVertexAttribs,

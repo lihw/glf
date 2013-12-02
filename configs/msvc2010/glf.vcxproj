@@ -16,7 +16,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -35,7 +35,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GLF_ROOT)\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GLF_ROOT)\output\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -84,10 +84,14 @@
     <ClCompile Include="..\..\src\02opengl\glf_shader_uniform.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_texture.cpp" />
     <ClCompile Include="..\..\src\02opengl\glf_vertex_array.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_abstract_geometry.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_grid.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_line_strip.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_quad.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_sphere.cpp" />
+    <ClCompile Include="..\..\src\03utility\geometry\glf_teapot.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_arcball.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp" />
-    <ClCompile Include="..\..\src\03utility\glf_geometry.cpp" />
-    <ClCompile Include="..\..\src\03utility\glf_line.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_rect.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxFoundation.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxGlobalState.cpp" />
@@ -172,6 +176,7 @@
     <ClCompile Include="..\..\src\04framework\controls\widgets\tab\KxTabWidget.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\widgets\tree\KxTreeWidget.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\widgets\window\KxDockWidget.cpp" />
+    <ClCompile Include="..\..\src\04framework\glf_abstract_renderer.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_application.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_control_window.cpp" />
     <ClCompile Include="..\..\src\04framework\glf_main_window.cpp" />
@@ -641,10 +646,14 @@
     <ClInclude Include="..\..\src\02opengl\glf_shader_uniform.h" />
     <ClInclude Include="..\..\src\02opengl\glf_texture.h" />
     <ClInclude Include="..\..\src\02opengl\glf_vertex_array.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_abstract_geometry.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_grid.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_line_strip.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_quad.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_sphere.h" />
+    <ClInclude Include="..\..\src\03utility\geometry\glf_teapot.h" />
     <ClInclude Include="..\..\src\03utility\glf_arcball.h" />
     <ClInclude Include="..\..\src\03utility\glf_camera.h" />
-    <ClInclude Include="..\..\src\03utility\glf_geometry.h" />
-    <ClInclude Include="..\..\src\03utility\glf_line.h" />
     <ClInclude Include="..\..\src\03utility\glf_rect.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\HQtGui.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxExport.h" />
@@ -653,6 +662,7 @@
     <ClInclude Include="..\..\src\04framework\controls\base\KxIconnectableControl.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxIcontextMenuRequestor.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxQtHelper.h" />
+    <ClInclude Include="..\..\src\04framework\glf_abstract_renderer.h" />
     <ClInclude Include="..\..\src\04framework\glf_config.h" />
     <CustomBuild Include="..\..\src\04framework\glf_render_widget.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

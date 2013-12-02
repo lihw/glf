@@ -23,6 +23,12 @@
 
 GLF_NAMESPACE_BEGIN
 
+enum ShaderLibraryEnum
+{
+    NONE,
+    COLOR,
+};
+
 class Shader
 {
 private:
@@ -47,6 +53,12 @@ public:
                         const char* tessellationControlSource = NULL,
                         const char* tessellationEvalSource = NULL,
                         const char* geometrySource = NULL);
+
+    bool loadFromLibrary(ShaderLibraryEnum vertexShader,
+                         ShaderLibraryEnum fragmentShader,
+                         ShaderLibraryEnum tessellationControlShader = NONE,
+                         ShaderLibraryEnum tessellationEvalShader = NONE,
+                         ShaderLibraryEnum geometryShader = NONE);
 
     ShaderUniform* getUniform(const char* name);
 

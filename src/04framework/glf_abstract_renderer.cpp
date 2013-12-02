@@ -24,3 +24,27 @@ bool GLFAbstractRenderer::initialize()
 {
     return true;
 }
+    
+void GLFAbstractRenderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)
+{
+}
+
+void GLFAbstractRenderer::onMouseButtonUp(int x, int y, int buttons, int modifiers)
+{
+}
+
+void GLFAbstractRenderer::onMouseMove(int x, int y, int buttons, int modifiers)
+{
+}
+
+void GLFAbstractRenderer::onKeyDown(int key, int modifiers)
+{
+}
+
+void GLFAbstractRenderer::onKeyUp(int key, int modifiers)
+{
+}
+
+void GLFAbstractRenderer::onResized(int w, int h)
+{
+}

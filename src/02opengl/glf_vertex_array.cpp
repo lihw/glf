@@ -51,7 +51,7 @@ VertexArray::~VertexArray()
 }
 
 bool VertexArray::create(GLenum pritimive,
-                         GLfloat* vertices,
+                         const GLfloat* vertices,
                          GLuint numVertices,
                          VertexAttribDescriptor* vertexAttribs,
                          GLuint numVertexAttribs,
