@@ -22,7 +22,7 @@ public:
     AbstractGeometry();
     virtual ~AbstractGeometry();
 
-    void render(GLuint times);
+    virtual void render(GLuint times);
 
 protected:
     VertexArray   _vertexArray;

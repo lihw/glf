@@ -22,9 +22,6 @@ class Grid : public AbstractGeometry
 public:
     Grid(GLuint hres, GLuint vres, GLfloat w, GLfloat h);
     virtual ~Grid();
-
-private:
-    
 };
 
 GLF_NAMESPACE_END
