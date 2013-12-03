@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\grass.cpp" />
+    <ClCompile Include="..\src\grass_asset.cpp" />
     <ClCompile Include="..\src\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\grass_asset.h" />
     <ClInclude Include="..\src\renderer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

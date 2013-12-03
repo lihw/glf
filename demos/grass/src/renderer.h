@@ -10,6 +10,8 @@
 
 #include <glf/glf.h>
 
+class GrassAsset;
+
 class Renderer : public GLFAbstractRenderer
 {
 public:
@@ -31,6 +33,8 @@ private:
 
     glf::Drawable*  m_grid;
     glf::Shader     m_gridShader;
+
+    glf::Drawable   m_grass;
 
     glf::Camera     m_camera;
     glf::Drawable*  m_teapot;

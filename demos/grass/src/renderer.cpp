@@ -7,6 +7,7 @@
 
 #include "renderer.h"
 
+#include "grass_asset.h"
 
 bool Renderer::initialize()
 {
@@ -36,6 +37,21 @@ bool Renderer::initialize()
     m_camera.lookAt(0, 0, 10.0f,
                     0, 0, 0,
                     0, 1, 0);
+
+    // -------------------------------------------------------------- 
+    // Load/create the grass asset
+    // -------------------------------------------------------------- 
+    GrassAsset* grassAsset = new GrassAsset();
+    glf::Mesh* grassMesh = new glf::Mesh(m_grassAsset->getVertices(),
+                                        m_grassAsset->getNumVertices(),
+                                        m_grassAsset->getIndices(),
+                                        m_grassAsset->getNumIndices(),
+                                        m_grassAsset->getPrimitive(),
+                                        m_grassAsset->getVertexDesc(),
+                                        m_grassAsset->getNumVertexDescEntries());
+    m_grass = new glf::Drawable(grassMesh);
+    delete grassAsset;
+
     
     // -------------------------------------------------------------- 
     // Init background
@@ -55,8 +71,7 @@ bool Renderer::initialize()
     // -------------------------------------------------------------- 
     // Init grid
     // -------------------------------------------------------------- 
-    glf::Grid* grid = new glf::Grid(20, 20, 10.0f, 10.0f);
-    m_grid = new glf::Drawable(grid);
+    m_grid = new glf::Drawable(new glf::Grid(20, 20, 10.0f, 10.0f));
     m_grid->setPosition(0.0f, 0.0f, 0.0f);
     
     if (!m_gridShader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
