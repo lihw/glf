@@ -95,6 +95,7 @@
     <ClCompile Include="..\..\src\03utility\geometry\mesh\rply.c" />
     <ClCompile Include="..\..\src\03utility\glf_arcball.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp" />
+    <ClCompile Include="..\..\src\03utility\glf_drawable.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_rect.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxFoundation.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxGlobalState.cpp" />
@@ -661,6 +662,7 @@
     <ClInclude Include="..\..\src\03utility\geometry\mesh\rply.h" />
     <ClInclude Include="..\..\src\03utility\glf_arcball.h" />
     <ClInclude Include="..\..\src\03utility\glf_camera.h" />
+    <ClInclude Include="..\..\src\03utility\glf_drawable.h" />
     <ClInclude Include="..\..\src\03utility\glf_rect.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\HQtGui.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxExport.h" />

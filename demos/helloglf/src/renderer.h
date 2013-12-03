@@ -25,12 +25,12 @@ public:
     virtual void onResized(int w, int h);
 
 private:
-    glf::Camera m_camera;
-    glf::Mesh*  m_mesh;
-    glf::Shader m_shader;
-    glf::Arcball m_arcball;
-    GLint      m_width;
-    GLint      m_height;
+    glf::Camera     m_camera;
+    glf::Drawable*  m_teapot;
+    glf::Shader     m_shader;
+    glf::Arcball    m_arcball;
+    GLint           m_width;
+    GLint           m_height;
 };
 
 #endif // !RENDERER_H

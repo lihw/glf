@@ -125,6 +125,7 @@ void GLFRenderWidget::dumpScreen()
 
     glf::Bitmap bitmap;
     bitmap.createFromMemory(data, width(), height(), 3);
+    bitmap.flipVertical();
     bitmap.write("dumpscreen.ppm");
 
     delete [] data;

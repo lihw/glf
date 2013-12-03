@@ -896,6 +896,9 @@
     <ClCompile Include="..\..\src\03utility\geometry\mesh\rply.c">
       <Filter>03utility\geometry\mesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_drawable.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1268,6 +1271,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\03utility\geometry\mesh\rply.h">
       <Filter>03utility\geometry\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_drawable.h">
+      <Filter>03utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

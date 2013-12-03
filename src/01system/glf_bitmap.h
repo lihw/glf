@@ -37,6 +37,8 @@ public:
     GLF_INLINE GLuint getNumChannels() const
     { return _nchannels; }
 
+    void flipVertical();
+
 private:
     GLuint _width;
     GLuint _height;

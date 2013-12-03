@@ -24,7 +24,8 @@ bool Renderer::initialize()
     const char* meshFile = "../data/models/teapot.obj";
     try
     {
-        m_mesh = new glf::Mesh(meshFile);
+        m_teapot = new glf::Drawable(meshFile);
+        m_teapot->setScaling(2.0f, 2.0f, 2.0f);
     }
     catch (std::string err)
     {
@@ -41,17 +42,19 @@ bool Renderer::initialize()
 
 void Renderer::cleanup()
 {
-    delete m_mesh;
+    delete m_teapot;
 }
 
 void Renderer::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_shader.getUniform("MVP")->setValue(m_camera.getProjectionModelviewMatrix());
+    glm::mat4 mat = m_camera.getProjectionModelviewMatrix() * m_teapot->getTransformation();
+
+    m_shader.getUniform("MVP")->setValue(mat);
     m_shader.enable();
 
-    m_mesh->render(1);
+    m_teapot->render(1);
     m_shader.disable();
 }
 

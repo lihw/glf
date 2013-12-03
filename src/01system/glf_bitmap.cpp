@@ -181,5 +181,25 @@ bool Bitmap::write(const char* filename)
 
     return true;
 }
+    
+void Bitmap::flipVertical()
+{
+    if (_data == NULL)
+    {
+        return ;
+    }
+
+    int lsize = _width * _nchannels;
+    GLubyte *tbuf = new GLubyte [lsize];
+
+    for(int y = 0; y < _height / 2; y++) 
+    {
+        memcpy(tbuf, &_data[y * lsize], lsize);
+        memcpy(&_data[y * lsize], &_data[(_height - y - 1) * lsize], lsize);
+        memcpy(&_data[(_height - y - 1) * lsize], tbuf, lsize);
+    }
+
+    delete [] tbuf;
+}
 
 GLF_NAMESPACE_END
