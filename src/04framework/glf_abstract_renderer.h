@@ -38,6 +38,7 @@ public:
     virtual void onMouseButtonDown(int x, int y, int buttons, int modifiers);
     virtual void onMouseButtonUp(int x, int y, int buttons, int modifiers);
     virtual void onMouseMove(int x, int y, int buttons, int modifiers);
+    virtual void onMouseWheel(int numDegrees);
 
     virtual void onKeyDown(int key, int modifiers);
     virtual void onKeyUp(int key, int modifiers);

@@ -247,6 +247,17 @@ void GLFRenderWidget::mouseReleaseEvent(QMouseEvent* event)
     QGLWidget::mouseReleaseEvent(event);
 }
 
+void GLFRenderWidget::wheelEvent(QWheelEvent* event)
+{
+    int numDegrees = event->delta() / 8;
+    if (_renderer != NULL)
+    {
+        _renderer->onMouseWheel(numDegrees);
+    }
+
+    QGLWidget::wheelEvent(event);
+}
+
 void GLFRenderWidget::keyPressEvent(QKeyEvent* event)
 {
     if (_renderer != NULL)

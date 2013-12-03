@@ -20,6 +20,7 @@ public:
     virtual void onMouseButtonDown(int x, int y, int buttons, int modifiers);
     virtual void onMouseButtonUp(int x, int y, int buttons, int modifiers);
     virtual void onMouseMove(int x, int y, int buttons, int modifiers);
+    virtual void onMouseWheel(int numDegrees);
 
     virtual void onResized(int w, int h);
 

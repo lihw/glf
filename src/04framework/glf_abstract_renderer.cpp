@@ -37,6 +37,10 @@ void GLFAbstractRenderer::onMouseMove(int x, int y, int buttons, int modifiers)
 {
 }
 
+void GLFAbstractRenderer::onMouseWheel(int numDegrees)
+{
+}
+
 void GLFAbstractRenderer::onKeyDown(int key, int modifiers)
 {
 }

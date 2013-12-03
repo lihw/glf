@@ -67,6 +67,11 @@ void Renderer::onMouseButtonUp(int x, int y, int buttons, int modifiers)
 {
 }
 
+void Renderer::onMouseWheel(int numDegrees)
+{
+    m_camera.translate(0, 0, (GLfloat)numDegrees * 0.1f);
+}
+
 void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
 {
     if (buttons == MOUSE_BUTTON1)
