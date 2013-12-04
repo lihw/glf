@@ -2,14 +2,14 @@
 #ifndef Kx_BASE_H_
 #define Kx_BASE_H_
 
-#include <controls/base/HQtGui.h>
-#include <controls/base/KxExport.h>
-#include <controls/base/KxFoundation.h>
-#include <controls/base/KxGlobalState.h>
-#include <controls/base/KxIconnectableControl.h>
-#include <controls/base/KxIcontextMenuRequestor.h>
-#include <controls/base/KxQtHelper.h>
-#include <controls/base/KxUIInventory.h>
+#include "base/HQtGui.h"
+#include "base/KxExport.h"
+#include "base/KxFoundation.h"
+#include "base/KxGlobalState.h"
+#include "base/KxIconnectableControl.h"
+#include "base/KxIcontextMenuRequestor.h"
+#include "base/KxQtHelper.h"
+#include "base/KxUIInventory.h"
 
 
 #endif // !Kx_BASE_H_

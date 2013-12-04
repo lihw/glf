@@ -2,12 +2,12 @@
 #ifndef KxCONTROL_H_
 #define KxCONTROL_H_
 
-#include <controls/KxBase>
-#include <controls/KxColor>
-#include <controls/KxDrag>
-#include <controls/KxLayout>
-#include <controls/KxMenu>
-#include <controls/KxUtils>
-#include <controls/KxWidget>
+#include "KxBase"
+#include "KxColor"
+#include "KxDrag"
+#include "KxLayout"
+#include "KxMenu"
+#include "KxUtils"
+#include "KxWidget"
 
 #endif // !KxCONTROL_H_

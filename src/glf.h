@@ -37,6 +37,8 @@
 #include "03utility/geometry/glf_grid.h"
 #include "03utility/geometry/glf_mesh.h"
 
+#include "04framework/glf_abstract_renderer.h"
+#include "04framework/glf_abstract_control.h"
 #include "04framework/glf_application.h"
 #include "04framework/glf_config.h"
 #include "04framework/glf_main_window.h"
@@ -44,15 +46,6 @@
 #include "04framework/glf_control_window.h"
 #include "04framework/glf_output_window.h"
 #include "04framework/glf_abstract_renderer.h"
-//#include "04framework/controls/KxBase"
-//#include "04framework/controls/KxColor"
-//#include "04framework/controls/KxControl"
-//#include "04framework/controls/KxDrag"
-//#include "04framework/controls/KxLayout"
-//#include "04framework/controls/KxMenu"
-//#include "04framework/controls/KxUtils"
-//#include "04framework/controls/KxWidget"
-//#include "04framework/controls/KxUtils"
 
 
 #endif // !GLF_H

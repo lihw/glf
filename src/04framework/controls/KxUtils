@@ -4,9 +4,9 @@
 #define KxUtils_module_H_
 
 //#include <controls/utils/KxBasicCursors.h>
-#include <controls/utils/KxDeferredWaitCursor.h>
-#include <controls/utils/KxWaitCursor.h>
-#include <controls/utils/KxUtils.h>
+#include "utils/KxDeferredWaitCursor.h"
+#include "utils/KxWaitCursor.h"
+#include "utils/KxUtils.h"
 
 #endif // !KxUtils_module_H_
 

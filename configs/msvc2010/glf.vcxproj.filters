@@ -899,6 +899,15 @@
     <ClCompile Include="..\..\src\03utility\glf_drawable.cpp">
       <Filter>03utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\04framework\glf_abstract_control.cpp">
+      <Filter>04framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_glf_abstract_control.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_glf_abstract_control.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1126,6 +1135,12 @@
     <CustomBuild Include="..\..\src\04framework\glf_render_widget.h">
       <Filter>04framework</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_abstract_renderer.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\04framework\glf_abstract_control.h">
+      <Filter>04framework</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\01system\glf_assert.h">
@@ -1237,9 +1252,6 @@
       <Filter>04framework\controls\widgets\slider</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\04framework\glf_config.h">
-      <Filter>04framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\04framework\glf_abstract_renderer.h">
       <Filter>04framework</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\03utility\geometry\glf_abstract_geometry.h">

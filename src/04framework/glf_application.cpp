@@ -13,6 +13,8 @@
 
 #include "glf_main_window.h"
 #include "glf_output_window.h"
+#include "glf_control_window.h"
+#include "glf_render_widget.h"
 
 GLFApplication::GLFApplication(int& argc, char** argv)
     : QApplication(argc, argv)
@@ -42,7 +44,6 @@ GLFMainWindow* glfGetMainWindow()
     return app->getMainWindow();
 }
 
-
 void glfPrintLogMessage(const char* message)
 {
     GLFMainWindow* pMainWindow = glfGetMainWindow();
@@ -50,3 +51,16 @@ void glfPrintLogMessage(const char* message)
     pMainWindow->getOutputWindow()->printMessage(message);
 }
 
+GLFAbstractRenderer* glfGetRenderer()
+{
+    GLFMainWindow* pMainWindow = glfGetMainWindow();
+    Q_ASSERT(pMainWindow != NULL);
+    return pMainWindow->getRenderWidget()->getRenderer();
+}
+
+GLFAbstractControl* glfGetControl()
+{
+    GLFMainWindow* pMainWindow = glfGetMainWindow();
+    Q_ASSERT(pMainWindow != NULL);
+    return pMainWindow->getControlWindow()->getControl();
+}

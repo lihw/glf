@@ -15,7 +15,7 @@
 
 #include "../glf_common.h"
 
-class GLFAbstractRenderer
+class GLFAbstractRenderer 
 {
 public:
     GLFAbstractRenderer();

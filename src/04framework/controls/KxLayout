@@ -2,20 +2,20 @@
 #ifndef KxLAYOUT_H_
 #define KxLAYOUT_H_
 
-#include <controls/layouts/KxBaseFrameLayout.h>
-#include <controls/layouts/KxColumnLayout.h>
-#include <controls/layouts/KxFlowLayout.h>
-#include <controls/layouts/KxFormLayout.h>
-#include <controls/layouts/KxFrameLayout.h>
-#include <controls/layouts/KxGridLayout.h>
-#include <controls/layouts/KxLayoutWidget.h>
-#include <controls/layouts/KxMenuBarLayout.h>
-#include <controls/layouts/KxPaneLayout.h>
-#include <controls/layouts/KxRowColumnLayout.h>
-#include <controls/layouts/KxRowLayout.h>
-#include <controls/layouts/KxScrollLayout.h>
-#include <controls/layouts/KxTabLayout.h>
-#include <controls/layouts/KxLayoutHelper.h>
+#include "layouts/KxBaseFrameLayout.h"
+#include "layouts/KxColumnLayout.h"
+#include "layouts/KxFlowLayout.h"
+#include "layouts/KxFormLayout.h"
+#include "layouts/KxFrameLayout.h"
+#include "layouts/KxGridLayout.h"
+#include "layouts/KxLayoutWidget.h"
+#include "layouts/KxMenuBarLayout.h"
+#include "layouts/KxPaneLayout.h"
+#include "layouts/KxRowColumnLayout.h"
+#include "layouts/KxRowLayout.h"
+#include "layouts/KxScrollLayout.h"
+#include "layouts/KxTabLayout.h"
+#include "layouts/KxLayoutHelper.h"
 
 
 #endif // !KxLAYOUT_H_

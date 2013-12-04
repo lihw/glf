@@ -98,6 +98,25 @@ void GrassAsset::createBlades(GLfloat* seeds)
         bladeVertices[0].position[1] = 0;
         bladeVertices[0].position[2] = z;
 
+        bladeVertices[0].tangent[0] = trajectory[0] / speed;
+        bladeVertices[0].tangent[1] = trajectory[1] / speed;
+        bladeVertices[0].tangent[2] = trajectory[2] / speed;
+
+        if (trajectory[0] != 0)
+        {
+            bladeVertices[0].normal[0] = -bladeVertices[0].tangent[1];
+            bladeVertices[0].normal[1] = bladeVertices[0].tangent[0];
+            bladeVertices[0].normal[2] = 0;
+        }
+        else
+        {
+            bladeVertices[0].normal[0] = 0;
+            bladeVertices[0].normal[1] = -bladeVertices[0].tangent[2];
+            bladeVertices[0].normal[2] = bladeVertices[0].tangent[1];
+        }
+
+        bladeVertices[0].distance = 0;
+
         GLfloat velocity[] = 
         {
             trajectory[0],
@@ -115,10 +134,28 @@ void GrassAsset::createBlades(GLfloat* seeds)
                 bladeVertices[j - 1].position[1] + velocity[1] * deltaTime;
             bladeVertices[j].position[2] = 
                 bladeVertices[j - 1].position[2] + velocity[2] * deltaTime;
-
+        
             velocity[0] += gravity[0] * deltaTime;
             velocity[1] += gravity[1] * deltaTime;
             velocity[2] += gravity[2] * deltaTime;
+            
+            glm::vec3 t = glm::normalize(glm::vec3(velocity[0], velocity[1], velocity[2]));
+            bladeVertices[j].tangent[0] = t.x;
+            bladeVertices[j].tangent[1] = t.y;
+            bladeVertices[j].tangent[2] = t.z;
+
+            glm::vec3 n = glm::vec3(bladeVertices[j - 1].normal[0],
+                                    bladeVertices[j - 1].normal[1],
+                                    bladeVertices[j - 1].normal[2]);
+
+            glm::vec3 b = glm::cross(n, t);
+            n = glm::normalize(glm::cross(t, b));
+
+            bladeVertices[j].normal[0] = n.x;
+            bladeVertices[j].normal[1] = n.y;
+            bladeVertices[j].normal[2] = n.z;
+        
+            bladeVertices[j].distance = (GLfloat)(j) / (GLfloat)(NUM_VERTICES_PER_BLADE - 1);
         }
     }
 
@@ -149,12 +186,16 @@ void GrassAsset::createBlades(GLfloat* seeds)
     m_vertexDesc[1].position = glf::VERTEX_ATTRIB_NORMAL;
     m_vertexDesc[1].type = GL_FLOAT;
     m_vertexDesc[1].size = 3;
-    
-    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_COLOR;
+
+    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_UNAMED1;
     m_vertexDesc[2].type = GL_FLOAT;
     m_vertexDesc[2].size = 3;
     
-    m_vertexDesc[3].position = glf::VERTEX_ATTRIB_UNAMED0;
+    m_vertexDesc[3].position = glf::VERTEX_ATTRIB_COLOR;
     m_vertexDesc[3].type = GL_FLOAT;
-    m_vertexDesc[3].size = 1;
+    m_vertexDesc[3].size = 3;
+    
+    m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNAMED0;
+    m_vertexDesc[4].type = GL_FLOAT;
+    m_vertexDesc[4].size = 1;
 }
