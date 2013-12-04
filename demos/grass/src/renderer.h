@@ -14,7 +14,11 @@ class GrassAsset;
 
 class Renderer : public GLFAbstractRenderer
 {
+
 public:
+    Renderer();
+    virtual ~Renderer();
+
     virtual bool initialize();
     virtual void cleanup();
     virtual void render();
@@ -34,7 +38,7 @@ private:
     glf::Drawable*  m_grid;
     glf::Shader     m_gridShader;
 
-    glf::Drawable   m_grass;
+    glf::Drawable*  m_grass;
 
     glf::Camera     m_camera;
     glf::Drawable*  m_teapot;

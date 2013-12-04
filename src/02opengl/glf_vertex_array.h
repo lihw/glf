@@ -57,7 +57,7 @@ public:
     bool create(GLenum pritimive,
                 const GLfloat* vertices,
                 GLuint numVertices,
-                VertexAttribDescriptor* vertexAttribs,
+                const VertexAttribDescriptor* vertexAttribs,
                 GLuint numVertexAttribs,
                 GLuint* vertexIndices,
                 GLuint numIndices);

@@ -79,6 +79,28 @@ Mesh::Mesh(const char* filename)
         delete [] indices;
     }
 }
+    
+Mesh::Mesh(GLfloat* vertices, GLuint numVertices,
+           GLuint* indices, GLuint numIndices,
+           GLenum primitive,
+           const VertexAttribDescriptor* desc,
+           GLuint numDescEntries)
+{
+    GLF_ASSERT(vertices != NULL && numVertices > 0);
+    GLF_ASSERT(indices != NULL && numIndices > 0);
+    GLF_ASSERT(numDescEntries >= 1);
+
+    _primitive = primitive;
+
+    bool ret = _vertexArray.create(primitive, 
+            vertices, 
+            numVertices, 
+            desc, 
+            numDescEntries, 
+            indices, 
+            numIndices);
+    GLF_ASSERT(ret);
+}
 
 Mesh::~Mesh()
 {

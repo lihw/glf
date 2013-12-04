@@ -9,11 +9,11 @@
 
 #include <glf/glf.h>
 
-const GLuint TOTAL_NUM_BLADES = 4096;
+const GLuint TOTAL_NUM_BLADES = 400;
 const GLuint NUM_VERTICES_PER_BLADE = 8;
 
-const GLfloat WIDTH = 20.0f;
-const GLfloat HEIGHT = 20.0f;
+const GLfloat WIDTH = 10.0f;
+const GLfloat HEIGHT = 10.0f;
 
 GrassAsset::GrassAsset()
 {
@@ -37,8 +37,8 @@ GLfloat* GrassAsset::createSeeds()
     GLfloat* s = seeds;
     for (GLuint i = 0; i < m_numBlades; ++i)
     {
-        GLfloat x = ((GLfloat)(i % 64) / 64.0f - 0.5f) * WIDTH;
-        GLfloat y = ((GLfloat)(i / 64) / 64.0f - 0.5f) * HEIGHT;
+        GLfloat x = ((GLfloat)(i % 20) / 20.0f - 0.5f) * WIDTH;
+        GLfloat y = ((GLfloat)(i / 20) / 20.0f - 0.5f) * HEIGHT;
 
         *s++ = x;
         *s++ = y;
@@ -54,8 +54,8 @@ void GrassAsset::createBlades(GLfloat* seeds)
     const GLfloat gravity[] =
     {
         0,
-        0,
-        -9.8337f
+        -9.8337f,
+        0
     };
 
     // -------------------------------------------------------------- 
@@ -71,15 +71,16 @@ void GrassAsset::createBlades(GLfloat* seeds)
         // -------------------------------------------------------------- 
         GLfloat trajectory[3];
 
-        // Sample the top hemisphere to the trajectory direction
-        trajectory[1] = (GLfloat)rand() / RAND_MAX * 0.9999f;
+        // Sample the top half of hemisphere to the trajectory direction
+        trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.5f;
         GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
         GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
         trajectory[2] = r * cosf(theta);
         trajectory[0] = r * sinf(theta);
         
         // A random trajectory speed value.
-        GLfloat speed = rand() / RAND_MAX * 2.0f;
+        GLfloat speed = (GLfloat)rand() / (GLfloat)RAND_MAX;
+        speed = (speed * 0.5f + 0.5f) * 5.0f;
 
         trajectory[0] *= speed;
         trajectory[1] *= speed;
@@ -104,13 +105,16 @@ void GrassAsset::createBlades(GLfloat* seeds)
             trajectory[2],
         };
 
-        GLfloat deltaTime = 1.0f / (GLfloat)NUM_VERTICES_PER_BLADE * 0.02f;
+        GLfloat deltaTime = 1.0f / (GLfloat)NUM_VERTICES_PER_BLADE * 0.4f;
 
         for (GLuint j = 1; j < NUM_VERTICES_PER_BLADE; j++)
         {
-            bladeVertices[j].position[0] = velocity[0] * deltaTime;
-            bladeVertices[j].position[1] = velocity[1] * deltaTime;
-            bladeVertices[j].position[2] = velocity[2] * deltaTime;
+            bladeVertices[j].position[0] = 
+                bladeVertices[j - 1].position[0] + velocity[0] * deltaTime;
+            bladeVertices[j].position[1] = 
+                bladeVertices[j - 1].position[1] + velocity[1] * deltaTime;
+            bladeVertices[j].position[2] = 
+                bladeVertices[j - 1].position[2] + velocity[2] * deltaTime;
 
             velocity[0] += gravity[0] * deltaTime;
             velocity[1] += gravity[1] * deltaTime;

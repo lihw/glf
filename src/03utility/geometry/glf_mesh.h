@@ -14,12 +14,19 @@
 
 #include "glf_abstract_geometry.h"
 
+#include "../../02opengl/glf_vertex_array.h"
+
 GLF_NAMESPACE_BEGIN
 
 class Mesh : public AbstractGeometry
 {
 public:
     Mesh(const char* filename);
+    Mesh(GLfloat* vertices, GLuint numVertices,
+         GLuint* indices, GLuint numIndices,
+         GLenum primitive,
+         const VertexAttribDescriptor* desc,
+         GLuint numDescEntries);
     virtual ~Mesh();
 
 private:

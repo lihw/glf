@@ -9,6 +9,18 @@
 
 #include "grass_asset.h"
 
+Renderer::Renderer()
+{
+    m_background = NULL;
+    m_grid = NULL;
+    m_teapot = NULL;
+    m_grass = NULL;
+}
+
+Renderer::~Renderer()
+{
+}
+
 bool Renderer::initialize()
 {
     if (!m_shader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
@@ -42,13 +54,13 @@ bool Renderer::initialize()
     // Load/create the grass asset
     // -------------------------------------------------------------- 
     GrassAsset* grassAsset = new GrassAsset();
-    glf::Mesh* grassMesh = new glf::Mesh(m_grassAsset->getVertices(),
-                                        m_grassAsset->getNumVertices(),
-                                        m_grassAsset->getIndices(),
-                                        m_grassAsset->getNumIndices(),
-                                        m_grassAsset->getPrimitive(),
-                                        m_grassAsset->getVertexDesc(),
-                                        m_grassAsset->getNumVertexDescEntries());
+    glf::Mesh* grassMesh = new glf::Mesh(grassAsset->getVertices(),
+                                         grassAsset->getNumVertices(),
+                                         grassAsset->getIndices(),
+                                         grassAsset->getNumIndices(),
+                                         grassAsset->getPrimitive(),
+                                         grassAsset->getVertexDesc(),
+                                         grassAsset->getNumVertexDescEntries());
     m_grass = new glf::Drawable(grassMesh);
     delete grassAsset;
 
@@ -87,7 +99,8 @@ void Renderer::cleanup()
 {
     delete m_teapot;
     delete m_background;
-    //delete m_grid;
+    delete m_grass;
+    delete m_grid;
 }
 
 void Renderer::render()
@@ -105,10 +118,17 @@ void Renderer::render()
     m_gridShader.disable();
 
     // draw teapot
-    mat = m_camera.getProjectionModelviewMatrix() * m_teapot->getTransformation();
+    //mat = m_camera.getProjectionModelviewMatrix() * m_teapot->getTransformation();
+    //m_shader.getUniform("MVP")->setValue(mat);
+    //m_shader.enable();
+    //m_teapot->render(1);
+
+    // draw grass
+
+    mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
     m_shader.getUniform("MVP")->setValue(mat);
     m_shader.enable();
-    m_teapot->render(1);
+    m_grass->render(1);
 
     m_shader.disable();
 }
