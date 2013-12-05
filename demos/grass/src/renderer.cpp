@@ -15,6 +15,8 @@ Renderer::Renderer()
     m_background = NULL;
     m_grid = NULL;
     m_grass = NULL;
+
+    m_grassShowNormal = false;
 }
 
 Renderer::~Renderer()
@@ -35,20 +37,29 @@ bool Renderer::initialize()
     // -------------------------------------------------------------- 
     // Initialize shaders
     // -------------------------------------------------------------- 
+#define PATH_PREFIX "../demos/grass/data/shader"
+
     if (!m_grassShaders[STEM_ONLY].loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
     {
         return false;
     }
     m_grassShaders[STEM_ONLY].getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
 
-#define PATH_PREFIX "../demos/grass/data/shader"
     if (!m_grassShaders[COLOR].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL, 
         PATH_PREFIX"/grass.gs"))
     {
         return false;
     }
-    m_grassShaders[COLOR].getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
+    m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
     m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
+
+    if (!m_grassNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL,
+        PATH_PREFIX"/grass_normal.gs"))
+    {
+        return false;
+    }
+    m_grassNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
+
 #undef PATH_PREFIX
 
     m_currentGrassShader = &m_grassShaders[STEM_ONLY];
@@ -125,8 +136,16 @@ void Renderer::render()
     m_currentGrassShader->getUniform("MVP")->setValue(mat);
     m_currentGrassShader->enable();
     m_grass->render(1);
-
     m_currentGrassShader->disable();
+
+    if (m_grassShowNormal)
+    {
+        mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
+        m_grassNormalShader.getUniform("MVP")->setValue(mat);
+        m_grassNormalShader.enable();
+        m_grass->render(1);
+        m_grassNormalShader.disable();
+    }
 }
 
 void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)

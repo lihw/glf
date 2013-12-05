@@ -54,7 +54,7 @@ void GrassAsset::createBlades(GLfloat* seeds)
     const GLfloat gravity[] =
     {
         0,
-        -9.8337f,
+        -9.8337f * 0.25f,
         0
     };
 
@@ -72,7 +72,7 @@ void GrassAsset::createBlades(GLfloat* seeds)
         GLfloat trajectory[3];
 
         // Sample the top half of hemisphere to the trajectory direction
-        trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.5f;
+        trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.1f;
         GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
         GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
         trajectory[2] = r * cosf(theta);
@@ -102,18 +102,21 @@ void GrassAsset::createBlades(GLfloat* seeds)
         bladeVertices[0].tangent[1] = trajectory[1] / speed;
         bladeVertices[0].tangent[2] = trajectory[2] / speed;
 
-        if (trajectory[0] != 0)
-        {
-            bladeVertices[0].normal[0] = -bladeVertices[0].tangent[1];
-            bladeVertices[0].normal[1] = bladeVertices[0].tangent[0];
-            bladeVertices[0].normal[2] = 0;
-        }
-        else
-        {
-            bladeVertices[0].normal[0] = 0;
-            bladeVertices[0].normal[1] = -bladeVertices[0].tangent[2];
-            bladeVertices[0].normal[2] = bladeVertices[0].tangent[1];
-        }
+        glm::vec3 t = glm::vec3(
+            bladeVertices[0].tangent[0],
+            bladeVertices[0].tangent[1],
+            bladeVertices[0].tangent[2]
+        );
+
+        // The normal of the blade is always facing upward and orthogonal to the
+        // direction of stem.
+        glm::vec3 n(-bladeVertices[0].tangent[0], 
+                    (bladeVertices[0].tangent[0] * bladeVertices[0].tangent[0] + bladeVertices[0].tangent[2] * bladeVertices[0].tangent[2]) / bladeVertices[0].tangent[1],
+                    -bladeVertices[0].tangent[2]);
+        n = glm::normalize(n);
+        bladeVertices[0].normal[0] = n.x;
+        bladeVertices[0].normal[1] = n.y;
+        bladeVertices[0].normal[2] = n.z;
 
         bladeVertices[0].distance = 0;
 

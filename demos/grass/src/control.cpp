@@ -61,6 +61,7 @@ void Control::createGeneralTab(KxColumnLayout* mainLayout)
 
 void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
 {
+    // Show the normal
     KxFrameLayout* frameLayout = KxLayoutHelper::addFrameLayout(QString("Geometry Expansion"), mainLayout);
     QFormLayout* formLayout = KxLayoutHelper::addFormLayout(frameLayout);
 
@@ -70,7 +71,31 @@ void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
     connect(showNormal, 
             SIGNAL(newValueForConnections(const QVariant&, bool)), 
             this,
-            SLOT(onNormalShowChanged(const QVariant&, bool)));
+            SLOT(onShowNormalChanged(const QVariant&, bool)));
+
+    // The width of the blade
+    KxFloatField* floatField = new KxFloatField;
+    KxFloatSlider* floatSlider = new KxFloatSlider(Qt::Horizontal);
+    KxFloatSliderGrp* sliderGrp = new KxFloatSliderGrp(NULL, false, floatField, floatSlider);
+    sliderGrp->setColumnWidth(0, 60, false);
+    sliderGrp->setColumnWidth(1, true);
+    sliderGrp->slider()->setMinimumWidth(120);
+
+    sliderGrp->slider()->setSliderRangeF(0.005f, 0.2f);
+    sliderGrp->slider()->setValueF(0.01f);
+    sliderGrp->inputField()->setMinValueF(0.005);
+    sliderGrp->inputField()->setMaxValueF(0.5f);
+    sliderGrp->inputField()->setValueF(0.01);
+    
+    
+    formLayout->addRow(new KxLabel(QString("Blade Width: ")), sliderGrp);
+
+    connect(sliderGrp, 
+        SIGNAL(newValueForConnections(const QVariant&, bool)), 
+        this,
+        SLOT(onBladeWidthChanged(const QVariant&, bool)));
+
+    
 }
 
 void Control::onDisplayChanged(const QVariant& index, bool interim)
@@ -79,8 +104,15 @@ void Control::onDisplayChanged(const QVariant& index, bool interim)
     renderer->m_currentGrassShader = &renderer->m_grassShaders[index.toInt()];
 }
 
-void Control::onNormalShowChanged(const QVariant& value, bool interim)
+void Control::onShowNormalChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
     renderer->m_grassShowNormal = value.toBool();
+}
+    
+void Control::onBladeWidthChanged(const QVariant& value, bool interim)
+{
+    Renderer* renderer = (Renderer*)glfGetRenderer();
+    GLfloat bladeWidth = value.toFloat();
+    renderer->m_grassShaders[Renderer::COLOR].getUniform("BladeWidth")->setValue(bladeWidth);
 }

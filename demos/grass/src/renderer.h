@@ -50,6 +50,7 @@ private:
     glf::Shader     m_grassShaders[GRASS_SHADER_NUMBER];
     glf::Shader*    m_currentGrassShader;
     bool            m_grassShowNormal;
+    glf::Shader     m_grassNormalShader;
 
     glf::Camera     m_camera;
     glf::Arcball    m_arcball;

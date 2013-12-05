@@ -1,6 +1,6 @@
 // -------------------------------------------------------------- 
-// grass.gs
-// Geometry expansion of a grass blade
+// grass_normal.gs
+// display normal of the grass blade
 //
 // An OpenGL framework.
 //
@@ -12,7 +12,7 @@
 #version 430 core
 
 layout(lines, invocations = 1) in;
-layout(triangle_strip, max_vertices = 4) out;
+layout(line_strip, max_vertices = 2) out;
 
 in block
 {
@@ -34,7 +34,6 @@ out gl_PerVertex
 };
 
 uniform mat4 MVP;
-uniform float BladeWidth;
 
 void main()
 {	
@@ -43,35 +42,29 @@ void main()
         cross(In[0].Normal, In[0].Tangent),
         cross(In[1].Normal, In[1].Tangent)
     };
-    
-    float t[] = 
-    {
-        In[0].Distance,
-        In[1].Distance,
-    };
 
-    float w0 = (sqrt(1.0 - t[0] * t[0]) * 0.8 + 0.2) * BladeWidth; 
-    float w1 = (sqrt(1.0 - t[1] * t[1]) * 0.8 + 0.2) * BladeWidth;
 
     // -------------------------------------------------------------- 
     // Expand the line to a grass blade 
     // -------------------------------------------------------------- 
-    gl_Position = MVP * (vec4(gl_in[0].gl_Position.xyz - binormal[0] * w0, 1.0));
+    gl_Position = MVP * gl_in[0].gl_Position;
     Out.normal = In[0].Normal;
     Out.color = In[0].Color;
     EmitVertex();
     
-    gl_Position = MVP * (vec4(gl_in[0].gl_Position.xyz + binormal[0] * w0, 1.0));
+    gl_Position = MVP * (vec4(gl_in[0].gl_Position.xyz + In[0].Normal * 0.2, 1.0));
     Out.normal = In[0].Normal;
     Out.color = In[0].Color;
     EmitVertex();
+
+    EndPrimitive();
     
-    gl_Position = MVP * (vec4(gl_in[1].gl_Position.xyz - binormal[1] * w1, 1.0));
+    gl_Position = MVP * gl_in[1].gl_Position;
     Out.normal = In[1].Normal;
     Out.color = In[1].Color;
     EmitVertex();
     
-    gl_Position = MVP * (vec4(gl_in[1].gl_Position.xyz + binormal[1] * w1, 1.0));
+    gl_Position = MVP * (vec4(gl_in[1].gl_Position.xyz + In[1].Normal * 0.2, 1.0));
     Out.normal = In[1].Normal;
     Out.color = In[1].Color;
     EmitVertex();
