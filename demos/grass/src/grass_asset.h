@@ -15,6 +15,7 @@ struct GrassBladeVertex
 {
     GLfloat position[3];
     GLfloat normal[3];
+    GLfloat tangent[3];
     GLfloat color[3];
     GLfloat distance; // The normalized distance from the root of the blade
 };
@@ -41,7 +42,7 @@ public:
     GLF_INLINE const glf::VertexAttribDescriptor* getVertexDesc() const
     { return &m_vertexDesc[0]; }
     GLF_INLINE GLuint getNumVertexDescEntries() const
-    { return 4; }
+    { return 5; }
 
 private:
     GLuint            m_numBlades;
@@ -49,7 +50,7 @@ private:
     GLuint            m_numVertices;
     GLuint*           m_indices;
     GLuint            m_numIndices;
-    glf::VertexAttribDescriptor m_vertexDesc[4];
+    glf::VertexAttribDescriptor m_vertexDesc[5];
 
 private:
     GLfloat* createSeeds();

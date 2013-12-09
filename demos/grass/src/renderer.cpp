@@ -9,46 +9,93 @@
 
 #include "grass_asset.h"
 
+Renderer::Renderer()
+    : GLFAbstractRenderer()
+{
+    m_background = NULL;
+    m_grid = NULL;
+    m_grass = NULL;
+
+    m_grassShowNormal = false;
+}
+
+Renderer::~Renderer()
+{
+}
+
 bool Renderer::initialize()
 {
-    if (!m_shader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
-    {
-        return false;
-    }
-    m_shader.getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
+    // -------------------------------------------------------------- 
+    // Test
+    // -------------------------------------------------------------- 
+    glm::mat4 mvMat = glm::lookAt(glm::vec3(0.0f, 0.1f, 10.0f),
+                                  glm::vec3(0.0f, 0.0f, 0.0f),
+                                  glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 projMat  = glm::perspective(45.0f, 1.3f, 0.1f, 1000.0f);
+    glm::vec4 p0 = glm::vec4(-1.0f, 0.0f, -1.0f, 1.0f);
+    glm::vec4 p1 = glm::vec4(-1.0f, 0.0f,  1.0f, 1.0f);
+
+    glm::vec4 proj0 = projMat * mvMat * p0;
+    glm::vec4 proj1 = projMat * mvMat * p1;
+
+    proj0.x /= proj0.w;
+    proj0.y /= proj0.w;
+    proj1.x /= proj1.w;
+    proj1.y /= proj1.w;
+
+
 
     glClearColor(1, 0, 0, 0);
 
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
 
-    const char* meshFile = "../data/models/teapot.obj";
-    try
-    {
-        m_teapot = new glf::Drawable(meshFile);
-        m_teapot->setScaling(2.0f, 2.0f, 2.0f);
-    }
-    catch (std::string err)
-    {
-        GLF_LOGERROR("Failed to load %s", meshFile);
-        return false;
-    }
-
     m_camera.lookAt(0, 0, 10.0f,
                     0, 0, 0,
                     0, 1, 0);
 
     // -------------------------------------------------------------- 
+    // Initialize shaders
+    // -------------------------------------------------------------- 
+#define PATH_PREFIX "../demos/grass/data/shader"
+
+    if (!m_grassShaders[STEM_ONLY].loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
+    {
+        return false;
+    }
+    m_grassShaders[STEM_ONLY].getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
+
+    if (!m_grassShaders[COLOR].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL, 
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    //m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
+    //m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
+
+    if (!m_grassNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL,
+        PATH_PREFIX"/grass_normal.gs"))
+    {
+        return false;
+    }
+    //m_grassNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
+
+#undef PATH_PREFIX
+
+    m_currentGrassShader = &m_grassShaders[STEM_ONLY];
+
+
+    // -------------------------------------------------------------- 
     // Load/create the grass asset
     // -------------------------------------------------------------- 
     GrassAsset* grassAsset = new GrassAsset();
-    glf::Mesh* grassMesh = new glf::Mesh(m_grassAsset->getVertices(),
-                                        m_grassAsset->getNumVertices(),
-                                        m_grassAsset->getIndices(),
-                                        m_grassAsset->getNumIndices(),
-                                        m_grassAsset->getPrimitive(),
-                                        m_grassAsset->getVertexDesc(),
-                                        m_grassAsset->getNumVertexDescEntries());
+    glf::Mesh* grassMesh = new glf::Mesh(grassAsset->getVertices(),
+                                         grassAsset->getNumVertices(),
+                                         grassAsset->getIndices(),
+                                         grassAsset->getNumIndices(),
+                                         grassAsset->getPrimitive(),
+                                         grassAsset->getVertexDesc(),
+                                         grassAsset->getNumVertexDescEntries());
     m_grass = new glf::Drawable(grassMesh);
     delete grassAsset;
 
@@ -85,9 +132,9 @@ bool Renderer::initialize()
 
 void Renderer::cleanup()
 {
-    delete m_teapot;
     delete m_background;
-    //delete m_grid;
+    delete m_grass;
+    delete m_grid;
 }
 
 void Renderer::render()
@@ -104,13 +151,26 @@ void Renderer::render()
     m_grid->render(1);
     m_gridShader.disable();
 
-    // draw teapot
-    mat = m_camera.getProjectionModelviewMatrix() * m_teapot->getTransformation();
-    m_shader.getUniform("MVP")->setValue(mat);
-    m_shader.enable();
-    m_teapot->render(1);
+    // draw grass
+    //glm::mat4 mvMatrix = m_camera.getModelviewMatrix() * m_grass->getTransformation();
+    m_currentGrassShader->getUniform("MVP")->setValue(mat);
+    glm::vec3 cameraPosition = m_camera.getCameraPosition();
+    if (m_currentGrassShader == &m_grassShaders[COLOR])
+    {
+        m_currentGrassShader->getUniform("CameraPosition")->setValue(cameraPosition.x, cameraPosition.y, cameraPosition.z); 
+    }
+    m_currentGrassShader->enable();
+    m_grass->render(1);
+    m_currentGrassShader->disable();
 
-    m_shader.disable();
+    if (m_grassShowNormal)
+    {
+        mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
+        m_grassNormalShader.getUniform("MVP")->setValue(mat);
+        m_grassNormalShader.enable();
+        m_grass->render(1);
+        m_grassNormalShader.disable();
+    }
 }
 
 void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)

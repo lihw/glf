@@ -25,8 +25,18 @@
   <ItemGroup>
     <ClCompile Include="..\src\helloglf.cpp" />
     <ClCompile Include="..\src\renderer.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_control.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_control.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\control.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\renderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\src\control.h" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,8 @@
 #include <QApplication>
 
 class GLFMainWindow;
+class GLFAbstractRenderer;
+class GLFAbstractControl;
 
 class GLFApplication : public QApplication
 {
@@ -36,6 +38,10 @@ private:
 extern GLFApplication* glfGetApplication();
 // Get the global main window.
 extern GLFMainWindow* glfGetMainWindow();
+// Get the global renderer
+extern GLFAbstractRenderer* glfGetRenderer();
+// Get the global control
+extern GLFAbstractControl* glfGetControl();
 // Print the message to the output window
 extern void glfPrintLogMessage(const char* message);
 

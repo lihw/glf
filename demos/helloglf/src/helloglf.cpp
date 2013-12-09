@@ -8,13 +8,17 @@
 #include <glf/glf.h>
 
 #include "renderer.h"
+#include "control.h"
 
-void glfCreateControls(QWidget* parent)
+GLFAbstractControl* glfCreateControls(QWidget* parent)
 {
+    return new Control(parent);
 }
 
 void glfGenerateConfig(GLFConfig* config)
 {
+    config->windowWidth = 1024;
+    config->windowHeight = 768;
 }
 
 GLFAbstractRenderer* glfCreateRenderer()

@@ -27,6 +27,10 @@ public:
 
     void dumpScreen();
 
+    GLFAbstractRenderer* getRenderer() const
+    { return _renderer; }
+
+
 public slots:
     void timeoutSlot();
 
@@ -52,6 +56,7 @@ protected:
     // Focus in/out events.
     virtual void focusInEvent(QFocusEvent* event);
     virtual void focusOutEvent(QFocusEvent* event);
+
 
 private:
     QTimer* _timer;

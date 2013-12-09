@@ -16,17 +16,23 @@
 
 #include "../glf_common.h"
 
+class GLFAbstractControl;
+
 class GLFControlWindow : public KxDockWidget
 {
     Q_OBJECT
 
 public:
     GLFControlWindow(QWidget* parent);
+    virtual ~GLFControlWindow();
 
+    GLFAbstractControl* getControl() const
+    { return _control; }
+
+private:
+    GLFAbstractControl* _control;
     QWidget* _mainWidget;
 };
-
-GLF_EXTERN void glfCreateControls(QWidget* parent);
 
 #endif // !GLF_CONTROL_WINDOW_H
 

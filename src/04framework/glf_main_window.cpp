@@ -19,11 +19,6 @@ GLFMainWindow::GLFMainWindow(const GLFConfig& config, QWidget *parent)
 {
     setMinimumSize(config.windowWidth, config.windowHeight);
     
-    // -------------------------------------------------------------- 
-    // Create windows
-    // -------------------------------------------------------------- 
-    _pControlWindow = new GLFControlWindow(this);
-    _pOutputWindow = new GLFOutputWindow(this);
 
     // -------------------------------------------------------------- 
     // GL rendering widget
@@ -54,6 +49,12 @@ GLFMainWindow::GLFMainWindow(const GLFConfig& config, QWidget *parent)
     
     _pRenderWidget = new GLFRenderWidget(config.windowWidth, config.windowHeight, qglFormat, this);
     setCentralWidget(_pRenderWidget);
+    
+    // -------------------------------------------------------------- 
+    // Create windows
+    // -------------------------------------------------------------- 
+    _pControlWindow = new GLFControlWindow(this);
+    _pOutputWindow = new GLFOutputWindow(this);
 
     // -------------------------------------------------------------- 
     // Create menus

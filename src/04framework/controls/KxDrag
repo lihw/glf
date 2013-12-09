@@ -2,12 +2,12 @@
 #ifndef KxDRAG_H_
 #define KxDRAG_H_
 
-#include <controls/drag/dragitem/KxPrimitiveDragItem.h>
-#include <controls/drag/dragitem/KxDragItem.h>
+#include "drag/dragitem/KxPrimitiveDragItem.h"
+#include "drag/dragitem/KxDragItem.h"
 
-#include <controls/drag/KxDragData.h>
-#include <controls/drag/KxDragHandler.h>
-#include <controls/drag/KxDragItemDataType.h>
-#include <controls/drag/KxDragManager.h>
+#include "drag/KxDragData.h"
+#include "drag/KxDragHandler.h"
+#include "drag/KxDragItemDataType.h"
+#include "drag/KxDragManager.h"
 
 #endif // !KxDRAG_H_

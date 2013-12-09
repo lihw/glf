@@ -9,11 +9,11 @@
 
 #include <glf/glf.h>
 
-const GLuint TOTAL_NUM_BLADES = 4096;
+const GLuint TOTAL_NUM_BLADES = 400;
 const GLuint NUM_VERTICES_PER_BLADE = 8;
 
-const GLfloat WIDTH = 20.0f;
-const GLfloat HEIGHT = 20.0f;
+const GLfloat WIDTH = 10.0f;
+const GLfloat HEIGHT = 10.0f;
 
 GrassAsset::GrassAsset()
 {
@@ -37,8 +37,8 @@ GLfloat* GrassAsset::createSeeds()
     GLfloat* s = seeds;
     for (GLuint i = 0; i < m_numBlades; ++i)
     {
-        GLfloat x = ((GLfloat)(i % 64) / 64.0f - 0.5f) * WIDTH;
-        GLfloat y = ((GLfloat)(i / 64) / 64.0f - 0.5f) * HEIGHT;
+        GLfloat x = ((GLfloat)(i % 20) / 20.0f - 0.5f) * WIDTH;
+        GLfloat y = ((GLfloat)(i / 20) / 20.0f - 0.5f) * HEIGHT;
 
         *s++ = x;
         *s++ = y;
@@ -54,8 +54,8 @@ void GrassAsset::createBlades(GLfloat* seeds)
     const GLfloat gravity[] =
     {
         0,
-        0,
-        -9.8337f
+        -9.8337f * 0.25f,
+        0
     };
 
     // -------------------------------------------------------------- 
@@ -71,15 +71,19 @@ void GrassAsset::createBlades(GLfloat* seeds)
         // -------------------------------------------------------------- 
         GLfloat trajectory[3];
 
-        // Sample the top hemisphere to the trajectory direction
-        trajectory[1] = (GLfloat)rand() / RAND_MAX * 0.9999f;
-        GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
-        GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
-        trajectory[2] = r * cosf(theta);
-        trajectory[0] = r * sinf(theta);
+        // Sample the top half of hemisphere to the trajectory direction
+        ///trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.1f;
+        ///GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
+        ///GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
+        ///trajectory[2] = r * cosf(theta);
+        ///trajectory[0] = r * sinf(theta);
+        trajectory[0] = 0;
+        trajectory[1] = 1.0f;
+        trajectory[2] = 0;
         
         // A random trajectory speed value.
-        GLfloat speed = rand() / RAND_MAX * 2.0f;
+        GLfloat speed = (GLfloat)rand() / (GLfloat)RAND_MAX;
+        speed = (speed * 0.5f + 0.5f) * 5.0f;
 
         trajectory[0] *= speed;
         trajectory[1] *= speed;
@@ -97,6 +101,29 @@ void GrassAsset::createBlades(GLfloat* seeds)
         bladeVertices[0].position[1] = 0;
         bladeVertices[0].position[2] = z;
 
+        bladeVertices[0].tangent[0] = trajectory[0] / speed;
+        bladeVertices[0].tangent[1] = trajectory[1] / speed;
+        bladeVertices[0].tangent[2] = trajectory[2] / speed;
+
+        glm::vec3 t = glm::vec3(
+            bladeVertices[0].tangent[0],
+            bladeVertices[0].tangent[1],
+            bladeVertices[0].tangent[2]
+        );
+
+        // The normal of the blade is always facing upward and orthogonal to the
+        // direction of stem.
+        //glm::vec3 n(-bladeVertices[0].tangent[0], 
+        //            (bladeVertices[0].tangent[0] * bladeVertices[0].tangent[0] + bladeVertices[0].tangent[2] * bladeVertices[0].tangent[2]) / bladeVertices[0].tangent[1],
+        //            -bladeVertices[0].tangent[2]);
+        glm::vec3 n(1.0f, 0.0f, 0.0f);
+        n = glm::normalize(n);
+        bladeVertices[0].normal[0] = n.x;
+        bladeVertices[0].normal[1] = n.y;
+        bladeVertices[0].normal[2] = n.z;
+
+        bladeVertices[0].distance = 0;
+
         GLfloat velocity[] = 
         {
             trajectory[0],
@@ -104,17 +131,38 @@ void GrassAsset::createBlades(GLfloat* seeds)
             trajectory[2],
         };
 
-        GLfloat deltaTime = 1.0f / (GLfloat)NUM_VERTICES_PER_BLADE * 0.02f;
+        GLfloat deltaTime = 1.0f / (GLfloat)NUM_VERTICES_PER_BLADE * 0.4f;
 
         for (GLuint j = 1; j < NUM_VERTICES_PER_BLADE; j++)
         {
-            bladeVertices[j].position[0] = velocity[0] * deltaTime;
-            bladeVertices[j].position[1] = velocity[1] * deltaTime;
-            bladeVertices[j].position[2] = velocity[2] * deltaTime;
-
+            bladeVertices[j].position[0] = 
+                bladeVertices[j - 1].position[0] + velocity[0] * deltaTime;
+            bladeVertices[j].position[1] = 
+                bladeVertices[j - 1].position[1] + velocity[1] * deltaTime;
+            bladeVertices[j].position[2] = 
+                bladeVertices[j - 1].position[2] + velocity[2] * deltaTime;
+        
             velocity[0] += gravity[0] * deltaTime;
             velocity[1] += gravity[1] * deltaTime;
             velocity[2] += gravity[2] * deltaTime;
+            
+            glm::vec3 t = glm::normalize(glm::vec3(velocity[0], velocity[1], velocity[2]));
+            bladeVertices[j].tangent[0] = t.x;
+            bladeVertices[j].tangent[1] = t.y;
+            bladeVertices[j].tangent[2] = t.z;
+
+            glm::vec3 n = glm::vec3(bladeVertices[j - 1].normal[0],
+                                    bladeVertices[j - 1].normal[1],
+                                    bladeVertices[j - 1].normal[2]);
+
+            glm::vec3 b = glm::cross(n, t);
+            n = glm::normalize(glm::cross(t, b));
+
+            bladeVertices[j].normal[0] = n.x;
+            bladeVertices[j].normal[1] = n.y;
+            bladeVertices[j].normal[2] = n.z;
+        
+            bladeVertices[j].distance = (GLfloat)(j) / (GLfloat)(NUM_VERTICES_PER_BLADE - 1);
         }
     }
 
@@ -145,12 +193,16 @@ void GrassAsset::createBlades(GLfloat* seeds)
     m_vertexDesc[1].position = glf::VERTEX_ATTRIB_NORMAL;
     m_vertexDesc[1].type = GL_FLOAT;
     m_vertexDesc[1].size = 3;
-    
-    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_COLOR;
+
+    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_UNAMED1;
     m_vertexDesc[2].type = GL_FLOAT;
     m_vertexDesc[2].size = 3;
     
-    m_vertexDesc[3].position = glf::VERTEX_ATTRIB_UNAMED0;
+    m_vertexDesc[3].position = glf::VERTEX_ATTRIB_COLOR;
     m_vertexDesc[3].type = GL_FLOAT;
-    m_vertexDesc[3].size = 1;
+    m_vertexDesc[3].size = 3;
+    
+    m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNAMED0;
+    m_vertexDesc[4].type = GL_FLOAT;
+    m_vertexDesc[4].size = 1;
 }

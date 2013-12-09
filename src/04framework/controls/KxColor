@@ -2,6 +2,6 @@
 #ifndef KxCOLOR_H_
 #define KxCOLOR_H_
 
-#include <controls/color/KxPortColor.h>
+#include "color/KxPortColor.h"
 
 #endif //! KxCOLOR_H_

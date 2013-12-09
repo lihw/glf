@@ -14,7 +14,12 @@ class GrassAsset;
 
 class Renderer : public GLFAbstractRenderer
 {
+    friend class Control;
+
 public:
+    Renderer();
+    virtual ~Renderer();
+
     virtual bool initialize();
     virtual void cleanup();
     virtual void render();
@@ -27,18 +32,27 @@ public:
     virtual void onResized(int w, int h);
 
 private:
-
-private:
     glf::RectColor* m_background;
 
     glf::Drawable*  m_grid;
     glf::Shader     m_gridShader;
 
-    glf::Drawable   m_grass;
+    enum
+    {
+        STEM_ONLY,
+        COLOR,
+
+        GRASS_SHADER_FIRST = STEM_ONLY,
+        GRASS_SHADER_LAST = COLOR,
+        GRASS_SHADER_NUMBER = GRASS_SHADER_LAST - GRASS_SHADER_FIRST + 1,
+    };
+    glf::Drawable*  m_grass;
+    glf::Shader     m_grassShaders[GRASS_SHADER_NUMBER];
+    glf::Shader*    m_currentGrassShader;
+    bool            m_grassShowNormal;
+    glf::Shader     m_grassNormalShader;
 
     glf::Camera     m_camera;
-    glf::Drawable*  m_teapot;
-    glf::Shader     m_shader;
     glf::Arcball    m_arcball;
     GLint           m_width;
     GLint           m_height;

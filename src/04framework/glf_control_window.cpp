@@ -11,6 +11,10 @@
 
 #include "glf_control_window.h"
 
+#include "glf_abstract_control.h"
+
+#include "../01system/glf_assert.h"
+
 GLFControlWindow::GLFControlWindow(QWidget* parent)
     : KxDockWidget(tr("Control"), parent)
 {
@@ -22,6 +26,11 @@ GLFControlWindow::GLFControlWindow(QWidget* parent)
     _mainWidget = new QWidget(this);
     setWidget(_mainWidget);
 
-    glfCreateControls(_mainWidget);
+    _control = glfCreateControls(_mainWidget);
+    GLF_ASSERT(_control != NULL);
 }
 
+GLFControlWindow::~GLFControlWindow()
+{
+    delete _control;
+}
