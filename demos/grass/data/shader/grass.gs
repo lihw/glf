@@ -90,12 +90,10 @@ void main()
     vec2 e20 = proj[2] - proj[0];
     
     // the thickness of the blade in window space
-    float thicknessSq = dot(e10, e10) - dot(e10, normalize(e20));
-    //float thicknessX = abs(proj[0].x - proj[1].x);
-    //float thicknessY = abs(proj[0].y - proj[1].y);
+    float pe12 = dot(e10, normalize(e20));
+    float thicknessSq = dot(e10, e10) - pe12 * pe12;
 
-    //if (thicknessX < 3 || thicknessY < 3)
-    if (thicknessSq < 3)
+    if (thicknessSq < 5)
     {
         vec3 eye[] =
         {
