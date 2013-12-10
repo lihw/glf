@@ -10,6 +10,26 @@
 
 bool Renderer::initialize()
 {
+    glm::mat4 mvMat = glm::lookAt(glm::vec3(0.0f, 0.1f, 5.0f),
+                                  glm::vec3(0.0f, 0.0f, 0.0f),
+                                  glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 projMat  = glm::perspective(45.0f, 1.3f, 0.1f, 1000.0f);
+    glm::vec4 p0 = glm::vec4(-1.0f, 0.0f, -1.0f, 1.0f);
+    glm::vec4 p1 = glm::vec4(-1.0f, 0.0f,  1.0f, 1.0f);
+
+    glm::vec4 proj0 = projMat * mvMat * p0;
+    glm::vec4 proj1 = projMat * mvMat * p1;
+
+    proj0.x /= proj0.w;
+    proj0.y /= proj0.w;
+    proj1.x /= proj1.w;
+    proj1.y /= proj1.w;
+
+    glm::vec2 pt0 = (glm::vec2(proj0.x, proj0.y) * 0.5f + glm::vec2(0.5f, 0.5f)) * glm::vec2(1024.0f, 768.0f);
+    glm::vec2 pt1 = (glm::vec2(proj1.x, proj1.y) * 0.5f + glm::vec2(0.5f, 0.5f)) * glm::vec2(1024.0f, 768.0f);
+
+    float d = glm::length(pt0 - pt1);
+
     if (!m_shader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
     {
         return false;
@@ -25,7 +45,7 @@ bool Renderer::initialize()
     try
     {
         m_teapot = new glf::Drawable(meshFile);
-        m_teapot->setScaling(2.0f, 2.0f, 2.0f);
+        m_plane = new glf::Drawable(new glf::Quad());
     }
     catch (std::string err)
     {
@@ -33,7 +53,9 @@ bool Renderer::initialize()
         return false;
     }
 
-    m_camera.lookAt(0, 0, 10.0f,
+    m_model = m_teapot;
+
+    m_camera.lookAt(0, 0.1f, 5.0f,
                     0, 0, 0,
                     0, 1, 0);
 
@@ -43,6 +65,7 @@ bool Renderer::initialize()
 void Renderer::cleanup()
 {
     delete m_teapot;
+    delete m_plane;
 }
 
 void Renderer::render()
@@ -54,7 +77,7 @@ void Renderer::render()
     m_shader.getUniform("MVP")->setValue(mat);
     m_shader.enable();
 
-    m_teapot->render(1);
+    m_model->render(1);
     m_shader.disable();
 }
 
@@ -97,4 +120,21 @@ void Renderer::onResized(int w, int h)
 
     m_width = w;
     m_height = h;
+}
+    
+void Renderer::setModel(GLuint model)
+{
+    if (model == 0)
+    {
+        m_model = m_teapot;
+    }
+    else if (model == 1)
+    {
+        m_model = m_plane;
+    }
+    else
+    {
+        GLF_LOGERROR("Unknown model");
+        m_model = m_teapot;
+    }
 }

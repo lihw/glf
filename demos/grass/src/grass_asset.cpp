@@ -72,11 +72,14 @@ void GrassAsset::createBlades(GLfloat* seeds)
         GLfloat trajectory[3];
 
         // Sample the top half of hemisphere to the trajectory direction
-        trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.1f;
-        GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
-        GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
-        trajectory[2] = r * cosf(theta);
-        trajectory[0] = r * sinf(theta);
+        ///trajectory[1] = 1.0f - (GLfloat)rand() / RAND_MAX * 0.9999f * 0.1f;
+        ///GLfloat theta = (GLfloat)rand() / RAND_MAX * 2.0f * GLF_PI;
+        ///GLfloat r = sqrtf(1.0f - trajectory[1] * trajectory[1]);
+        ///trajectory[2] = r * cosf(theta);
+        ///trajectory[0] = r * sinf(theta);
+        trajectory[0] = 0;
+        trajectory[1] = 1.0f;
+        trajectory[2] = 0;
         
         // A random trajectory speed value.
         GLfloat speed = (GLfloat)rand() / (GLfloat)RAND_MAX;
@@ -110,9 +113,10 @@ void GrassAsset::createBlades(GLfloat* seeds)
 
         // The normal of the blade is always facing upward and orthogonal to the
         // direction of stem.
-        glm::vec3 n(-bladeVertices[0].tangent[0], 
-                    (bladeVertices[0].tangent[0] * bladeVertices[0].tangent[0] + bladeVertices[0].tangent[2] * bladeVertices[0].tangent[2]) / bladeVertices[0].tangent[1],
-                    -bladeVertices[0].tangent[2]);
+        //glm::vec3 n(-bladeVertices[0].tangent[0], 
+        //            (bladeVertices[0].tangent[0] * bladeVertices[0].tangent[0] + bladeVertices[0].tangent[2] * bladeVertices[0].tangent[2]) / bladeVertices[0].tangent[1],
+        //            -bladeVertices[0].tangent[2]);
+        glm::vec3 n(1.0f, 0.0f, 0.0f);
         n = glm::normalize(n);
         bladeVertices[0].normal[0] = n.x;
         bladeVertices[0].normal[1] = n.y;

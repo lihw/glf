@@ -25,6 +25,26 @@ Renderer::~Renderer()
 
 bool Renderer::initialize()
 {
+    // -------------------------------------------------------------- 
+    // Test
+    // -------------------------------------------------------------- 
+    glm::mat4 mvMat = glm::lookAt(glm::vec3(0.0f, 0.1f, 10.0f),
+                                  glm::vec3(0.0f, 0.0f, 0.0f),
+                                  glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 projMat  = glm::perspective(45.0f, 1.3f, 0.1f, 1000.0f);
+    glm::vec4 p0 = glm::vec4(-1.0f, 0.0f, -1.0f, 1.0f);
+    glm::vec4 p1 = glm::vec4(-1.0f, 0.0f,  1.0f, 1.0f);
+
+    glm::vec4 proj0 = projMat * mvMat * p0;
+    glm::vec4 proj1 = projMat * mvMat * p1;
+
+    proj0.x /= proj0.w;
+    proj0.y /= proj0.w;
+    proj1.x /= proj1.w;
+    proj1.y /= proj1.w;
+
+
+
     glClearColor(1, 0, 0, 0);
 
     glDepthFunc(GL_LEQUAL);
@@ -50,15 +70,15 @@ bool Renderer::initialize()
     {
         return false;
     }
-    m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
-    m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
+    //m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
+    //m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
 
     if (!m_grassNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL,
         PATH_PREFIX"/grass_normal.gs"))
     {
         return false;
     }
-    m_grassNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
+    //m_grassNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
 
 #undef PATH_PREFIX
 
@@ -132,8 +152,13 @@ void Renderer::render()
     m_gridShader.disable();
 
     // draw grass
-    mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
+    //glm::mat4 mvMatrix = m_camera.getModelviewMatrix() * m_grass->getTransformation();
     m_currentGrassShader->getUniform("MVP")->setValue(mat);
+    glm::vec3 cameraPosition = m_camera.getCameraPosition();
+    if (m_currentGrassShader == &m_grassShaders[COLOR])
+    {
+        m_currentGrassShader->getUniform("CameraPosition")->setValue(cameraPosition.x, cameraPosition.y, cameraPosition.z); 
+    }
     m_currentGrassShader->enable();
     m_grass->render(1);
     m_currentGrassShader->disable();

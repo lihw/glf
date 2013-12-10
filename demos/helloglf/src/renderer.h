@@ -24,9 +24,13 @@ public:
 
     virtual void onResized(int w, int h);
 
+    void setModel(GLuint model);
+
 private:
     glf::Camera     m_camera;
     glf::Drawable*  m_teapot;
+    glf::Drawable*  m_plane;
+    glf::Drawable*  m_model;
     glf::Shader     m_shader;
     glf::Arcball    m_arcball;
     GLint           m_width;

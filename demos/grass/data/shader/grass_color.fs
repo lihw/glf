@@ -13,20 +13,17 @@ layout (location = 0, index = 0) out vec4 FragColor;
 
 in block
 {
-    vec2 p[2];
-    vec2 pixelLoc;
-    vec4 position;
     vec3 normal; 
     vec3 color; 
 } In; 
 
-uniform vec4 Color;
+//uniform vec4 Color;
 
 in vec4 gl_FragCoord;
 
 void main()
 {
-    FragColor = Color;
+    FragColor = vec4(In.color, 1); 
 }
 
 
