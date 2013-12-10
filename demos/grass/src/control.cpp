@@ -87,7 +87,6 @@ void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
     sliderGrp->inputField()->setMaxValueF(0.5f);
     sliderGrp->inputField()->setValueF(0.01);
     
-    
     formLayout->addRow(new KxLabel(QString("Blade Width: ")), sliderGrp);
 
     connect(sliderGrp, 
@@ -96,6 +95,26 @@ void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
         SLOT(onBladeWidthChanged(const QVariant&, bool)));
 
     
+    // The threshold of thickness
+    floatField = new KxFloatField;
+    floatSlider = new KxFloatSlider(Qt::Horizontal);
+    sliderGrp = new KxFloatSliderGrp(NULL, false, floatField, floatSlider);
+    sliderGrp->setColumnWidth(0, 60, false);
+    sliderGrp->setColumnWidth(1, true);
+    sliderGrp->slider()->setMinimumWidth(120);
+
+    sliderGrp->slider()->setSliderRangeF(1.0f, 10.0f);
+    sliderGrp->slider()->setValueF(5.00f);
+    sliderGrp->inputField()->setMinValueF(1.0f);
+    sliderGrp->inputField()->setMaxValueF(10.0f);
+    sliderGrp->inputField()->setValueF(5.00);
+    
+    formLayout->addRow(new KxLabel(QString("Thickness: ")), sliderGrp);
+
+    connect(sliderGrp, 
+        SIGNAL(newValueForConnections(const QVariant&, bool)), 
+        this,
+        SLOT(onThicknessThresholdChanged(const QVariant&, bool)));
 }
 
 void Control::onDisplayChanged(const QVariant& index, bool interim)
@@ -115,4 +134,11 @@ void Control::onBladeWidthChanged(const QVariant& value, bool interim)
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat bladeWidth = value.toFloat();
     renderer->m_grassShaders[Renderer::COLOR].getUniform("BladeWidth")->setValue(bladeWidth);
+}
+
+void Control::onThicknessThresholdChanged(const QVariant& value, bool interim)
+{
+    Renderer* renderer = (Renderer*)glfGetRenderer();
+    GLfloat v = value.toFloat();
+    renderer->m_grassShaders[Renderer::COLOR].getUniform("ThicknessThreshold")->setValue(v);
 }
