@@ -31,6 +31,7 @@ protected slots:
     void onDisplayChanged(const QVariant& index, bool interim);
     void onShowNormalChanged(const QVariant& value, bool interim);
     void onBladeWidthChanged(const QVariant& value, bool interim);
+    void onThicknessThresholdChanged(const QVariant& value, bool interim);
 };
 
 #endif // !CONTROL_H

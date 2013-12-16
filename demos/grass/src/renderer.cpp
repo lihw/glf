@@ -71,7 +71,8 @@ bool Renderer::initialize()
         return false;
     }
     //m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
-    //m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
+    m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
+    m_grassShaders[COLOR].getUniform("ThicknessThreshold")->setValue(5.0f);
 
     if (!m_grassNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL,
         PATH_PREFIX"/grass_normal.gs"))

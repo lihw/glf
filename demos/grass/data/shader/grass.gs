@@ -36,6 +36,7 @@ out gl_PerVertex
 uniform mat4 MVP;
 uniform vec3 CameraPosition;
 uniform float BladeWidth;
+uniform float ThicknessThreshold;
 
 #define WIDTH 1024.0
 #define HEIGHT 768.0
@@ -93,7 +94,7 @@ void main()
     float pe12 = dot(e10, normalize(e20));
     float thicknessSq = dot(e10, e10) - pe12 * pe12;
 
-    if (thicknessSq < 5)
+    if (thicknessSq < ThicknessThreshold)
     {
         vec3 eye[] =
         {
