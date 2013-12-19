@@ -25,14 +25,14 @@ enum VertexAttribPositionEnum
     VERTEX_ATTRIB_NORMAL    = 1,
     VERTEX_ATTRIB_TEXCOORD  = 2,
     VERTEX_ATTRIB_COLOR     = 3,
-    VERTEX_ATTRIB_UNAMED0   = 4,
-    VERTEX_ATTRIB_UNAMED1   = 5,
-    VERTEX_ATTRIB_UNAMED2   = 6,
-    VERTEX_ATTRIB_UNAMED3   = 7,
-    VERTEX_ATTRIB_UNAMED4   = 8,
+    VERTEX_ATTRIB_UNNAMED0  = 4,
+    VERTEX_ATTRIB_UNNAMED1  = 5,
+    VERTEX_ATTRIB_UNNAMED2  = 6,
+    VERTEX_ATTRIB_UNNAMED3  = 7,
+    VERTEX_ATTRIB_UNNAMED4  = 8,
 
     VERTEX_ATTRIB_FIRST = VERTEX_ATTRIB_POSITION,
-    VERTEX_ATTRIB_LAST = VERTEX_ATTRIB_UNAMED4,
+    VERTEX_ATTRIB_LAST = VERTEX_ATTRIB_UNNAMED4,
     VERTEX_ATTRIB_NUMBER = VERTEX_ATTRIB_LAST - VERTEX_ATTRIB_FIRST + 1,
 };
 
@@ -66,6 +66,10 @@ public:
 
     GLF_INLINE GLuint getVertexArrayHandle() const
     { return _vertexArray; }
+    GLF_INLINE GLuint getVertexBufferHandle() const
+    { return _vertexBuffer; }
+    GLF_INLINE GLuint getIndexBufferHandle() const
+    { return _indexBuffer; }
 
 private:
     GLuint getSizeOf(GLenum type);
@@ -73,11 +77,11 @@ private:
 private:
     GLuint _vertexArray;
 
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
-    GLenum _primitive;
-    GLuint _count;
-    GLuint _number;
+    GLuint  _vertexBuffer;
+    GLuint  _indexBuffer;
+    GLenum  _primitive;
+    GLuint  _count;
+    GLuint  _number;
 };
 
 GLF_NAMESPACE_END

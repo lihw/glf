@@ -1,6 +1,6 @@
 // -------------------------------------------------------------- 
-// grass_color.fs
-// fragment shader of a grass blade
+// blade_color.fs 
+// fragment shader of a grass blade in pure color (blademaker)
 //
 // An OpenGL framework.
 //
@@ -13,17 +13,13 @@ layout (location = 0, index = 0) out vec4 FragColor;
 
 in block
 {
-    vec3 normal; 
-    vec3 color; 
+    vec4 color; 
 } In; 
-
-uniform vec4 Color;
-
-in vec4 gl_FragCoord;
 
 void main()
 {
-    FragColor = vec4(Color.xyz, 1); 
+    FragColor = In.color;
 }
+
 
 
