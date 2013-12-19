@@ -26,8 +26,8 @@ VertexArray::VertexArray()
 {
     _vertexArray = 0;
 
-    _vertexBuffer = 0;
-    _indexBuffer  = 0;
+    _vertexBuffer    = 0;
+    _indexBuffer     = 0;
 
     _primitive = GL_TRIANGLES;
 
@@ -80,11 +80,12 @@ bool VertexArray::create(GLenum pritimive,
         vertexSize += vertexAttribs[i].size * getSizeOf(vertexAttribs[i].type);
     }
 
+    GLuint offset = 0;
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, numVertices * vertexSize, vertices, GL_STATIC_DRAW);
-
-    GLuint offset = 0;
+    offset = 0;
+   
     for (GLuint i = 0; i < numVertexAttribs; ++i)
     {
         glVertexAttribPointer(vertexAttribs[i].position, 
@@ -132,8 +133,7 @@ void VertexArray::render(GLuint times)
         glBindVertexArray(_vertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
         
-
-        if (_indexBuffer != NULL)
+        if (_indexBuffer != 0)
         {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
             glDrawElementsInstanced(_primitive, _number, GL_UNSIGNED_INT, NULL, times);

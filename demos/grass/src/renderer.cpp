@@ -25,26 +25,6 @@ Renderer::~Renderer()
 
 bool Renderer::initialize()
 {
-    // -------------------------------------------------------------- 
-    // Test
-    // -------------------------------------------------------------- 
-    glm::mat4 mvMat = glm::lookAt(glm::vec3(0.0f, 0.1f, 10.0f),
-                                  glm::vec3(0.0f, 0.0f, 0.0f),
-                                  glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 projMat  = glm::perspective(45.0f, 1.3f, 0.1f, 1000.0f);
-    glm::vec4 p0 = glm::vec4(-1.0f, 0.0f, -1.0f, 1.0f);
-    glm::vec4 p1 = glm::vec4(-1.0f, 0.0f,  1.0f, 1.0f);
-
-    glm::vec4 proj0 = projMat * mvMat * p0;
-    glm::vec4 proj1 = projMat * mvMat * p1;
-
-    proj0.x /= proj0.w;
-    proj0.y /= proj0.w;
-    proj1.x /= proj1.w;
-    proj1.y /= proj1.w;
-
-
-
     glClearColor(1, 0, 0, 0);
 
     glDepthFunc(GL_LEQUAL);
