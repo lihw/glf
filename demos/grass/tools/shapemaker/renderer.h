@@ -45,6 +45,7 @@ private:
     glf::Shader     m_grassBladeNormalShader;
     glf::Shader     m_grassBladeViewShader;
     GrassBlade*     m_grassBlades[NUM_BLADES];
+    glf::Texture*   m_grassBladeTexture;
     bool            m_showNormal;
     GLint           m_currentBladeIndex;
     GLint           m_currentBladeKnotIndex;
@@ -60,6 +61,7 @@ private:
     glf::Camera    m_editCamera;
     glf::Camera    m_viewCamera;
     glf::Camera    m_viewSelfRotatingCamera;
+
     
     glf::Arcball   m_arcball;
     GLfloat        m_rotation;

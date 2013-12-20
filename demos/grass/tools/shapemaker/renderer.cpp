@@ -50,7 +50,7 @@ bool Renderer::initialize()
     glPointSize(4.0f);
     glLineWidth(2.0f);
 
-#define PATH_PREFIX "../demos/grass/data/shader"
+#define PATH_PREFIX "../demos/grass/data"
 
     // -------------------------------------------------------------- 
     // Init background
@@ -95,11 +95,11 @@ bool Renderer::initialize()
     }
     m_grassBladeEditShader.getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
     
-    if (!m_grassBladeKnotShader.loadFromFiles(PATH_PREFIX"/blade.vs", 
-                                              PATH_PREFIX"/blade_color.fs", 
+    if (!m_grassBladeKnotShader.loadFromFiles(PATH_PREFIX"/shader/blade.vs", 
+                                              PATH_PREFIX"/shader/blade_color.fs", 
                                               NULL, 
                                               NULL, 
-                                              PATH_PREFIX"/blade_point.gs"))
+                                              PATH_PREFIX"/shader/blade_point.gs"))
     {
         return false;
     }
@@ -107,27 +107,43 @@ bool Renderer::initialize()
     m_grassBladeKnotShader.getUniform("OtherColor")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
     m_grassBladeKnotShader.getUniform("CurrentVertexId")->setValue((GLuint)m_currentBladeKnotIndex);
     
-    if (!m_grassBladeNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", 
-                                                PATH_PREFIX"/grass_color.fs", 
+    if (!m_grassBladeNormalShader.loadFromFiles(PATH_PREFIX"/shader/grass.vs", 
+                                                PATH_PREFIX"/shader/grass_color.fs", 
                                                 NULL, 
                                                 NULL,
-                                                PATH_PREFIX"/grass_normal.gs"))
+                                                PATH_PREFIX"/shader/grass_normal.gs"))
     {
         return false;
     }
     m_grassBladeNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
     
-    if (!m_grassBladeViewShader.loadFromFiles(PATH_PREFIX"/grass.vs", 
-                                              PATH_PREFIX"/grass_color.fs", 
+    if (!m_grassBladeViewShader.loadFromFiles(PATH_PREFIX"/shader/grass.vs", 
+                                              PATH_PREFIX"/shader/blade_texture.fs", 
                                               NULL, 
                                               NULL, 
-                                              PATH_PREFIX"/grass.gs"))
+                                              PATH_PREFIX"/shader/grass.gs"))
     {
         return false;
     }
-    m_grassBladeViewShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
     m_grassBladeViewShader.getUniform("BladeWidth")->setValue(0.01f);
     m_grassBladeViewShader.getUniform("ThicknessThreshold")->setValue(5.0f);
+    m_grassBladeViewShader.getUniform("Texture")->setValue(GLuint(0));
+
+    glf::Image grassBladeImage;
+    if (!grassBladeImage.createFromFile(PATH_PREFIX"/images/blade.ppm"))
+    {
+        return false;
+    }
+    grassBladeImage.flipVertical();
+    m_grassBladeTexture = new glf::Texture();
+    if (!m_grassBladeTexture->create(grassBladeImage.getData(), 
+                                     grassBladeImage.getWidth(),
+                                     grassBladeImage.getHeight(), 
+                                     GL_RGB8))
+    {
+        GLF_LOGERROR("Failed to create blade texture");
+        return false;
+    }
 
 #undef PATH_PREFIX
     
@@ -201,9 +217,11 @@ void Renderer::render()
             
         m_grassBladeViewShader.getUniform("MVP")->setValue(mat);
 
+        m_grassBladeTexture->enable(0);
         m_grassBladeViewShader.enable();
         m_grassBlades[m_currentBladeIndex]->render(1);
         m_grassBladeViewShader.disable();
+        m_grassBladeTexture->disable();
 
     }
 }
