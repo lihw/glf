@@ -19,7 +19,8 @@ Control::Control(QWidget* parent)
     mainLayout->setColumnAdjustable(true);
     
     createGeneralTab(mainLayout);
-    createGeometryExpansionTab(mainLayout);
+    createGeometryTab(mainLayout);
+    createShadingTabs(mainLayout);
 }
 
 Control::~Control()
@@ -59,10 +60,10 @@ void Control::createGeneralTab(KxColumnLayout* mainLayout)
             SLOT(onDisplayChanged(const QVariant&, bool)));
 }
 
-void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
+void Control::createGeometryTab(KxColumnLayout* mainLayout)
 {
     // Show the normal
-    KxFrameLayout* frameLayout = KxLayoutHelper::addFrameLayout(QString("Geometry Expansion"), mainLayout);
+    KxFrameLayout* frameLayout = KxLayoutHelper::addFrameLayout(QString("Geometry"), mainLayout);
     QFormLayout* formLayout = KxLayoutHelper::addFormLayout(frameLayout);
 
     KxCheckBox* showNormal = new KxCheckBox(QString("normal"));
@@ -117,6 +118,77 @@ void Control::createGeometryExpansionTab(KxColumnLayout* mainLayout)
         SLOT(onThicknessThresholdChanged(const QVariant&, bool)));
 }
 
+void Control::createShadingTabs(KxColumnLayout* mainLayout)
+{
+    KxFrameLayout* frameLayout; 
+    QFormLayout* formLayout; 
+
+    // -------------------------------------------------------------- 
+    // Lighting
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Lighting"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+    
+    KxOptionMenu* option = new KxOptionMenu;
+    formLayout->addRow(new KxLabel(QString("Lighting: ")), option);
+    
+    option->menu()->clear();
+    option->clear();
+    
+    KxMenuItem* menuItem;
+
+    menuItem = new KxMenuItem(QString("Phong"), NULL);
+    menuItem->setValue(QVariant(0));
+    option->menu()->addAction(menuItem);
+    option->addItem(menuItem->text());
+    
+    menuItem = new KxMenuItem(QString("Kajiya"), NULL);
+    menuItem->setValue(QVariant(1));
+    option->menu()->addAction(menuItem);
+    option->addItem(menuItem->text());
+
+    option->newValueFromUser(0);
+    option->setCurrentIndex(0);
+    option->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    connect(option, 
+            SIGNAL(newValueForConnections(const QVariant&, bool)), 
+            this,
+            SLOT(onLightingModelChanged(const QVariant&, bool)));
+    
+    // -------------------------------------------------------------- 
+    // Texture
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Texture"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+    
+    KxCheckBox* textureCheckBox = new KxCheckBox(QString("on"));
+    formLayout->addRow(new KxLabel(QString("Texture: ")), textureCheckBox);
+
+    connect(textureCheckBox, 
+            SIGNAL(newValueForConnections(const QVariant&, bool)), 
+            this,
+            SLOT(onTextureChanged(const QVariant&, bool)));
+    
+    // -------------------------------------------------------------- 
+    // Shadow
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Shadow"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+    
+    // -------------------------------------------------------------- 
+    // Translucency
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Translucency"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+    
+    // -------------------------------------------------------------- 
+    // Antialiasing
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Antialiasing"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+}
+
 void Control::onDisplayChanged(const QVariant& index, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
@@ -141,4 +213,12 @@ void Control::onThicknessThresholdChanged(const QVariant& value, bool interim)
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat v = value.toFloat();
     renderer->m_grassShaders[Renderer::COLOR].getUniform("ThicknessThreshold")->setValue(v);
+}
+    
+void Control::onLightingModelChanged(const QVariant& value, bool interim)
+{
+}
+    
+void Control::onTextureChanged(const QVariant& value, bool interim)
+{
 }

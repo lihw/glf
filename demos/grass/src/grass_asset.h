@@ -62,8 +62,8 @@ private:
     Vertex                      m_bladeAsset[NUM_ASSET_BLADES][NUM_VERTICES_PER_BLADE];
 
 private:
-    void loadBladeAsset(const char* filename);
-    GLfloat* plantSeed(GLuint numBlades);
+    bool loadBladeAsset(const char* filename);
+    GLfloat* plantSeeds(GLuint numBlades);
     void growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vertices, 
         GLuint* out_indices);
 };

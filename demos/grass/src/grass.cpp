@@ -19,6 +19,8 @@ void glfGenerateConfig(GLFConfig* config)
 {
     config->windowWidth = 1024;
     config->windowHeight = 768;
+
+    config->noOutputWindow = true;
 }
 
 GLFAbstractRenderer* glfCreateRenderer()
