@@ -10,7 +10,6 @@
 #include <glf/glf.h>
 
 const GLuint TOTAL_NUM_BLADES = 400;
-const GLuint NUM_VERTICES_PER_BLADE = 8;
 
 const GLfloat WIDTH = 10.0f;
 const GLfloat HEIGHT = 10.0f;
@@ -19,10 +18,41 @@ GrassAsset::GrassAsset()
 {
     m_vertices = NULL;
     m_indices = NULL;
-    m_numBlades = TOTAL_NUM_BLADES;
 
-    GLfloat* seeds = createSeeds();
-    createBlades(seeds);
+    if (loadBladeAsset("blade.txt"))
+    {
+        m_numBlades = TOTAL_NUM_BLADES;
+
+        GLfloat *seeds = plantSeeds(m_numBlades);
+    
+        m_numVertices = m_numBlades * NUM_VERTICES_PER_BLADE;
+        m_vertices = new GrassBladeVertex [m_numVertices];
+    
+        GLuint numBladeIndices = (NUM_VERTICES_PER_BLADE - 1) * 2;
+        m_numIndices = m_numBlades * numBladeIndices;
+        m_indices = new GLuint [m_numIndices];
+
+        GLfloat* seed    = seeds;
+        Vertex* vertices = m_vertices;
+        GLuint* indices  = m_indices;
+        GLuint baseIndex = 0;
+        for (GLuint i = 0; i < TOTAL_NUM_BLADES; ++i)
+        {
+            growBlade(seed, basedIndex, vertices, indices);
+
+            seed += 2;
+            vertices += NUM_VERTICES_PER_BLADE;
+            indices += numBladeIndices;
+            baseIndex = NUM_VERTICES_PER_BLADE;
+        }
+
+        delete [] seeds;
+    }
+    else
+    {
+        GLF_LOGERROR("Failed to open blade.txt");
+        m_numBlades = 0;
+    }
 }
 
 GrassAsset::~GrassAsset()
@@ -31,11 +61,11 @@ GrassAsset::~GrassAsset()
     delete [] m_indices;
 }
     
-GLfloat* GrassAsset::createSeeds()
+GLfloat* GrassAsset::plantSeeds(GLuint numSeeds)
 {
-    GLfloat* seeds = new GLfloat [m_numBlades * 2];
+    GLfloat* seeds = new GLfloat [numSeeds * 2];
     GLfloat* s = seeds;
-    for (GLuint i = 0; i < m_numBlades; ++i)
+    for (GLuint i = 0; i < numSeeds; ++i)
     {
         GLfloat x = ((GLfloat)(i % 20) / 20.0f - 0.5f) * WIDTH;
         GLfloat y = ((GLfloat)(i / 20) / 20.0f - 0.5f) * HEIGHT;
@@ -45,6 +75,117 @@ GLfloat* GrassAsset::createSeeds()
     }
 
     return seeds;
+}
+
+bool GrassAsset::loadBladeAsset(const char* filename)
+{
+
+    FILE* fp = fopen(filename, "rb");
+    if (fp == NULL)
+    {
+        GLF_LOGWARNING("Failed to open %s", filename);
+        return false;
+    }
+
+    GLuint lineno = 1;
+    for (GLuint i = 0; i < NUM_ASSET_BLADES; ++i)
+    {
+        char line[1024];
+        if (fgets(line, 1024, fp) == NULL)
+        {
+            GLF_LOGWARNING("Error in reading line %d", lineno);
+            break;
+        }
+
+        const char* p = line
+        for (GLuint j  = 0; j < NUM_VERTICES_PER_BLADE; ++j)
+        {
+            const char *end = strchr(p, ')');
+            char buffer[1024];
+            strncpy(buffer, p, end - p + 1);
+            buffer[end - p + 1] = 0;
+            sscanf(buffer, "(%f,%f,%f)", 
+                    &m_bladeAsset[i][j].position[0],
+                    &m_bladeAsset[i][j].position[1],
+                    &m_bladeAsset[i][j].position[2]);
+            p = end + 1;
+        }
+
+        lineno++;
+    }
+
+    fclose(fp);
+}
+    
+void GrassAsset::growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vertices, 
+        GLuint* out_indices)
+{
+    srand(1001);
+    // Choose a random blade
+    //
+    // FIXME: 3 is the number of blades in blade.txt
+    GLuint randBladeIndex = rand() % 3;
+    Vertex* bladeKnots = &m_bladeAsset[randBladeIndex][0];
+
+    // A random length of the blade
+    GLfloat lengthScaling = (GLfloat)rand() / (GLfloat)RAND_MAX;
+    lengthScaling = lengthScaling * 0.8f + 0.6f;
+
+    out_vertices[0].position.x = position[0];
+    out_vertices[0].position.y = 0;
+    out_vertices[0].position.z = position[1];
+    
+    // Lengthen the blade and reposition the blade to the seed.
+    for (GLuint i = 1; i < NUM_VERTICES_PER_BLADE; ++i)
+    {
+        glm::vec3 edge = bladeKnots[i].position - bladeKnots[i - 1].position;
+        glm::vec3 scaledEdge = edge * lengthScaling;
+        out_vertices[i].position = out_vertices[i - 1] + scaledEdge;
+
+        length += glm::length(out_vertices[i].position, out_vertices[i - 1].position);
+    }
+
+    // Compute the normal, tangents and other properties of each knot on the blade.
+    for (GLuint i = 0; i < NUM_VERTICES_PER_BLADE; ++i)
+    {
+        if (i == 0)
+        {
+            glm::vec3 t = out_vertices[1].position - out_vertices[0].position;
+            out_vertices[0].normal = glm::normalize(glm::cross(t, b));
+            out_vertices[0].tangent = glm::normalize(t);
+        }
+        else if (i == m_numKnots - 1)
+        {
+            glm::vec3 t = out_vertices[m_numKnots - 1].position - out_vertices[m_numKnots - 2].position;
+            out_vertices[m_numKnots - 1].normal = glm::normalize(glm::cross(t, b));
+            out_vertices[m_numKnots - 1].tangent = glm::normalize(t);
+        }
+        else
+        {
+            glm::vec3 t0 = out_vertices[i + 1].position - out_vertices[i].position;
+            glm::vec3 t1 = out_vertices[i].position - out_vertices[i - 1].position;
+            glm::vec3 t = t0 + t1;
+            out_vertices[i].tangent = glm::normalize(t);
+            out_vertices[i].normal = glm::normalize(glm::cross(t, b));
+        }
+
+        if (i >= 1)
+        {
+            out_vertices[i].distance = out_vertices[i - 1].distance + glm::distance(out_vertices[i - 1].position, out_vertices[i].position);
+        }
+        else
+        {
+            out_vertices[i].distance = 0;
+        }
+    }
+
+    for (GLuint i = 0; i < NUM_VERTICES_PER_BLADE; ++i)
+    {
+        out_vertices[i].distance /= out_vertices[m_numKnots - 1].distance;
+    }
+
+    out_vertices[m_numKnots - 1].distance = 1.0f;
+    
 }
 
 void GrassAsset::createBlades(GLfloat* seeds)
