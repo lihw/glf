@@ -26,6 +26,7 @@ layout(stream = 0) out block
 {
     vec3 normal;
     vec3 color;
+    vec2 texcoord;
 } Out;
 
 out gl_PerVertex
@@ -82,10 +83,10 @@ void main()
         (p[3].xy / p[3].w) * vec2(WIDTH, HEIGHT),
     };
 
-    //  p0 --- p1 
-    //  |      |
-    //  |      |
     //  p2 --- p3 
+    //  |      |
+    //  |      |
+    //  p0 --- p1 
     //  
     vec2 e10 = proj[1] - proj[0];
     vec2 e20 = proj[2] - proj[0];
@@ -127,6 +128,7 @@ void main()
     //Out.color = In[0].Color;
     //Out.color = vec3(length(d[0]) / 4 , 0, 0);
     Out.color = color;
+    Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[1];
@@ -134,6 +136,7 @@ void main()
     //Out.color = In[0].Color;
     //Out.color = vec3(length(d[0]) / 4 , 0, 0);
     Out.color = color;
+    Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[2];
@@ -141,12 +144,14 @@ void main()
     //Out.color = In[1].Color;
     //Out.color = vec3(length(d[1]) / 4, 0, 0);
     Out.color = color;
+    Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
     EmitVertex();
     
     gl_Position = p[3];
     Out.normal = In[1].Normal;
     //Out.color = In[1].Color;
     //Out.color = vec3(length(d[1]) / 4, 0, 0);
+    Out.texcoord = vec2((1.0f + w1 / BladeWidth) * 0.5, t[1]);
     Out.color = color;
     EmitVertex();
 

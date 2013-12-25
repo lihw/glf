@@ -19,7 +19,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 
-#include "../01system/glf_bitmap.h"
+#include "../01system/glf_image.h"
 #include "glf_application.h"
 #include "glf_abstract_renderer.h"
 
@@ -123,10 +123,12 @@ void GLFRenderWidget::dumpScreen()
     glReadBuffer(GL_BACK);
     glReadPixels(0, 0, width(), height(), GL_RGB, GL_UNSIGNED_BYTE, data);
 
-    glf::Bitmap bitmap;
-    bitmap.createFromMemory(data, width(), height(), 3);
-    bitmap.flipVertical();
-    bitmap.write("dumpscreen.ppm");
+    static int index = 1;
+    QString imageName = QString("dumpscreen_%1").arg(index);
+    glf::Image image;
+    image.createFromMemory(data, width(), height(), 3);
+    image.flipVertical();
+    image.write(imageName.toStdString().c_str());
 
     delete [] data;
 }

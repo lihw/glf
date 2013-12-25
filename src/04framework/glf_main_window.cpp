@@ -56,6 +56,16 @@ GLFMainWindow::GLFMainWindow(const GLFConfig& config, QWidget *parent)
     _pControlWindow = new GLFControlWindow(this);
     _pOutputWindow = new GLFOutputWindow(this);
 
+    if (config.noOutputWindow)
+    {
+        _pOutputWindow->setVisible(false);
+    }
+
+    if (config.noControlWindow)
+    {
+        _pControlWindow->setVisible(false);
+    }
+
     // -------------------------------------------------------------- 
     // Create menus
     // -------------------------------------------------------------- 

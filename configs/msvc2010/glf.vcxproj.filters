@@ -102,12 +102,12 @@
     <Filter Include="03utility\geometry\mesh">
       <UniqueIdentifier>{d6fe288f-6ac9-490f-b345-e5851fe25020}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01system\images">
+      <UniqueIdentifier>{a502a42f-d011-480c-8d9e-3ee4cefd4271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\01system\glf_assert.cpp">
-      <Filter>01system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\01system\glf_bitmap.cpp">
       <Filter>01system</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\01system\glf_log.cpp">
@@ -908,6 +908,21 @@
     <ClCompile Include="GeneratedFiles\Release\moc_glf_abstract_control.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\01system\images\glf_image_jpg.cpp">
+      <Filter>01system\images</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\images\glf_image_png.cpp">
+      <Filter>01system\images</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\images\glf_image_ppm.cpp">
+      <Filter>01system\images</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\images\glf_image_tga.cpp">
+      <Filter>01system\images</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\01system\glf_image.cpp">
+      <Filter>01system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1146,9 +1161,6 @@
     <ClInclude Include="..\..\src\01system\glf_assert.h">
       <Filter>01system</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\01system\glf_bitmap.h">
-      <Filter>01system</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\01system\glf_log.h">
       <Filter>01system</Filter>
     </ClInclude>
@@ -1286,6 +1298,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\03utility\glf_drawable.h">
       <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\images\glf_image_jpg_private.h">
+      <Filter>01system\images</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\images\glf_image_png_private.h">
+      <Filter>01system\images</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\images\glf_image_ppm_private.h">
+      <Filter>01system\images</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\images\glf_image_tga_private.h">
+      <Filter>01system\images</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\01system\glf_image.h">
+      <Filter>01system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

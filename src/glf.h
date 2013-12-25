@@ -15,7 +15,7 @@
 
 #include "01system/glf_log.h"
 #include "01system/glf_assert.h"
-#include "01system/glf_bitmap.h"
+#include "01system/glf_image.h"
 
 #include "02opengl/glf_atomic.h"
 #include "02opengl/glf_image_storage.h"
