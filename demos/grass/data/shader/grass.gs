@@ -24,6 +24,7 @@ in block
 
 layout(stream = 0) out block
 {
+    vec3 position;
     vec3 normal;
     vec3 color;
     vec2 texcoord;
@@ -62,13 +63,21 @@ void main()
     // The blade gets shaper at the tip.
     float w0 = (sqrt(1.0 - t[0] * t[0]) * 0.8 + 0.2) * BladeWidth;
     float w1 = (sqrt(1.0 - t[1] * t[1]) * 0.8 + 0.2) * BladeWidth;
+
+    vec4 pWorld[] = 
+    {
+        vec4(gl_in[0].gl_Position.xyz - binormal[0] * w0, 1.0),
+        vec4(gl_in[0].gl_Position.xyz + binormal[0] * w0, 1.0),
+        vec4(gl_in[1].gl_Position.xyz - binormal[1] * w1, 1.0),
+        vec4(gl_in[1].gl_Position.xyz + binormal[1] * w1, 1.0),
+    };
     
     vec4 p[] = 
     {
-        MVP * (vec4(gl_in[0].gl_Position.xyz - binormal[0] * w0, 1.0)),
-        MVP * (vec4(gl_in[0].gl_Position.xyz + binormal[0] * w0, 1.0)),
-        MVP * (vec4(gl_in[1].gl_Position.xyz - binormal[1] * w1, 1.0)),
-        MVP * (vec4(gl_in[1].gl_Position.xyz + binormal[1] * w1, 1.0)),
+        MVP * pWorld[0],
+        MVP * pWorld[1],
+        MVP * pWorld[2],
+        MVP * pWorld[3],
     };
         
     vec3 color = vec3(1, 0, 0);
@@ -112,10 +121,15 @@ void main()
             normalize(cross(In[1].Tangent, eye[1])),
         };
 
-        p[0] = MVP * vec4(gl_in[0].gl_Position.xyz - eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
-        p[1] = MVP * vec4(gl_in[0].gl_Position.xyz + eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
-        p[2] = MVP * vec4(gl_in[1].gl_Position.xyz - eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
-        p[3] = MVP * vec4(gl_in[1].gl_Position.xyz + eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
+        pWorld[0] = vec4(gl_in[0].gl_Position.xyz - eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
+        pWorld[1] = vec4(gl_in[0].gl_Position.xyz + eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
+        pWorld[2] = vec4(gl_in[1].gl_Position.xyz - eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
+        pWorld[3] = vec4(gl_in[1].gl_Position.xyz + eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
+
+        p[0] = MVP * pWorld[0];
+        p[1] = MVP * pWorld[1];
+        p[2] = MVP * pWorld[2];
+        p[3] = MVP * pWorld[3];
 
         color = vec3(0, 1, 0);
     }
@@ -125,29 +139,27 @@ void main()
     // -------------------------------------------------------------- 
     gl_Position = p[0];
     Out.normal = In[0].Normal;
-    //Out.color = In[0].Color;
-    //Out.color = vec3(length(d[0]) / 4 , 0, 0);
+    Out.position = pWorld[0];
     Out.color = color;
     Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[1];
+    Out.position = pWorld[1];
     Out.normal = In[0].Normal;
-    //Out.color = In[0].Color;
-    //Out.color = vec3(length(d[0]) / 4 , 0, 0);
     Out.color = color;
     Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[2];
+    Out.position = pWorld[2];
     Out.normal = In[1].Normal;
-    //Out.color = In[1].Color;
-    //Out.color = vec3(length(d[1]) / 4, 0, 0);
     Out.color = color;
     Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
     EmitVertex();
     
     gl_Position = p[3];
+    Out.position = pWorld[3];
     Out.normal = In[1].Normal;
     //Out.color = In[1].Color;
     //Out.color = vec3(length(d[1]) / 4, 0, 0);

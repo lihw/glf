@@ -31,26 +31,52 @@ public:
 
     virtual void onResized(int w, int h);
 
+    void setBladeHeight(GLfloat height);
+
+private:
+    bool loadShaders();
+
 private:
     glf::RectColor* m_background;
-
     glf::Drawable*  m_grid;
-    glf::Shader     m_gridShader;
+    glf::Drawable*  m_grass;
 
     enum
     {
-        STEM_ONLY,
-        COLOR,
+        GRID,
+        STEM,
+        NORMAL,
+        TEXTURE_ONLY,
+        PHONG,
+        KAJIYA,
+        PHONG_TEXTURE,
+        KAJIYA_TEXTURE,
 
-        GRASS_SHADER_FIRST = STEM_ONLY,
-        GRASS_SHADER_LAST = COLOR,
-        GRASS_SHADER_NUMBER = GRASS_SHADER_LAST - GRASS_SHADER_FIRST + 1,
+        SHADER_FIRST  = GRID,
+        SHADER_LAST   = KAJIYA_TEXTURE,
+        SHADER_NUMBER = SHADER_LAST - SHADER_FIRST + 1,
     };
-    glf::Drawable*  m_grass;
-    glf::Shader     m_grassShaders[GRASS_SHADER_NUMBER];
-    glf::Shader*    m_currentGrassShader;
-    bool            m_grassShowNormal;
-    glf::Shader     m_grassNormalShader;
+    
+    glf::Shader     m_shaders[SHADER_NUMBER];
+
+    struct 
+    {
+        GLfloat bladeWidth;
+        GLfloat bladeThicknessThreshold;
+    } m_geometrySetting;
+
+    struct
+    {
+        bool              showGeometryOnly;
+        bool              showNormal;
+
+        GLuint            lightingMode;
+        glf::PointLight   pointLight;
+
+        glf::Texture*     bladeTexture;
+        bool              useTexture;
+    } m_renderingSetting;
+
 
     glf::Camera     m_camera;
     glf::Arcball    m_arcball;

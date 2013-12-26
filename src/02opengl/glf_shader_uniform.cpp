@@ -189,6 +189,30 @@ void ShaderUniform::setValue(const glm::mat4& matrix)
     GLF_ASSERT(_type == SHADER_UNIFORM_MATRIX4X4); 
     memcpy(_value.mat4, &matrix[0][0], sizeof(GLfloat) * 16);
 }
+    
+void ShaderUniform::setValue(const glm::vec2& v)
+{
+    GLF_ASSERT(_type == SHADER_UNIFORM_VEC2); 
+    _value.vec[0] = v.x;
+    _value.vec[1] = v.y;
+}
+
+void ShaderUniform::setValue(const glm::vec3& v)
+{
+    GLF_ASSERT(_type == SHADER_UNIFORM_VEC3); 
+    _value.vec[0] = v.x;
+    _value.vec[1] = v.y;
+    _value.vec[2] = v.z;
+}
+
+void ShaderUniform::setValue(const glm::vec4& v)
+{
+    GLF_ASSERT(_type == SHADER_UNIFORM_VEC4); 
+    _value.vec[0] = v.x;
+    _value.vec[1] = v.y;
+    _value.vec[2] = v.z;
+    _value.vec[3] = v.w;
+}
 
 void ShaderUniform::upload()
 {

@@ -28,5 +28,10 @@ void AbstractGeometry::render(GLuint times)
 {
     _vertexArray.render(times);
 }
+    
+void AbstractGeometry::updateVertices(GLfloat* vertices, GLuint numVertices,
+    const VertexAttribDescriptor* vertexAttribs, GLuint numVertexAttribs)
+{
+}
 
 GLF_NAMESPACE_END

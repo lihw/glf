@@ -13,10 +13,23 @@ Renderer::Renderer()
     : GLFAbstractRenderer()
 {
     m_background = NULL;
-    m_grid = NULL;
-    m_grass = NULL;
+    m_grid       = NULL;
+    m_grass      = NULL;
 
-    m_grassShowNormal = false;
+    m_geometrySetting.bladeWidth               = 0.01f;
+    m_geometrySetting.bladeThicknessThreshold  = 5.0f;
+
+    m_renderingSetting.showGeometryOnly = true;
+    m_renderingSetting.showNormal       = false;
+    m_renderingSetting.lightingMode     = 0;
+    m_renderingSetting.useTexture       = false;
+    m_renderingSetting.bladeTexture     = NULL;
+
+    m_renderingSetting.pointLight.ambient  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.pointLight.diffuse  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.pointLight.specular = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.pointLight.shininess = 5.0f;
+    m_renderingSetting.pointLight.position = glm::vec3(8.0f, -5.0f, 6.0f);
 }
 
 Renderer::~Renderer()
@@ -26,6 +39,8 @@ Renderer::~Renderer()
 bool Renderer::initialize()
 {
     glClearColor(1, 0, 0, 0);
+
+    glDisable(GL_CULL_FACE);
 
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
@@ -37,39 +52,15 @@ bool Renderer::initialize()
     // -------------------------------------------------------------- 
     // Initialize shaders
     // -------------------------------------------------------------- 
-#define PATH_PREFIX "../demos/grass/data/shader"
-
-    if (!m_grassShaders[STEM_ONLY].loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
+    if (!loadShaders())
     {
         return false;
     }
-    m_grassShaders[STEM_ONLY].getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
-
-    if (!m_grassShaders[COLOR].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL, 
-        PATH_PREFIX"/grass.gs"))
-    {
-        return false;
-    }
-    //m_grassShaders[COLOR].getUniform("Color")->setValue(0.0f, 1.0f, 0.0f, 1.0f);
-    m_grassShaders[COLOR].getUniform("BladeWidth")->setValue(0.01f);
-    m_grassShaders[COLOR].getUniform("ThicknessThreshold")->setValue(5.0f);
-
-    if (!m_grassNormalShader.loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL,
-        PATH_PREFIX"/grass_normal.gs"))
-    {
-        return false;
-    }
-    //m_grassNormalShader.getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
-
-#undef PATH_PREFIX
-
-    m_currentGrassShader = &m_grassShaders[STEM_ONLY];
-
 
     // -------------------------------------------------------------- 
     // Load/create the grass asset
     // -------------------------------------------------------------- 
-    GrassAsset* grassAsset = new GrassAsset();
+    GrassAsset* grassAsset = new GrassAsset(4.0f);
     glf::Mesh* grassMesh = new glf::Mesh(grassAsset->getVertices(),
                                          grassAsset->getNumVertices(),
                                          grassAsset->getIndices(),
@@ -102,11 +93,26 @@ bool Renderer::initialize()
     m_grid = new glf::Drawable(new glf::Grid(20, 20, 10.0f, 10.0f));
     m_grid->setPosition(0.0f, 0.0f, 0.0f);
     
-    if (!m_gridShader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
+    // -------------------------------------------------------------- 
+    // Init texture
+    // -------------------------------------------------------------- 
+    glf::Image grassBladeImage;
+#define PATH_PREFIX "../demos/grass/data"
+    if (!grassBladeImage.createFromFile(PATH_PREFIX"/images/blade.ppm"))
     {
         return false;
     }
-    m_gridShader.getUniform("Color")->setValue(0.0f, 0.0f, 0.0f, 1.0f);
+#undef PATH_PREFIX 
+    grassBladeImage.flipVertical();
+    m_renderingSetting.bladeTexture = new glf::Texture();
+    if (!m_renderingSetting.bladeTexture->create(grassBladeImage.getData(), 
+                                                 grassBladeImage.getWidth(),
+                                                 grassBladeImage.getHeight(), 
+                                                 GL_RGB8))
+    {
+        GLF_LOGERROR("Failed to create blade texture");
+        return false;
+    }
 
     return true;
 }
@@ -120,37 +126,105 @@ void Renderer::cleanup()
 
 void Renderer::render()
 {
+    // -------------------------------------------------------------- 
+    // Draw background
+    // -------------------------------------------------------------- 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_background->render();
 
     glm::mat4 mat;
 
-    // draw grid
+    // -------------------------------------------------------------- 
+    // Draw grid
+    // -------------------------------------------------------------- 
     mat = m_camera.getProjectionModelviewMatrix() * m_grid->getTransformation();
-    m_gridShader.getUniform("MVP")->setValue(mat);
-    m_gridShader.enable();
+    m_shaders[GRID].getUniform("MVP")->setValue(mat);
+    m_shaders[GRID].enable();
     m_grid->render(1);
-    m_gridShader.disable();
+    m_shaders[GRID].disable();
 
-    // draw grass
-    //glm::mat4 mvMatrix = m_camera.getModelviewMatrix() * m_grass->getTransformation();
-    m_currentGrassShader->getUniform("MVP")->setValue(mat);
-    glm::vec3 cameraPosition = m_camera.getCameraPosition();
-    if (m_currentGrassShader == &m_grassShaders[COLOR])
-    {
-        m_currentGrassShader->getUniform("CameraPosition")->setValue(cameraPosition.x, cameraPosition.y, cameraPosition.z); 
-    }
-    m_currentGrassShader->enable();
-    m_grass->render(1);
-    m_currentGrassShader->disable();
+    mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
 
-    if (m_grassShowNormal)
+    if (m_renderingSetting.showGeometryOnly)
     {
-        mat = m_camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
-        m_grassNormalShader.getUniform("MVP")->setValue(mat);
-        m_grassNormalShader.enable();
+        m_shaders[STEM].getUniform("MVP")->setValue(mat);
+        m_shaders[STEM].enable();
         m_grass->render(1);
-        m_grassNormalShader.disable();
+        m_shaders[STEM].disable();
+
+        if (m_renderingSetting.showNormal)
+        {
+            m_shaders[NORMAL].getUniform("MVP")->setValue(mat);
+            m_shaders[NORMAL].enable();
+            m_grass->render(1);
+            m_shaders[NORMAL].disable();
+        }
+    }
+    else 
+    {
+        if (m_renderingSetting.useTexture)
+        {
+            if (m_renderingSetting.lightingMode == 0)
+            {
+                m_shaders[TEXTURE_ONLY].getUniform("MVP")->setValue(mat);
+                m_shaders[TEXTURE_ONLY].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+                m_shaders[TEXTURE_ONLY].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+                glm::vec3 cameraPosition = m_camera.getCameraPosition();
+                m_shaders[TEXTURE_ONLY].getUniform("CameraPosition")->setValue(cameraPosition.x, 
+                        cameraPosition.y, cameraPosition.z); 
+
+                m_renderingSetting.bladeTexture->enable(0);
+                m_shaders[TEXTURE_ONLY].enable();
+                m_grass->render(1);
+                m_shaders[TEXTURE_ONLY].disable();
+                m_renderingSetting.bladeTexture->disable();
+            }
+            else if (m_renderingSetting.lightingMode == PHONG)
+            {
+                m_shaders[PHONG_TEXTURE].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+                m_shaders[PHONG_TEXTURE].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+                m_shaders[PHONG_TEXTURE].getUniform("CameraPosition")->setValue(m_camera.getCameraPosition());
+                m_shaders[PHONG_TEXTURE].getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
+                m_shaders[PHONG_TEXTURE].getUniform("MVP")->setValue(mat);
+        
+                m_shaders[PHONG_TEXTURE].getUniform("PointLight.position")->setValue(m_renderingSetting.pointLight.position);
+                m_shaders[PHONG_TEXTURE].getUniform("PointLight.ambient")->setValue(m_renderingSetting.pointLight.ambient);
+                m_shaders[PHONG_TEXTURE].getUniform("PointLight.diffuse")->setValue(m_renderingSetting.pointLight.diffuse);
+                m_shaders[PHONG_TEXTURE].getUniform("PointLight.specular")->setValue(m_renderingSetting.pointLight.specular);
+                m_shaders[PHONG_TEXTURE].getUniform("PointLight.shinness")->setValue(m_renderingSetting.pointLight.shininess);
+                
+                m_renderingSetting.bladeTexture->enable(0);
+                m_shaders[PHONG_TEXTURE].enable();
+                m_grass->render(1);
+                m_shaders[PHONG_TEXTURE].disable();
+                m_renderingSetting.bladeTexture->disable();
+            }
+            else
+            {
+                GLF_ASSERT("Invalid lighting model");
+            }
+        }
+        else
+        {
+            if (m_renderingSetting.lightingMode == PHONG)
+            {
+                m_shaders[PHONG].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+                m_shaders[PHONG].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+                m_shaders[PHONG].getUniform("CameraPosition")->setValue(m_camera.getCameraPosition());
+                m_shaders[PHONG].getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
+                m_shaders[PHONG].getUniform("MVP")->setValue(mat);
+        
+                m_shaders[PHONG].getUniform("PointLight.position")->setValue(m_renderingSetting.pointLight.position);
+                m_shaders[PHONG].getUniform("PointLight.ambient")->setValue(m_renderingSetting.pointLight.ambient);
+                m_shaders[PHONG].getUniform("PointLight.diffuse")->setValue(m_renderingSetting.pointLight.diffuse);
+                m_shaders[PHONG].getUniform("PointLight.specular")->setValue(m_renderingSetting.pointLight.specular);
+                m_shaders[PHONG].getUniform("PointLight.shinness")->setValue(m_renderingSetting.pointLight.shininess);
+                
+                m_shaders[PHONG].enable();
+                m_grass->render(1);
+                m_shaders[PHONG].disable();
+            }
+        }
     }
 }
 
@@ -160,6 +234,16 @@ void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)
     {
         m_arcball.restart();
     }
+}
+    
+void Renderer::setBladeHeight(GLfloat height)
+{
+    GrassAsset* grassAsset = new GrassAsset(height);
+    m_grass->getGeometry()->updateVertices(grassAsset->getVertices(),
+                                           grassAsset->getNumVertices(),
+                                           grassAsset->getVertexDesc(),
+                                           grassAsset->getNumVertexDescEntries());
+    delete grassAsset;
 }
 
 void Renderer::onMouseButtonUp(int x, int y, int buttons, int modifiers)
@@ -194,3 +278,82 @@ void Renderer::onResized(int w, int h)
     m_width = w;
     m_height = h;
 }
+
+bool Renderer::loadShaders()
+{
+#define PATH_PREFIX "../demos/grass/data/shader"
+    
+    // Grid
+    if (!m_shaders[GRID].loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading grid shader succeeded");
+        m_shaders[GRID].getUniform("Color")->setValue(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    // Stem
+    if (!m_shaders[STEM].loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading stem shader succeeded");
+        m_shaders[STEM].getUniform("Color")->setValue(1.0f, 1.0f, 0.0f, 1.0f);
+    }
+
+    // Normal
+    if (!m_shaders[NORMAL].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_color.fs", NULL, NULL, 
+        PATH_PREFIX"/grass_normal.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading normal shader succeeded");
+        m_shaders[NORMAL].getUniform("Color")->setValue(0.0f, 0.0f, 1.0f, 1.0f);
+    }
+
+    // Texture only
+    if (!m_shaders[TEXTURE_ONLY].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/grass_texture.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading texture shader succeeded");
+        m_shaders[TEXTURE_ONLY].getUniform("Texture")->setValue(GLuint(0));
+    }
+    
+    // Phong
+    if (!m_shaders[PHONG].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/phong.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading phong shader succeeded");
+    }
+    
+    // Phong
+    if (!m_shaders[PHONG_TEXTURE].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/phong_texture.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading phong+texture shader succeeded");
+        m_shaders[PHONG_TEXTURE].getUniform("Texture")->setValue(GLuint(0));
+    }
+
+#undef PATH_PREFIX
+
+    return true;
+}
+

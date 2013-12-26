@@ -11,11 +11,10 @@
 #include <glf/glf.h>
 
 
-
 class GrassAsset 
 {
 public:
-    GrassAsset();
+    GrassAsset(GLfloat bladeLength);
     ~GrassAsset();
 
     GLF_INLINE GLuint getNumBlades() const 
@@ -53,6 +52,7 @@ private:
     };
 
 private:
+    GLfloat                     m_bladeLength;
     GLuint                      m_numBlades;
     Vertex*                     m_vertices;
     GLuint                      m_numVertices;

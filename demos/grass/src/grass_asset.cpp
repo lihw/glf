@@ -14,10 +14,11 @@ const GLuint TOTAL_NUM_BLADES = 400;
 const GLfloat WIDTH = 10.0f;
 const GLfloat HEIGHT = 10.0f;
 
-GrassAsset::GrassAsset()
+GrassAsset::GrassAsset(GLfloat bladeLength)
 {
     m_vertices = NULL;
     m_indices = NULL;
+    m_bladeLength = bladeLength;
 
     if (loadBladeAsset("blade.txt"))
     {
@@ -60,18 +61,18 @@ GrassAsset::GrassAsset()
         m_vertexDesc[1].position = glf::VERTEX_ATTRIB_NORMAL;
         m_vertexDesc[1].type = GL_FLOAT;
         m_vertexDesc[1].size = 3;
-
-        m_vertexDesc[2].position = glf::VERTEX_ATTRIB_UNNAMED1;
+        
+        m_vertexDesc[2].position = glf::VERTEX_ATTRIB_COLOR;
         m_vertexDesc[2].type = GL_FLOAT;
         m_vertexDesc[2].size = 3;
-        
-        m_vertexDesc[3].position = glf::VERTEX_ATTRIB_COLOR;
+
+        m_vertexDesc[3].position = glf::VERTEX_ATTRIB_UNNAMED0;
         m_vertexDesc[3].type = GL_FLOAT;
-        m_vertexDesc[3].size = 3;
+        m_vertexDesc[3].size = 1;
         
-        m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNNAMED0;
+        m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNNAMED1;
         m_vertexDesc[4].type = GL_FLOAT;
-        m_vertexDesc[4].size = 1;
+        m_vertexDesc[4].size = 3;
     }
     else
     {
@@ -153,7 +154,6 @@ bool GrassAsset::loadBladeAsset(const char* filename)
 void GrassAsset::growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vertices, 
         GLuint* out_indices)
 {
-    
     // Choose a random blade
     //
     // FIXME: 3 is the number of blades in blade.txt
@@ -162,7 +162,8 @@ void GrassAsset::growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vert
 
     // A random length of the blade
     GLfloat lengthScaling = (GLfloat)rand() / (GLfloat)RAND_MAX;
-    lengthScaling = lengthScaling * 0.8f + 0.5f;
+    lengthScaling = lengthScaling * 0.8f + 0.5f; // (0.5, 1.3)
+    lengthScaling *= m_bladeLength / 4.0f; // scale the blade length for the current scene.
 
     out_vertices[0].position.x = position[0];
     out_vertices[0].position.y = 0;
@@ -224,7 +225,7 @@ void GrassAsset::growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vert
         }
     }
 
-    for (GLuint i = 0; i < NUM_VERTICES_PER_BLADE; ++i)
+    for (GLuint i = 1; i < NUM_VERTICES_PER_BLADE - 1; ++i)
     {
         out_vertices[i].distance /= out_vertices[NUM_VERTICES_PER_BLADE - 1].distance;
     }

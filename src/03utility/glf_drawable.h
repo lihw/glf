@@ -34,12 +34,14 @@ public:
     void setRotation(GLfloat rx, GLfloat ry, GLfloat rz);
     void setScaling(GLfloat sx, GLfloat sy, GLfloat sz);
 
-    glm::vec3 getPosition() const
+    GLF_INLINE glm::vec3 getPosition() const
     { return _position; }
-    glm::vec3 getScaling() const
+    GLF_INLINE glm::vec3 getScaling() const
     { return _scaling; }
-    glm::vec3 getRotation() const
+    GLF_INLINE glm::vec3 getRotation() const
     { return _rotation; }
+    GLF_INLINE AbstractGeometry* getGeometry() const
+    { return _geometry; }
     
     glm::mat4 getTransformation() const;
 
