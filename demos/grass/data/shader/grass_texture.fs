@@ -15,6 +15,7 @@ uniform sampler2D Texture;
 
 in block
 {
+    vec3 position;
     vec3 normal;
     vec3 color;
     vec2 texcoord; 

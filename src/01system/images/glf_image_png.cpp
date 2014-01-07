@@ -29,7 +29,7 @@ static void glfImagePNGWriteFunction(png_structp png_ptr, png_bytep data, png_si
 {
     FILE* fp = (FILE*)png_get_io_ptr(png_ptr);
 
-    GLuint bytesWritten = fwrite(data, length, 1, fp);
+    GLuint bytesWritten = fwrite(data, 1, length, fp);
     GLF_ASSERT(bytesWritten == length);
 }
 

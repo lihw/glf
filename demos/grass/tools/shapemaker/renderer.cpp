@@ -73,7 +73,7 @@ bool Renderer::initialize()
     GLfloat aspect = (GLfloat)m_width / (GLfloat)m_height;
     m_grid = new glf::Drawable(new glf::Grid(20, 20, 10.0f * aspect, 10.0f));
     m_grid->setPosition(0.0f, 0.0f, 0.0f);
-    m_grid->setRotation(GLF_PI * 0.5f, 0.0f, 0.0f);
+    m_grid->setRotation(glf::PI * 0.5f, 0.0f, 0.0f);
     if (!m_gridShader.loadFromLibrary(glf::ShaderLibrary::COLOR, glf::ShaderLibrary::COLOR))
     {
         return false;
