@@ -31,6 +31,7 @@
 #include "03utility/glf_arcball.h"
 #include "03utility/glf_rect.h"
 #include "03utility/glf_drawable.h"
+#include "03utility/glf_light.h"
 #include "03utility/geometry/glf_abstract_geometry.h"
 #include "03utility/geometry/glf_quad.h"
 #include "03utility/geometry/glf_line_strip.h"

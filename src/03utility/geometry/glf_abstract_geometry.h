@@ -24,6 +24,9 @@ public:
 
     virtual void render(GLuint times);
 
+    virtual void updateVertices(GLfloat* vertices, GLuint numVertices,
+        const VertexAttribDescriptor* vertexAttribs, GLuint numVertexAttribs);
+
 protected:
     VertexArray   _vertexArray;
     GLenum        _primitive;

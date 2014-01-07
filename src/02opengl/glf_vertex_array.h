@@ -62,6 +62,11 @@ public:
                 GLuint* vertexIndices,
                 GLuint numIndices);
 
+    void updateVertices(const GLfloat* vertices,
+                        GLuint numVertices,
+                        const VertexAttribDescriptor* vertexAttribs,
+                        GLuint numVertexAttribs);
+
     void render(GLuint times);
 
     GLF_INLINE GLuint getVertexArrayHandle() const

@@ -14,6 +14,7 @@
 #include <QObject>
 
 class KxColumnLayout;
+class KxFloatSliderGrp;
 
 class Control : public GLFAbstractControl
 {
@@ -25,13 +26,28 @@ public:
 
 private:
     void createGeneralTab(KxColumnLayout* mainLayout);
-    void createGeometryExpansionTab(KxColumnLayout* mainLayout);
+    void createGeometryTab(KxColumnLayout* mainLayout);
+    void createShadingTabs(KxColumnLayout* mainLayout);
+
+    KxFloatSliderGrp* createSliderGroup(GLfloat minValue, GLfloat maxValue, GLfloat currentValue);
 
 protected slots:
     void onDisplayChanged(const QVariant& index, bool interim);
+
+    // Geometry
+    void onBladeHeightChanged(const QVariant& value, bool interim);
     void onShowNormalChanged(const QVariant& value, bool interim);
     void onBladeWidthChanged(const QVariant& value, bool interim);
     void onThicknessThresholdChanged(const QVariant& value, bool interim);
+
+    // Shading
+    void onLightingModelChanged(const QVariant& value, bool interim);
+    void onTextureChanged(const QVariant& value, bool interim);
+
+    void onAmbientChanged(const QVariant& value, bool interim);
+    void onDiffuseChanged(const QVariant& value, bool interim);
+    void onSpecularChanged(const QVariant& value, bool interim);
+    void onShininessChanged(const QVariant& value, bool interim);
 };
 
 #endif // !CONTROL_H

@@ -24,6 +24,8 @@ public:
     virtual void cleanup();
     virtual void render();
 
+    virtual void onKeyUp(int key, int modifiers);
+
     virtual void onMouseButtonDown(int x, int y, int buttons, int modifiers);
     virtual void onMouseButtonUp(int x, int y, int buttons, int modifiers);
     virtual void onMouseMove(int x, int y, int buttons, int modifiers);

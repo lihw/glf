@@ -26,6 +26,9 @@ struct GLFConfig
     int stencilBits;
     int multisamples;
 
+    bool noControlWindow;
+    bool noOutputWindow;
+
     GLFConfig()
     {
         windowWidth = 640;
@@ -36,6 +39,9 @@ struct GLFConfig
         stencilBits = 8;
 
         multisamples = 1;
+
+        noControlWindow = false;
+        noOutputWindow = false;
     };
 };
 

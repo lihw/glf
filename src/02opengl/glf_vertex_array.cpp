@@ -125,6 +125,22 @@ bool VertexArray::create(GLenum pritimive,
 
     return true;
 }
+    
+void VertexArray::updateVertices(const GLfloat* vertices,
+                                 GLuint numVertices,
+                                 const VertexAttribDescriptor* vertexAttribs,
+                                 GLuint numVertexAttribs)
+{
+    GLuint vertexSize = 0;
+    for (GLuint i = 0; i < numVertexAttribs; ++i)
+    {
+        vertexSize += vertexAttribs[i].size * getSizeOf(vertexAttribs[i].type);
+    }
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, numVertices * vertexSize, vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
 void VertexArray::render(GLuint times)
 {

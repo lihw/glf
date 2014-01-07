@@ -27,6 +27,7 @@
 // -------------------------------------------------------------- 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_precision.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/random.hpp>
@@ -66,9 +67,10 @@
 // -------------------------------------------------------------- 
 // Misc
 // -------------------------------------------------------------- 
-#ifndef GLF_PI
-# define GLF_PI 3.1415926535897932384626f
-#endif // !GLF_PI
+namespace glf
+{
+static const GLfloat PI = 3.1415926535897932384626f;
+};
 
 
 #endif // !GLF_COMMON_H

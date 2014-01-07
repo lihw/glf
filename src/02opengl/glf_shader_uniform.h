@@ -68,6 +68,9 @@ public:
     void setValue(GLuint x, GLuint y, GLuint z);
     void setValue(GLuint x, GLuint y, GLuint z, GLuint w);
     void setValue(const glm::mat4& matrix);
+    void setValue(const glm::vec2& v);
+    void setValue(const glm::vec3& v);
+    void setValue(const glm::vec4& v);
 
     GLF_INLINE const std::string& getName() const
     { return _name; }

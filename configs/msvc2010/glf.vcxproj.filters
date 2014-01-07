@@ -923,6 +923,9 @@
     <ClCompile Include="..\..\src\01system\glf_image.cpp">
       <Filter>01system</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\03utility\glf_light.cpp">
+      <Filter>03utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1314,5 +1317,11 @@
     <ClInclude Include="..\..\src\01system\glf_image.h">
       <Filter>01system</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\03utility\glf_light.h">
+      <Filter>03utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glf.h" />
+    <ClInclude Include="..\..\src\glf_controls.h" />
+    <ClInclude Include="..\..\src\glf_common.h" />
   </ItemGroup>
 </Project>

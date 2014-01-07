@@ -17,6 +17,8 @@ GLFAbstractControl* glfCreateControls(QWidget* parent)
 
 void glfGenerateConfig(GLFConfig* config)
 {
+    config->noOutputWindow = true;
+
     config->windowWidth = 768;
     config->windowHeight = 768;
 }

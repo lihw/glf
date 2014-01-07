@@ -123,10 +123,12 @@ void GLFRenderWidget::dumpScreen()
     glReadBuffer(GL_BACK);
     glReadPixels(0, 0, width(), height(), GL_RGB, GL_UNSIGNED_BYTE, data);
 
+    static int index = 1;
+    QString imageName = QString("dumpscreen_%1.png").arg(index);
     glf::Image image;
     image.createFromMemory(data, width(), height(), 3);
     image.flipVertical();
-    image.write("dumpscreen.ppm");
+    image.write(imageName.toStdString().c_str());
 
     delete [] data;
 }

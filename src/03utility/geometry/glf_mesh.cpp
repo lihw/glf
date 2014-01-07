@@ -231,5 +231,11 @@ bool Mesh::loadPly(const char* filename, GLfloat*& vertices, GLuint& numVertices
 {
     return false;
 }
+    
+void Mesh::updateVertices(GLfloat* vertices, GLuint numVertices,
+        const VertexAttribDescriptor* vertexAttribs, GLuint numVertexAttribs)
+{
+    _vertexArray.updateVertices(vertices, numVertices, vertexAttribs, numVertexAttribs);
+}
 
 GLF_NAMESPACE_END

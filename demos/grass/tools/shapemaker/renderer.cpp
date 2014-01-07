@@ -36,14 +36,14 @@ bool Renderer::initialize()
     glDisable(GL_CULL_FACE);
 
     m_editCamera.lookAt(0, 0.0f, 10.0f,
-                        0, 0, 0,
+                        0, 0.0f, 0,
                         0, 1.0f, 0.0f);
     
-    m_viewCamera.lookAt(0, 0, 10.0f,
+    m_viewCamera.lookAt(0, 5, 10.0f,
                         0, 0, 0,
                         0, 1, 0);
     
-    m_viewSelfRotatingCamera.lookAt(0, 0, 10.0f,
+    m_viewSelfRotatingCamera.lookAt(0, 5, 10.0f,
                                     0, 0, 0,
                                     0, 1, 0);
 
@@ -265,13 +265,21 @@ void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
         }       
     }
 }
+    
+void Renderer::onKeyUp(int key, int modifiers)
+{
+    if (key == Qt::Key_Escape)
+    {
+        glfGetApplication()->quit();
+    }
+}
 
 void Renderer::onResized(int w, int h)
 {
     GLfloat aspect = (GLfloat)w / (GLfloat)h;
-    m_editCamera.setOrthogonal(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f, 0.0f, 100.0f);
-    m_viewCamera.setPerspective(45.0f, aspect, 0.1f, 1000.0f);
-    m_viewSelfRotatingCamera.setPerspective(45.0f, aspect, 0.1f, 1000.0f);
+    m_editCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
+    m_viewCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
+    m_viewSelfRotatingCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
     glViewport(0, 0, w, h);
 
     m_width = w;

@@ -28,6 +28,9 @@ public:
          const VertexAttribDescriptor* desc,
          GLuint numDescEntries);
     virtual ~Mesh();
+    
+    virtual void updateVertices(GLfloat* vertices, GLuint numVertices,
+        const VertexAttribDescriptor* vertexAttribs, GLuint numVertexAttribs);
 
 private:
     bool loadObj(const char* filename, GLfloat*& vertices, GLuint& numVertices,

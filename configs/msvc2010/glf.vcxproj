@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\src\03utility\glf_arcball.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_drawable.cpp" />
+    <ClCompile Include="..\..\src\03utility\glf_light.cpp" />
     <ClCompile Include="..\..\src\03utility\glf_rect.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxFoundation.cpp" />
     <ClCompile Include="..\..\src\04framework\controls\base\KxGlobalState.cpp" />
@@ -678,6 +679,7 @@
     <ClInclude Include="..\..\src\03utility\glf_arcball.h" />
     <ClInclude Include="..\..\src\03utility\glf_camera.h" />
     <ClInclude Include="..\..\src\03utility\glf_drawable.h" />
+    <ClInclude Include="..\..\src\03utility\glf_light.h" />
     <ClInclude Include="..\..\src\03utility\glf_rect.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\HQtGui.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxExport.h" />
@@ -686,6 +688,9 @@
     <ClInclude Include="..\..\src\04framework\controls\base\KxIconnectableControl.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxIcontextMenuRequestor.h" />
     <ClInclude Include="..\..\src\04framework\controls\base\KxQtHelper.h" />
+    <ClInclude Include="..\..\src\glf.h" />
+    <ClInclude Include="..\..\src\glf_common.h" />
+    <ClInclude Include="..\..\src\glf_controls.h" />
     <CustomBuild Include="..\..\src\04framework\glf_abstract_renderer.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
