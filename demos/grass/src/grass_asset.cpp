@@ -200,7 +200,7 @@ void GrassAsset::createBlades(GLfloat* seeds)
     m_vertexDesc[1].type = GL_FLOAT;
     m_vertexDesc[1].size = 3;
 
-    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_UNAMED1;
+    m_vertexDesc[2].position = glf::VERTEX_ATTRIB_UNNAMED1;
     m_vertexDesc[2].type = GL_FLOAT;
     m_vertexDesc[2].size = 3;
     
@@ -208,7 +208,7 @@ void GrassAsset::createBlades(GLfloat* seeds)
     m_vertexDesc[3].type = GL_FLOAT;
     m_vertexDesc[3].size = 3;
     
-    m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNAMED0;
+    m_vertexDesc[4].position = glf::VERTEX_ATTRIB_UNNAMED0;
     m_vertexDesc[4].type = GL_FLOAT;
     m_vertexDesc[4].size = 1;
 }
