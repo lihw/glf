@@ -12,9 +12,12 @@
 Renderer::Renderer()
     : GLFAbstractRenderer()
 {
+    m_rotatingLight = false;
+
     m_background = NULL;
     m_grid       = NULL;
     m_grass      = NULL;
+    m_light      = NULL;
 
     m_geometrySetting.bladeWidth               = 0.01f;
     m_geometrySetting.bladeThicknessThreshold  = 5.0f;
@@ -25,11 +28,17 @@ Renderer::Renderer()
     m_renderingSetting.useTexture       = false;
     m_renderingSetting.bladeTexture     = NULL;
 
-    m_renderingSetting.pointLight.ambient  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
-    m_renderingSetting.pointLight.diffuse  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
-    m_renderingSetting.pointLight.specular = glm::vec4(0.5f, 0.5f, 0.5f, 1);
-    m_renderingSetting.pointLight.shininess = 5.0f;
-    m_renderingSetting.pointLight.position = glm::vec3(8.0f, -5.0f, 6.0f);
+    m_renderingSetting.light.ambient  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.light.diffuse  = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.light.specular = glm::vec4(0.5f, 0.5f, 0.5f, 1);
+    m_renderingSetting.light.shininess = 5.0f;
+    m_renderingSetting.light.position = glm::vec3(-1.0f, 0.0f, 0.0f);
+
+    m_renderingSetting.smFramebuffer = NULL;
+    m_renderingSetting.smShow        = false;
+    m_renderingSetting.smSize        = 512;
+
+    m_renderingSetting.bladeTexture  = NULL;
 }
 
 Renderer::~Renderer()
@@ -94,6 +103,13 @@ bool Renderer::initialize()
     m_grid->setPosition(0.0f, 0.0f, 0.0f);
     
     // -------------------------------------------------------------- 
+    // Init the light
+    // -------------------------------------------------------------- 
+    m_light= new glf::Drawable(new glf::LineStrip());
+    m_light->setScaling(4.0f, 1.0f, 1.0f);
+    m_light->setPosition(0.0f, 0.0f, 0.0f);
+    
+    // -------------------------------------------------------------- 
     // Init texture
     // -------------------------------------------------------------- 
     glf::Image grassBladeImage;
@@ -113,7 +129,30 @@ bool Renderer::initialize()
         GLF_LOGERROR("Failed to create blade texture");
         return false;
     }
-
+    
+    // -------------------------------------------------------------- 
+    // Create shadow map framebuffer
+    // -------------------------------------------------------------- 
+    GLenum colorFormats[] = { GL_RGBA32F };
+    m_renderingSetting.smFramebuffer = new glf::Framebuffer();
+    bool ret = m_renderingSetting.smFramebuffer->create(m_renderingSetting.smSize,
+                                                        m_renderingSetting.smSize,
+                                                        colorFormats,
+                                                        1,
+                                                        GL_DEPTH_COMPONENT24,
+                                                        0);
+    if (!ret)
+    {
+        GLF_LOGERROR("Failed to create the framebuffer for shadow map");
+        return false;
+    }
+        
+    // Visualize the shadow map
+    m_shadowmap = new glf::RectTexture();
+    m_shadowmap->setTexture(m_renderingSetting.smFramebuffer->getColorBuffer(0));
+    m_shadowmap->setSize(256, 256);
+    m_shadowmap->setPosition(0, 0);
+    
     return true;
 }
 
@@ -122,6 +161,11 @@ void Renderer::cleanup()
     delete m_background;
     delete m_grass;
     delete m_grid;
+    delete m_shadowmap;
+    delete m_light;
+
+    delete m_renderingSetting.smFramebuffer;
+    delete m_renderingSetting.bladeTexture;
 }
 
 void Renderer::render()
@@ -187,11 +231,11 @@ void Renderer::render()
                 m_shaders[PHONG_TEXTURE].getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
                 m_shaders[PHONG_TEXTURE].getUniform("MVP")->setValue(mat);
         
-                m_shaders[PHONG_TEXTURE].getUniform("PointLight.position")->setValue(m_renderingSetting.pointLight.position);
-                m_shaders[PHONG_TEXTURE].getUniform("PointLight.ambient")->setValue(m_renderingSetting.pointLight.ambient);
-                m_shaders[PHONG_TEXTURE].getUniform("PointLight.diffuse")->setValue(m_renderingSetting.pointLight.diffuse);
-                m_shaders[PHONG_TEXTURE].getUniform("PointLight.specular")->setValue(m_renderingSetting.pointLight.specular);
-                m_shaders[PHONG_TEXTURE].getUniform("PointLight.shinness")->setValue(m_renderingSetting.pointLight.shininess);
+                m_shaders[PHONG_TEXTURE].getUniform("Light.direction")->setValue(m_renderingSetting.light.position);
+                m_shaders[PHONG_TEXTURE].getUniform("Light.ambient")->setValue(m_renderingSetting.light.ambient);
+                m_shaders[PHONG_TEXTURE].getUniform("Light.diffuse")->setValue(m_renderingSetting.light.diffuse);
+                m_shaders[PHONG_TEXTURE].getUniform("Light.specular")->setValue(m_renderingSetting.light.specular);
+                m_shaders[PHONG_TEXTURE].getUniform("Light.shinness")->setValue(m_renderingSetting.light.shininess);
                 
                 m_renderingSetting.bladeTexture->enable(0);
                 m_shaders[PHONG_TEXTURE].enable();
@@ -214,11 +258,11 @@ void Renderer::render()
                 m_shaders[PHONG].getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
                 m_shaders[PHONG].getUniform("MVP")->setValue(mat);
         
-                m_shaders[PHONG].getUniform("PointLight.position")->setValue(m_renderingSetting.pointLight.position);
-                m_shaders[PHONG].getUniform("PointLight.ambient")->setValue(m_renderingSetting.pointLight.ambient);
-                m_shaders[PHONG].getUniform("PointLight.diffuse")->setValue(m_renderingSetting.pointLight.diffuse);
-                m_shaders[PHONG].getUniform("PointLight.specular")->setValue(m_renderingSetting.pointLight.specular);
-                m_shaders[PHONG].getUniform("PointLight.shinness")->setValue(m_renderingSetting.pointLight.shininess);
+                m_shaders[PHONG].getUniform("Light.direction")->setValue(m_renderingSetting.light.position);
+                m_shaders[PHONG].getUniform("Light.ambient")->setValue(m_renderingSetting.light.ambient);
+                m_shaders[PHONG].getUniform("Light.diffuse")->setValue(m_renderingSetting.light.diffuse);
+                m_shaders[PHONG].getUniform("Light.specular")->setValue(m_renderingSetting.light.specular);
+                m_shaders[PHONG].getUniform("Light.shinness")->setValue(m_renderingSetting.light.shininess);
                 
                 m_shaders[PHONG].enable();
                 m_grass->render(1);
@@ -226,13 +270,38 @@ void Renderer::render()
             }
         }
     }
+
+    if (m_rotatingLight)
+    {
+        mat = m_camera.getProjectionModelviewMatrix() * glm::mat4(m_arcballLight.getRotationMatrix()) * m_light->getTransformation();
+        m_shaders[STEM].getUniform("MVP")->setValue(mat);
+        m_shaders[STEM].enable();
+        m_light->render(1);
+        m_shaders[STEM].disable();
+    }
+
+    if (m_renderingSetting.smShow)
+    {
+        renderShadowMap();
+
+        m_shadowmap->render();
+    }
 }
 
 void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)
 {
     if (buttons == MOUSE_BUTTON1)
     {
-        m_arcball.restart();
+        if (modifiers & KEYBOARD_CTRL)
+        {
+            m_rotatingLight = true;
+            m_arcballLight.restart();
+        }
+        else
+        {
+            m_rotatingLight = false;
+            m_arcball.restart();
+        }
     }
 }
     
@@ -263,8 +332,17 @@ void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
         cx = (GLfloat)x / (GLfloat)m_width;
         cy = ((GLfloat)m_height - 1.0f - (GLfloat)y) / (GLfloat)m_height;
         
-        m_arcball.updateMouse(cx, cy);
-        m_camera.setRotation(m_arcball.getRotationMatrix());
+        if (!m_rotatingLight)
+        {
+            m_arcball.updateMouse(cx, cy);
+            m_camera.setRotation(m_arcball.getRotationMatrixF());
+        }
+        else
+        {
+            m_arcballLight.updateMouse(cx, cy);
+            glm::mat3 mat = m_arcballLight.getRotationMatrix();
+            m_renderingSetting.light.position = glm::inverseTranspose(mat) * glm::vec3(-1, 0, 0);
+        }
     }       
 }
 
@@ -340,7 +418,7 @@ bool Renderer::loadShaders()
         GLF_LOGINFO("Loading phong shader succeeded");
     }
     
-    // Phong
+    // Phong + texture
     if (!m_shaders[PHONG_TEXTURE].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/phong_texture.fs", NULL, NULL,
         PATH_PREFIX"/grass.gs"))
     {
@@ -351,9 +429,50 @@ bool Renderer::loadShaders()
         GLF_LOGINFO("Loading phong+texture shader succeeded");
         m_shaders[PHONG_TEXTURE].getUniform("Texture")->setValue(GLuint(0));
     }
+    
+    // Shadow map generation
+    if (!m_shaders[SHADOWMAP].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/shadowmap.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading shadow map shader succeeded");
+    }
 
 #undef PATH_PREFIX
 
     return true;
 }
 
+    
+void Renderer::renderShadowMap()
+{
+    GLF_ASSERT(m_renderingSetting.smFramebuffer != NULL);
+
+    m_renderingSetting.smFramebuffer->enable();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glf::Camera camera;
+    camera.fromLight(m_renderingSetting.light);
+    glm::mat4 mat = camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
+
+    glViewport(0, 0, m_renderingSetting.smSize, m_renderingSetting.smSize);
+
+    m_shaders[SHADOWMAP].getUniform("MVP")->setValue(mat);
+    m_shaders[SHADOWMAP].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+    m_shaders[SHADOWMAP].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+    glm::vec3 cameraPosition = camera.getCameraPosition();
+    m_shaders[SHADOWMAP].getUniform("CameraPosition")->setValue(cameraPosition.x, 
+            cameraPosition.y, cameraPosition.z); 
+
+    m_shaders[SHADOWMAP].enable();
+    m_grass->render(1);
+    m_shaders[SHADOWMAP].disable();
+
+    m_renderingSetting.smFramebuffer->disable();
+    
+    glViewport(0, 0, m_width, m_height);
+}

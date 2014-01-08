@@ -48,6 +48,10 @@ protected slots:
     void onDiffuseChanged(const QVariant& value, bool interim);
     void onSpecularChanged(const QVariant& value, bool interim);
     void onShininessChanged(const QVariant& value, bool interim);
+
+    // Translucent
+    void onShowShadowmapChanged(const QVariant& value, bool interim);
+    void onTranslucencyChanged(const QVariant& value, bool interim);
 };
 
 #endif // !CONTROL_H

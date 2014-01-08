@@ -11,6 +11,8 @@
 
 #include "glf_camera.h"
 
+#include "glf_light.h"
+
 #include <glm/gtc/matrix_inverse.hpp>
 
 GLF_NAMESPACE_BEGIN
@@ -126,7 +128,40 @@ glm::vec3 Camera::getCameraPosition() const
     ret.z = -glm::dot(_modelview[2], _modelview[3]);
 
     return ret;
+}
     
+void Camera::fromLight(const DirectionalLight &light)
+{
+    glm::vec3 center(0, 0, 0);
+    glm::vec3 eye = -light.position * 1000.0f;
+    glm::vec3 absl = glm::vec3(fabs(light.position.x), fabs(light.position.y), fabs(light.position.z)); 
+
+    glm::vec3 up;
+    if (absl.x > absl.y)
+    {
+        up = absl.x >= absl.z? glm::vec3(0.0f, -light.position.z, light.position.y) : 
+            glm::vec3(-light.position.y, light.position.x, 0);
+
+        if (glm::length(up) < 1e-5f)
+        {
+            up = glm::vec3(0, 1, 0);
+        }
+    }
+    else
+    {
+        up = absl.y >= absl.z? glm::vec3(-light.position.z, 0, light.position.x) : 
+            glm::vec3(-light.position.y, light.position.x, 0);
+        
+        if (glm::length(up) < 1e-5f)
+        {
+            up = glm::vec3(1, 0, 0);
+        }
+    }
+
+    up = glm::normalize(up);
+
+    setOrthogonal(-4.0f, 4.0f, -4.0f, 4.0f, 0.1f, 1000.0f);
+    lookAt(center.x, center.y, center.z, eye.x, eye.y, eye.z, up.x, up.y, up.z);
 }
 
 GLF_NAMESPACE_END

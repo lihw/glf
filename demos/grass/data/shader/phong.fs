@@ -22,30 +22,30 @@ in block
 uniform vec3 CameraPosition;
 uniform mat4 NormalMatrix;
 
-struct PointLightStruct
+struct LightStruct
 {
-    vec3 position; // the light position in world space.
+    vec3 direction; // in world space.
     vec4 ambient;
     vec4 diffuse;
     vec4 specular; 
     float shinness;
 };
 
-uniform PointLightStruct PointLight;
+uniform LightStruct Light;
 
-vec4 phong(vec3 position, vec3 normal, PointLightStruct pointLight)
+vec4 phong(vec3 position, vec3 normal, LightStruct light)
 {
-    vec3 lightDir = normalize(pointLight.position - position.xyz); 
-    vec3 eyeDir = normalize(CameraPosition.xyz - position.xyz);
+    vec3 lightDir = -normalize(light.direction); // inverse the light direction
+    vec3 eyeDir   = normalize(CameraPosition.xyz - position.xyz);
 
     float diffuse = max(dot(normal, lightDir), 0);
 
     vec3 H = normalize(lightDir + eyeDir);
-    float specular = pow(max(dot(H, normal), 0), pointLight.shinness); 
+    float specular = pow(max(dot(H, normal), 0), light.shinness); 
 
-    vec4 color = pointLight.ambient + 
-                 pointLight.diffuse * diffuse +
-                 pointLight.specular * specular;
+    vec4 color = light.ambient + 
+                 light.diffuse * diffuse +
+                 light.specular * specular;
         
     return color;
 }
@@ -53,7 +53,7 @@ vec4 phong(vec3 position, vec3 normal, PointLightStruct pointLight)
 void main()
 {
     vec4 normal = NormalMatrix * vec4(In.normal, 0);
-    vec4 c = phong(In.position, normalize(normal.xyz), PointLight);
+    vec4 c = phong(In.position, normalize(normal.xyz), Light);
 
     FragColor = vec4(c.xyz, 1.0);
 }

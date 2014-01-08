@@ -20,7 +20,7 @@ class LineStrip : public AbstractGeometry
 {
 public:
     LineStrip(const GLfloat* points, GLuint numPoints);
-    LineStrip(); // (0, 0)->(0, 1)
+    LineStrip(); // (0, 0, 0)->(1, 0, 0)
 
     virtual ~LineStrip();
 

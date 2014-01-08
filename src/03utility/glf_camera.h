@@ -16,6 +16,10 @@
 
 GLF_NAMESPACE_BEGIN
 
+
+class DirectionalLight;
+
+
 class Camera 
 {
 public:
@@ -50,6 +54,9 @@ public:
 
     // Restore the camera position and orientation to default.
     void identity();
+
+    // Create a camera from a directional light; used in shadow map.
+    void fromLight(const DirectionalLight &light);
 
     // Get the positon of the camera
     glm::vec3 getCameraPosition() const;

@@ -201,6 +201,22 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
     frameLayout = KxLayoutHelper::addFrameLayout(QString("Translucency"), mainLayout);
     formLayout = KxLayoutHelper::addFormLayout(frameLayout);
     
+    KxCheckBox* checkBox;
+    
+    checkBox = new KxCheckBox(QString("on"));
+    formLayout->addRow(new KxLabel(QString("Translucency: ")), checkBox);
+    connect(checkBox, 
+            SIGNAL(newValueForConnections(const QVariant&, bool)), 
+            this,
+            SLOT(onTranslucency(const QVariant&, bool)));
+    
+    checkBox = new KxCheckBox(QString("on"));
+    formLayout->addRow(new KxLabel(QString("Shadowmap: ")), checkBox);
+    connect(checkBox, 
+            SIGNAL(newValueForConnections(const QVariant&, bool)), 
+            this,
+            SLOT(onShowShadowmapChanged(const QVariant&, bool)));
+    
     // -------------------------------------------------------------- 
     // Antialiasing
     // -------------------------------------------------------------- 
@@ -284,26 +300,40 @@ void Control::onAmbientChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat v = value.toFloat();
-    renderer->m_renderingSetting.pointLight.ambient = glm::vec4(v, v, v, 1.0f);
+    renderer->m_renderingSetting.light.ambient = glm::vec4(v, v, v, 1.0f);
 }
 
 void Control::onDiffuseChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat v = value.toFloat();
-    renderer->m_renderingSetting.pointLight.diffuse = glm::vec4(v, v, v, 1.0f);
+    renderer->m_renderingSetting.light.diffuse = glm::vec4(v, v, v, 1.0f);
 }
 
 void Control::onSpecularChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat v = value.toFloat();
-    renderer->m_renderingSetting.pointLight.specular = glm::vec4(v, v, v, 1.0f);
+    renderer->m_renderingSetting.light.specular = glm::vec4(v, v, v, 1.0f);
 }
 
 void Control::onShininessChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();
     GLfloat v = value.toFloat();
-    renderer->m_renderingSetting.pointLight.shininess = v;
+    renderer->m_renderingSetting.light.shininess = v;
+}
+    
+void Control::onShowShadowmapChanged(const QVariant& value, bool interim)
+{
+    Renderer* renderer = (Renderer*)glfGetRenderer();
+    bool v = value.toBool();
+    renderer->m_renderingSetting.smShow = v;
+}
+
+void Control::onTranslucencyChanged(const QVariant& value, bool interim)
+{
+    Renderer* renderer = (Renderer*)glfGetRenderer();
+    bool v = value.toBool();
+    renderer->m_renderingSetting.translucency = v;
 }

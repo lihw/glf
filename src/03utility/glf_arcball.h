@@ -28,7 +28,9 @@ public:
     void updateMouse(const GLfloat x, const GLfloat y);
 
     // Fetch the current 3x3 rotation matrix of this arcball.
-    const GLfloat* getRotationMatrix() const;
+    const GLfloat* getRotationMatrixF() const;
+
+    const glm::mat3& getRotationMatrix() const;
 
 private:
     glm::quat _lastRotation;

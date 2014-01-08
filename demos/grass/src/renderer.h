@@ -35,11 +35,14 @@ public:
 
 private:
     bool loadShaders();
+    void renderShadowMap();
 
 private:
-    glf::RectColor* m_background;
-    glf::Drawable*  m_grid;
-    glf::Drawable*  m_grass;
+    glf::RectColor*   m_background;
+    glf::Drawable*    m_grid;
+    glf::Drawable*    m_grass;
+    glf::Drawable*    m_light;
+    glf::RectTexture* m_shadowmap;
 
     enum
     {
@@ -49,6 +52,7 @@ private:
         TEXTURE_ONLY,
         PHONG,
         KAJIYA,
+        SHADOWMAP,
         PHONG_TEXTURE,
         KAJIYA_TEXTURE,
 
@@ -67,19 +71,26 @@ private:
 
     struct
     {
-        bool              showGeometryOnly;
-        bool              showNormal;
+        bool                    showGeometryOnly;
+        bool                    showNormal;
 
-        GLuint            lightingMode;
-        glf::PointLight   pointLight;
+        GLuint                  lightingMode;
+        glf::DirectionalLight   light;
 
-        glf::Texture*     bladeTexture;
-        bool              useTexture;
+        glf::Texture*           bladeTexture;
+        bool                    useTexture;
+
+        glf::Framebuffer       *smFramebuffer;
+        bool                    smShow;
+        GLuint                  smSize;
+        bool                    translucency;
     } m_renderingSetting;
 
 
     glf::Camera     m_camera;
     glf::Arcball    m_arcball;
+    glf::Arcball    m_arcballLight;
+    bool            m_rotatingLight;
     GLint           m_width;
     GLint           m_height;
 };

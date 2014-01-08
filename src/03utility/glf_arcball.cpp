@@ -68,9 +68,14 @@ void Arcball::updateMouse(const GLfloat x, const GLfloat y)
     }
 }
 
-const GLfloat* Arcball::getRotationMatrix() const
+const GLfloat* Arcball::getRotationMatrixF() const
 {
     return &_rotationMatrix[0][0];
+}
+
+const glm::mat3& Arcball::getRotationMatrix() const
+{
+    return _rotationMatrix;
 }
 
 void Arcball::mapToSphere(const GLfloat x, const GLfloat y, GLfloat* coordinate)
