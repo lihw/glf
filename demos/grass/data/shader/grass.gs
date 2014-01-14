@@ -12,7 +12,7 @@
 #version 430 core
 
 layout(lines, invocations = 1) in;
-layout(triangle_strip, max_vertices = 4) out;
+layout(triangle_strip, max_vertices = 8) out;
 
 in block
 {
@@ -39,9 +39,7 @@ uniform mat4 MVP;
 uniform vec3 CameraPosition;
 uniform float BladeWidth;
 uniform float ThicknessThreshold;
-
-#define WIDTH 1024.0
-#define HEIGHT 768.0
+uniform vec2 ScreenSize;
 
 void main()
 {	
@@ -86,10 +84,10 @@ void main()
     // to the eye direction.
     vec2 proj[] = 
     {
-        (p[0].xy / p[0].w) * vec2(WIDTH, HEIGHT),
-        (p[1].xy / p[1].w) * vec2(WIDTH, HEIGHT),
-        (p[2].xy / p[2].w) * vec2(WIDTH, HEIGHT),
-        (p[3].xy / p[3].w) * vec2(WIDTH, HEIGHT),
+        (p[0].xy / p[0].w) * ScreenSize,
+        (p[1].xy / p[1].w) * ScreenSize,
+        (p[2].xy / p[2].w) * ScreenSize,
+        (p[3].xy / p[3].w) * ScreenSize,
     };
 
     //  p2 --- p3 
@@ -121,10 +119,14 @@ void main()
             normalize(cross(In[1].Tangent, eye[1])),
         };
 
-        pWorld[0] = vec4(gl_in[0].gl_Position.xyz - eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
-        pWorld[1] = vec4(gl_in[0].gl_Position.xyz + eyeExpansionDir[0] * 0.001 * eyeDistance0, 1.0);
-        pWorld[2] = vec4(gl_in[1].gl_Position.xyz - eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
-        pWorld[3] = vec4(gl_in[1].gl_Position.xyz + eyeExpansionDir[1] * 0.001 * eyeDistance1, 1.0);
+        // FIXME: expansion ratio should be dependent on projection matrix and
+        // viewport analytically
+        float expansion = 0.001 * (ScreenSize.x * 0.001);
+
+        pWorld[0] = vec4(gl_in[0].gl_Position.xyz - eyeExpansionDir[0] * expansion * eyeDistance0, 1.0);
+        pWorld[1] = vec4(gl_in[0].gl_Position.xyz + eyeExpansionDir[0] * expansion * eyeDistance0, 1.0);
+        pWorld[2] = vec4(gl_in[1].gl_Position.xyz - eyeExpansionDir[1] * expansion * eyeDistance1, 1.0);
+        pWorld[3] = vec4(gl_in[1].gl_Position.xyz + eyeExpansionDir[1] * expansion * eyeDistance1, 1.0);
 
         p[0] = MVP * pWorld[0];
         p[1] = MVP * pWorld[1];
@@ -137,18 +139,28 @@ void main()
     // -------------------------------------------------------------- 
     // Expand the line to a grass blade 
     // -------------------------------------------------------------- 
-    gl_Position = p[0];
-    Out.normal = In[0].Normal;
-    Out.position = pWorld[0];
-    Out.color = color;
-    Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
-    EmitVertex();
-    
+    //
+    // The front side
+    //
     gl_Position = p[1];
     Out.position = pWorld[1];
     Out.normal = In[0].Normal;
     Out.color = color;
     Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
+    EmitVertex();
+    
+    gl_Position = p[0];
+    Out.position = pWorld[0];
+    Out.normal = In[0].Normal;
+    Out.color = color;
+    Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
+    EmitVertex();
+    
+    gl_Position = p[3];
+    Out.position = pWorld[3];
+    Out.normal = In[1].Normal;
+    Out.texcoord = vec2((1.0f + w1 / BladeWidth) * 0.5, t[1]);
+    Out.color = color;
     EmitVertex();
     
     gl_Position = p[2];
@@ -157,10 +169,36 @@ void main()
     Out.color = color;
     Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
     EmitVertex();
+
+    EndPrimitive();
+    
+    //
+    // The back side
+    //
+    gl_Position = p[0];
+    Out.position = pWorld[0];
+    Out.normal = -In[0].Normal;
+    Out.color = color;
+    Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
+    EmitVertex();
+    
+    gl_Position = p[1];
+    Out.position = pWorld[1];
+    Out.normal = -In[0].Normal;
+    Out.color = color;
+    Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
+    EmitVertex();
+    
+    gl_Position = p[2];
+    Out.position = pWorld[2];
+    Out.normal = -In[1].Normal;
+    Out.color = color;
+    Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
+    EmitVertex();
     
     gl_Position = p[3];
     Out.position = pWorld[3];
-    Out.normal = In[1].Normal;
+    Out.normal = -In[1].Normal;
     //Out.color = In[1].Color;
     //Out.color = vec3(length(d[1]) / 4, 0, 0);
     Out.texcoord = vec2((1.0f + w1 / BladeWidth) * 0.5, t[1]);

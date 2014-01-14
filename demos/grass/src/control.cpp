@@ -49,9 +49,11 @@ void Control::createGeneralTab(KxColumnLayout* mainLayout)
     menuItem->setValue(QVariant(1));
     option->menu()->addAction(menuItem);
     option->addItem(menuItem->text());
+    
+    Renderer* renderer = (Renderer*)glfGetRenderer();
 
     option->newValueFromUser(0);
-    option->setCurrentIndex(0);
+    option->setCurrentIndex(renderer->m_renderingSetting.showGeometryOnly? 0 : 1);
     option->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
     connect(option, 
@@ -75,9 +77,11 @@ void Control::createGeometryTab(KxColumnLayout* mainLayout)
             SIGNAL(newValueForConnections(const QVariant&, bool)), 
             this,
             SLOT(onShowNormalChanged(const QVariant&, bool)));
+    
+    Renderer* renderer = (Renderer*)glfGetRenderer();
 
     // The height of the blade
-    sliderGrp = createSliderGroup(2.0f, 6.0f, 4.0f);
+    sliderGrp = createSliderGroup(2.0f, 6.0f, renderer->m_geometrySetting.bladeHeight);
     formLayout->addRow(new KxLabel(QString("Blade height: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
@@ -85,7 +89,7 @@ void Control::createGeometryTab(KxColumnLayout* mainLayout)
         SLOT(onBladeHeightChanged(const QVariant&, bool)));
 
     // The width of the blade
-    sliderGrp = createSliderGroup(0.0005f, 0.5f, 0.01f);
+    sliderGrp = createSliderGroup(0.0005f, 0.5f, renderer->m_geometrySetting.bladeWidth);
     formLayout->addRow(new KxLabel(QString("Thickness: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
@@ -93,7 +97,7 @@ void Control::createGeometryTab(KxColumnLayout* mainLayout)
         SLOT(onBladeWidthChanged(const QVariant&, bool)));
     
     // The thickness threshold of the blade
-    sliderGrp = createSliderGroup(1.0f, 5.0f, 2.0f);
+    sliderGrp = createSliderGroup(0.0f, 5.0f, renderer->m_geometrySetting.bladeThicknessThreshold);
     formLayout->addRow(new KxLabel(QString("Thickness thr: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
@@ -106,6 +110,8 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
     KxFrameLayout* frameLayout; 
     QFormLayout* formLayout; 
     KxSliderGrp* sliderGrp;
+    
+    Renderer* renderer = (Renderer*)glfGetRenderer();
 
     // -------------------------------------------------------------- 
     // Lighting
@@ -137,7 +143,7 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
     option->addItem(menuItem->text());
 
     option->newValueFromUser(0);
-    option->setCurrentIndex(0);
+    option->setCurrentIndex(1); // Use phong lighting as default
     option->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
     connect(option, 
@@ -146,21 +152,21 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
             SLOT(onLightingModelChanged(const QVariant&, bool)));
 
     // Lighting
-    sliderGrp = createSliderGroup(0.0f, 2.0f, 0.5f);
+    sliderGrp = createSliderGroup(0.0f, 2.0f, renderer->m_renderingSetting.light.ambient.x);
     formLayout->addRow(new KxLabel(QString("Ambient: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
         this,
         SLOT(onAmbientChanged(const QVariant&, bool)));
     
-    sliderGrp = createSliderGroup(0.0f, 2.0f, 0.5f);
+    sliderGrp = createSliderGroup(0.0f, 2.0f, renderer->m_renderingSetting.light.diffuse.x);
     formLayout->addRow(new KxLabel(QString("Diffuse: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
         this,
         SLOT(onDiffuseChanged(const QVariant&, bool)));
     
-    sliderGrp = createSliderGroup(0.0f, 2.0f, 0.5f);
+    sliderGrp = createSliderGroup(0.0f, 2.0f, renderer->m_renderingSetting.light.specular.x);
     formLayout->addRow(new KxLabel(QString("Specular: ")), sliderGrp);
     connect(sliderGrp, 
         SIGNAL(newValueForConnections(const QVariant&, bool)), 
@@ -183,6 +189,7 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
     
     KxCheckBox* textureCheckBox = new KxCheckBox(QString("on"));
     formLayout->addRow(new KxLabel(QString("Texture: ")), textureCheckBox);
+    textureCheckBox->setCheckState(renderer->m_renderingSetting.useTexture? Qt::Checked : Qt::Unchecked);
 
     connect(textureCheckBox, 
             SIGNAL(newValueForConnections(const QVariant&, bool)), 
@@ -210,12 +217,15 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
             this,
             SLOT(onTranslucency(const QVariant&, bool)));
     
+    checkBox->setCheckState(renderer->m_renderingSetting.translucency? Qt::Checked : Qt::Unchecked);
+    
     checkBox = new KxCheckBox(QString("on"));
     formLayout->addRow(new KxLabel(QString("Shadowmap: ")), checkBox);
     connect(checkBox, 
             SIGNAL(newValueForConnections(const QVariant&, bool)), 
             this,
             SLOT(onShowShadowmapChanged(const QVariant&, bool)));
+    
     
     // -------------------------------------------------------------- 
     // Antialiasing

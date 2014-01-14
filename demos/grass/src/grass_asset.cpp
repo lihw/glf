@@ -9,7 +9,7 @@
 
 #include <glf/glf.h>
 
-const GLuint TOTAL_NUM_BLADES = 400;
+const GLuint TOTAL_NUM_BLADES = 10; //400;
 
 const GLfloat WIDTH = 10.0f;
 const GLfloat HEIGHT = 10.0f;
@@ -241,4 +241,19 @@ void GrassAsset::growBlade(GLfloat* position, GLuint baseIndex, Vertex* out_vert
         out_indices[j * 2] = baseIndex + j;
         out_indices[j * 2 + 1] = baseIndex + j + 1;
     }
+}
+    
+glf::Box GrassAsset::getBoundingBox() const
+{
+    glf::Box ret;
+
+    glm::vec3 minpos = glm::vec3(WIDTH * -0.5f, 0.0f, HEIGHT * -0.5f);
+    glm::vec3 maxpos = glm::vec3(WIDTH *  0.5f, m_bladeLength, HEIGHT *  0.5f);
+
+    minpos *= 1.1f;
+    maxpos *= 1.1f;
+
+    ret.setMinMax(minpos, maxpos);
+            
+    return ret;
 }

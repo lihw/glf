@@ -19,52 +19,11 @@ GLFMainWindow::GLFMainWindow(const GLFConfig& config, QWidget *parent)
 {
     setMinimumSize(config.windowWidth, config.windowHeight);
     
+    _config = config;
 
-    // -------------------------------------------------------------- 
-    // GL rendering widget
-    // -------------------------------------------------------------- 
-    QGLFormat qglFormat;
-
-    qglFormat.setVersion(4, 3);  
-    qglFormat.setProfile(QGLFormat::CoreProfile);
-            
-    qglFormat.setRedBufferSize(config.redBits);
-    qglFormat.setGreenBufferSize(config.greenBits);
-    qglFormat.setBlueBufferSize(config.blueBits);
-    qglFormat.setAlphaBufferSize(config.alphaBits);
-    qglFormat.setDepthBufferSize(config.depthBits);
-    qglFormat.setStencilBufferSize(config.stencilBits);
-
-    qglFormat.setDoubleBuffer(true);
-
-    if (config.multisamples > 1)
-    {
-        qglFormat.setSampleBuffers(true);
-        qglFormat.setSamples(config.multisamples);
-    }
-    else
-    {
-        qglFormat.setSampleBuffers(false);
-    }
-    
-    _pRenderWidget = new GLFRenderWidget(config.windowWidth, config.windowHeight, qglFormat, this);
-    setCentralWidget(_pRenderWidget);
-    
-    // -------------------------------------------------------------- 
-    // Create windows
-    // -------------------------------------------------------------- 
-    _pControlWindow = new GLFControlWindow(this);
-    _pOutputWindow = new GLFOutputWindow(this);
-
-    if (config.noOutputWindow)
-    {
-        _pOutputWindow->setVisible(false);
-    }
-
-    if (config.noControlWindow)
-    {
-        _pControlWindow->setVisible(false);
-    }
+    _pRenderWidget  = NULL;
+    _pOutputWindow  = NULL;
+    _pControlWindow = NULL;
 
     // -------------------------------------------------------------- 
     // Create menus
@@ -89,6 +48,67 @@ void GLFMainWindow::closeEvent(QCloseEvent* event)
 {
     // TODO: sure to close?
 }
+
+void GLFMainWindow::showEvent(QShowEvent* event)
+{
+    // -------------------------------------------------------------- 
+    // GL rendering widget
+    // -------------------------------------------------------------- 
+    QGLFormat qglFormat;
+
+    qglFormat.setVersion(4, 3);  
+    qglFormat.setProfile(QGLFormat::CoreProfile);
+            
+    qglFormat.setRedBufferSize(_config.redBits);
+    qglFormat.setGreenBufferSize(_config.greenBits);
+    qglFormat.setBlueBufferSize(_config.blueBits);
+    qglFormat.setAlphaBufferSize(_config.alphaBits);
+    qglFormat.setDepthBufferSize(_config.depthBits);
+    qglFormat.setStencilBufferSize(_config.stencilBits);
+
+    qglFormat.setDoubleBuffer(true);
+
+    if (_config.multisamples > 1)
+    {
+        qglFormat.setSampleBuffers(true);
+        qglFormat.setSamples(_config.multisamples);
+    }
+    else
+    {
+        qglFormat.setSampleBuffers(false);
+    }
+    
+    _pRenderWidget = new GLFRenderWidget(_config.windowWidth, _config.windowHeight, qglFormat, this);
+    setCentralWidget(_pRenderWidget);
+    
+    // -------------------------------------------------------------- 
+    // Create windows
+    // -------------------------------------------------------------- 
+    _pControlWindow = new GLFControlWindow(this);
+    _pOutputWindow = new GLFOutputWindow(this);
+
+    if (_config.noOutputWindow)
+    {
+        _pOutputWindow->setVisible(false);
+    }
+    else
+    {
+        _pOutputWindow->show();
+    }
+
+
+    if (_config.noControlWindow)
+    {
+        _pControlWindow->setVisible(false);
+    }
+    else
+    {
+        _pControlWindow->show();
+    }
+
+    QMainWindow::showEvent(event);
+}
+    
     
 void GLFMainWindow::onDumpScreen()
 {

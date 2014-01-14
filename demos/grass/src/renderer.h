@@ -43,6 +43,7 @@ private:
     glf::Drawable*    m_grass;
     glf::Drawable*    m_light;
     glf::RectTexture* m_shadowmap;
+    glf::Box          m_grassBox;
 
     enum
     {
@@ -54,6 +55,7 @@ private:
         KAJIYA,
         SHADOWMAP,
         PHONG_TEXTURE,
+        PHONG_TEXTURE_SSS,
         KAJIYA_TEXTURE,
 
         SHADER_FIRST  = GRID,
@@ -65,6 +67,7 @@ private:
 
     struct 
     {
+        GLfloat bladeHeight;
         GLfloat bladeWidth;
         GLfloat bladeThicknessThreshold;
     } m_geometrySetting;

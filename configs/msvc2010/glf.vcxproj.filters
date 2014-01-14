@@ -105,6 +105,9 @@
     <Filter Include="01system\images">
       <UniqueIdentifier>{a502a42f-d011-480c-8d9e-3ee4cefd4271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03utility\math">
+      <UniqueIdentifier>{b3336227-236d-4df1-bcfe-04831ab0ff86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\01system\glf_assert.cpp">
@@ -136,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\02opengl\glf_vertex_array.cpp">
       <Filter>02opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\03utility\glf_arcball.cpp">
-      <Filter>03utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\03utility\glf_camera.cpp">
       <Filter>03utility</Filter>
@@ -926,6 +926,12 @@
     <ClCompile Include="..\..\src\03utility\glf_light.cpp">
       <Filter>03utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\03utility\math\glf_box.cpp">
+      <Filter>03utility\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\03utility\math\glf_arcball.cpp">
+      <Filter>03utility\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\src\04framework\controls\base\KxUIInventory.h">
@@ -1191,9 +1197,6 @@
     <ClInclude Include="..\..\src\02opengl\glf_vertex_array.h">
       <Filter>02opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\03utility\glf_arcball.h">
-      <Filter>03utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\03utility\glf_camera.h">
       <Filter>03utility</Filter>
     </ClInclude>
@@ -1323,5 +1326,11 @@
     <ClInclude Include="..\..\src\glf.h" />
     <ClInclude Include="..\..\src\glf_controls.h" />
     <ClInclude Include="..\..\src\glf_common.h" />
+    <ClInclude Include="..\..\src\03utility\math\glf_box.h">
+      <Filter>03utility\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\03utility\math\glf_arcball.h">
+      <Filter>03utility\math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
