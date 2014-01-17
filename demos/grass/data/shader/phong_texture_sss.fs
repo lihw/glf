@@ -100,16 +100,25 @@ vec3 transmittance(vec3 position, vec3 normal, LightStruct light, vec4 albedo)
     }
     
     float d1 = totalDepth / totalWeight;
-    float d2 = shadowPosition.z;
-    float dist = abs(d1 - d2);
+    float d2 = shadowPosition.z * 0.5 + 0.5; // (-1, 1) -> (0, 1)
+    float dist = abs(d2 - d1); // d1 <= d2
     
     vec3 lightDir = -normalize(light.direction.xyz); // inverse the light direction
     float s = Scale * dist;
     float E = max(0.3 + dot(normal, lightDir), 0.0);
 
     vec3 ret = T(s) * E * light.diffuse.rgb * albedo.rgb;
+
+    // FIXME: d2 may be negative when the pixel out of frustum.
+    //if (d2 < 0)
+    //{
+    //    return ret * 0.001 + vec3(1, 0, 0); 
+    //}
     
+    //return ret * 0.001 + vec3(dist, dist, dist);
     return ret * 0.001 + vec3(d1, d1, d1);
+    //return ret * 0.001 + vec3(d2, d2, d2);
+    //return ret;
 }
 
 void main()

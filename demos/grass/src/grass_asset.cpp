@@ -9,7 +9,7 @@
 
 #include <glf/glf.h>
 
-const GLuint TOTAL_NUM_BLADES = 10; //400;
+const GLuint TOTAL_NUM_BLADES = 400;
 
 const GLfloat WIDTH = 10.0f;
 const GLfloat HEIGHT = 10.0f;

@@ -215,7 +215,7 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
     connect(checkBox, 
             SIGNAL(newValueForConnections(const QVariant&, bool)), 
             this,
-            SLOT(onTranslucency(const QVariant&, bool)));
+            SLOT(onTranslucencyChanged(const QVariant&, bool)));
     
     checkBox->setCheckState(renderer->m_renderingSetting.translucency? Qt::Checked : Qt::Unchecked);
     

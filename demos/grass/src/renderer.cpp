@@ -37,7 +37,7 @@ Renderer::Renderer()
 
     m_renderingSetting.smFramebuffer = NULL;
     m_renderingSetting.smShow        = false;
-    m_renderingSetting.smSize        = 1024;
+    m_renderingSetting.smSize        = 512;
 
     m_renderingSetting.bladeTexture  = NULL;
 }
@@ -257,10 +257,7 @@ void Renderer::render()
                     shader = &m_shaders[PHONG_TEXTURE];
                 }
 
-                shader->getUniform("ScreenSize")->setValue((GLfloat)m_width, (GLfloat)m_height);
                 shader->getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
-                shader->getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
-                shader->getUniform("CameraPosition")->setValue(m_camera.getCameraPosition());
                 shader->getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
                 shader->getUniform("MVP")->setValue(mat);
         
@@ -289,10 +286,7 @@ void Renderer::render()
         {
             if (m_renderingSetting.lightingMode == PHONG)
             {
-                m_shaders[PHONG].getUniform("ScreenSize")->setValue((GLfloat)m_width, (GLfloat)m_height);
                 m_shaders[PHONG].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
-                m_shaders[PHONG].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
-                m_shaders[PHONG].getUniform("CameraPosition")->setValue(m_camera.getCameraPosition());
                 m_shaders[PHONG].getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
                 m_shaders[PHONG].getUniform("MVP")->setValue(mat);
         
@@ -470,7 +464,7 @@ bool Renderer::loadShaders()
     
     // Shadow map generation
     if (!m_shaders[SHADOWMAP].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/shadowmap.fs", NULL, NULL,
-        PATH_PREFIX"/grass.gs"))
+        PATH_PREFIX"/grass_expansion.gs"))
     {
         return false;
     }
@@ -506,13 +500,14 @@ void Renderer::renderShadowMap()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glDisable(GL_CULL_FACE);
+
     glf::Camera camera;
     camera.fromLight(m_renderingSetting.light, m_grassBox);
     glm::mat4 mat = camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
 
     glViewport(0, 0, m_renderingSetting.smSize, m_renderingSetting.smSize);
 
-    m_shaders[SHADOWMAP].getUniform("ScreenSize")->setValue((GLfloat)m_renderingSetting.smSize, (GLfloat)m_renderingSetting.smSize);
     m_shaders[SHADOWMAP].getUniform("MVP")->setValue(mat);
     m_shaders[SHADOWMAP].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth * 1.1f); // Increase the blade width
     m_shaders[SHADOWMAP].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
@@ -527,4 +522,6 @@ void Renderer::renderShadowMap()
     m_renderingSetting.smFramebuffer->disable();
     
     glViewport(0, 0, m_width, m_height);
+
+    glEnable(GL_CULL_FACE);
 }
