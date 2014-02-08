@@ -35,6 +35,8 @@ public:
     GLF_INLINE GLuint getNumVertexDescEntries() const
     { return 5; }
 
+    glf::Box getBoundingBox() const;
+
     enum
     {
         NUM_ASSET_BLADES = 10,

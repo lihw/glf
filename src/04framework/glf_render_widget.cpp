@@ -124,7 +124,7 @@ void GLFRenderWidget::dumpScreen()
     glReadPixels(0, 0, width(), height(), GL_RGB, GL_UNSIGNED_BYTE, data);
 
     static int index = 1;
-    QString imageName = QString("dumpscreen_%1.png").arg(index);
+    QString imageName = QString("dumpscreen_%1.png").arg(index++);
     glf::Image image;
     image.createFromMemory(data, width(), height(), 3);
     image.flipVertical();

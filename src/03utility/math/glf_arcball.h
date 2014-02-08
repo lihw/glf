@@ -12,7 +12,7 @@
 #ifndef GLF_ARCBALL_H
 #define GLF_ARCBALL_H
 
-#include "../glf_common.h"
+#include "../../glf_common.h"
 
 GLF_NAMESPACE_BEGIN
 

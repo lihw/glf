@@ -43,11 +43,13 @@ public slots:
 
 protected:
     void closeEvent(QCloseEvent* event);
+    void showEvent(QShowEvent* event);
 
 private:
     GLFRenderWidget*    _pRenderWidget;
     GLFOutputWindow*    _pOutputWindow;
     GLFControlWindow*   _pControlWindow;
+    GLFConfig           _config;
 
     QMenu*    _pFileMenu;
     QAction*  _pAboutAct;

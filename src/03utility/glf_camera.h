@@ -18,6 +18,7 @@ GLF_NAMESPACE_BEGIN
 
 
 class DirectionalLight;
+class Box;
 
 
 class Camera 
@@ -56,7 +57,7 @@ public:
     void identity();
 
     // Create a camera from a directional light; used in shadow map.
-    void fromLight(const DirectionalLight &light);
+    void fromLight(const DirectionalLight &light, const Box& box);
 
     // Get the positon of the camera
     glm::vec3 getCameraPosition() const;
