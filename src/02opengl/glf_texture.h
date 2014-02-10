@@ -23,7 +23,13 @@ public:
     Texture();
     ~Texture();
 
+    // Create a 2D texture from given data, usually for converting an image to an
+    // OpenGL texture.
     bool create(GLubyte* data, GLuint width, GLuint height, GLenum format);
+    // Create an empty 1D, 2D or 3D texture.
+    bool create(GLuint width, GLenum format);
+    bool create(GLuint width, GLuint height, GLenum format);
+    bool create(GLuint width, GLuint height, GLuint depth, GLenum format);
 
     void setFiltering(GLenum minFiltering, GLenum magFiltering);
     void setWrapping(GLenum wrapS, GLenum wrapT, GLenum wrapR);
@@ -41,10 +47,12 @@ public:
 private: 
     GLuint _width;
     GLuint _height;
+    GLuint _depth;
     GLenum _format;
     GLuint _texture;
     bool   _enabled;
     GLuint _bytes;
+    GLenum _target;
     GLenum _wrap[3]; // s, t, r
     GLenum _filtering[2]; // min and mag
     GLuint _textureUnit;

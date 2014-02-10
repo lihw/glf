@@ -116,9 +116,10 @@ vec3 transmittance(vec3 position, vec3 normal, LightStruct light, vec4 albedo)
     //}
     
     //return ret * 0.001 + vec3(dist, dist, dist);
-    return ret * 0.001 + vec3(d1, d1, d1);
+    //return ret * 0.001 + vec3(d1, d1, d1);
     //return ret * 0.001 + vec3(d2, d2, d2);
-    //return ret;
+
+    return ret;
 }
 
 void main()
@@ -131,7 +132,7 @@ void main()
     vec3 refl = reflectance(In.position, normal.xyz, Light, albedo);
     vec3 trans = transmittance(In.position, -normal.xyz, Light, albedo);
 
-    FragColor.rgb = refl * 0.001 + trans;
+    FragColor.rgb = refl + trans;
     FragColor.a = 1.0f;
 }
 

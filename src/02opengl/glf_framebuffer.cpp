@@ -72,7 +72,7 @@ bool Framebuffer::create(GLuint width,
     for (GLuint i = 0; i < numColorBuffers; ++i)
     {
         _colorBuffers[i] = new Texture;
-        if (!_colorBuffers[i]->create(NULL, width, height, colorFormats[i]))
+        if (!_colorBuffers[i]->create((GLubyte *)NULL, width, height, colorFormats[i]))
         {
             return false;
         }
@@ -86,7 +86,7 @@ bool Framebuffer::create(GLuint width,
     if (depthFormat != 0)
     {
         _depthBuffer = new Texture;
-        if (_depthBuffer->create(NULL, width, height, depthFormat))
+        if (_depthBuffer->create((GLubyte *)NULL, width, height, depthFormat))
         {
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 
                     _depthBuffer->getTextureHandle(), 0);
@@ -103,7 +103,7 @@ bool Framebuffer::create(GLuint width,
     if (stencilFormat != 0)
     {
         _stencilBuffer = new Texture;
-        if (_stencilBuffer->create(NULL, width, height, stencilFormat))
+        if (_stencilBuffer->create((GLubyte *)NULL, width, height, stencilFormat))
         {
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 
                     _stencilBuffer->getTextureHandle(), 0);

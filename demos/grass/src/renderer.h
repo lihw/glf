@@ -36,6 +36,7 @@ public:
 private:
     bool loadShaders();
     void renderShadowMap();
+    void generateAmbientOcclusion();
 
 private:
     glf::RectColor*   m_background;
@@ -56,6 +57,8 @@ private:
         SHADOWMAP,
         PHONG_TEXTURE,
         PHONG_TEXTURE_SSS,
+        AO,
+        AO_GENERATE,
         KAJIYA_TEXTURE,
 
         SHADER_FIRST  = GRID,
@@ -83,12 +86,37 @@ private:
         glf::Texture*           bladeTexture;
         bool                    useTexture;
 
-        glf::Framebuffer       *smFramebuffer;
+        glf::Framebuffer*       smFramebuffer;
         bool                    smShow;
         GLuint                  smSize;
         bool                    translucency;
+
+        bool                    ambientOcclusion;
     } m_renderingSetting;
 
+    // We render the grass from x, y and z direction respectively. Each
+    // rendering will write all fragments into a OIT UAV buffer with depth test
+    // off. Later, for each fragment in the in the current camera, we can
+    // compute its occlusion by computing the shadow term casted by neighboring
+    // fragments in UAV buffers.
+    enum 
+    {
+        GRID_XRES = 256,
+        GRID_YRES = 256,
+        DENSITY   = 32,
+    };
+    glf::ImageStorage*      m_splatTextureX1; // splat grid viewed at x coordinate.
+    glf::ImageStorage*      m_splatTextureY1; // ditto.
+    glf::ImageStorage*      m_splatTextureX2; // splat grid viewed at x coordinate.
+    glf::ImageStorage*      m_splatTextureY2; // ditto.
+    glf::ImageStorage*      m_splatTextureIndexX; // The index map viewed at x coordinate
+    glf::ImageStorage*      m_splatTextureIndexY; // Ditto
+    glf::Camera             m_aoCameras[2];
+    glf::Atomic*            m_aoAtomic;
+    GLuint*                 m_aoInitialIndex;
+    glf::Rect*              m_aoRect;
+    glf::Framebuffer*       m_aoFramebuffer;
+    glf::RectTexture*       m_ao;
 
     glf::Camera     m_camera;
     glf::Arcball    m_arcball;

@@ -226,6 +226,19 @@ void Control::createShadingTabs(KxColumnLayout* mainLayout)
             this,
             SLOT(onShowShadowmapChanged(const QVariant&, bool)));
     
+    // -------------------------------------------------------------- 
+    // Ambient occlusion
+    // -------------------------------------------------------------- 
+    frameLayout = KxLayoutHelper::addFrameLayout(QString("Ambient Occlusion"), mainLayout);
+    formLayout = KxLayoutHelper::addFormLayout(frameLayout);
+    
+    checkBox = new KxCheckBox(QString("on"));
+    formLayout->addRow(new KxLabel(QString("Enable: ")), checkBox);
+    connect(checkBox, 
+            SIGNAL(newValueForConnections(const QVariant&, bool)), 
+            this,
+            SLOT(onAmbientOcclusionChanged(const QVariant&, bool)));
+    checkBox->setCheckState(renderer->m_renderingSetting.ambientOcclusion? Qt::Checked : Qt::Unchecked);
     
     // -------------------------------------------------------------- 
     // Antialiasing
@@ -346,4 +359,11 @@ void Control::onTranslucencyChanged(const QVariant& value, bool interim)
     Renderer* renderer = (Renderer*)glfGetRenderer();
     bool v = value.toBool();
     renderer->m_renderingSetting.translucency = v;
+}
+    
+void Control::onAmbientOcclusionChanged(const QVariant& value, bool interim)
+{
+    Renderer* renderer = (Renderer*)glfGetRenderer();
+    bool v = value.toBool();
+    renderer->m_renderingSetting.ambientOcclusion = v;
 }

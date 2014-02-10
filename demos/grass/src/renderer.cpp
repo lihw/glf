@@ -9,6 +9,34 @@
 
 #include "grass_asset.h"
 
+const char AOCLEAR_VS[] =
+    "#version 430 core\n"
+    "\n"
+    "layout (location = 0) in vec4 Position;\n"
+    "\n"
+    "out gl_PerVertex\n"
+    "{\n"
+    "    vec4 gl_Position;\n"
+    "};\n"
+    "\n"
+    "void main()\n"
+    "{\n"
+    "    gl_Position = Position;\n"
+    "}\n";
+
+const char AOCLEAR_FS[] = 
+    "#version 430 core\n"
+    "in vec4 gl_FragCoord; \n"
+    "layout (location = 0, index = 0) out vec4 FragColor;\n"
+    "layout(binding = 1, r32ui) coherent uniform uimage2D StartOffsetBuffer; \n"
+    "void main()\n"
+    "{\n"
+    "    uvec4 value = uvec4(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);\n"
+    "    imageStore(StartOffsetBuffer, ivec2(gl_FragCoord.xy), value); \n"
+    "\n"
+    "    FragColor = vec4(0, 0, 0, 0); \n"
+    "}\n";
+
 Renderer::Renderer()
     : GLFAbstractRenderer()
 {
@@ -40,6 +68,17 @@ Renderer::Renderer()
     m_renderingSetting.smSize        = 512;
 
     m_renderingSetting.bladeTexture  = NULL;
+
+    m_renderingSetting.ambientOcclusion = true;
+    m_splatTextureIndexX = NULL;
+    m_splatTextureIndexY = NULL;
+    m_splatTextureX1 = NULL;
+    m_splatTextureY1 = NULL;
+    m_splatTextureX2 = NULL;
+    m_splatTextureY2 = NULL;
+    m_aoAtomic = NULL;
+    m_aoInitialIndex = NULL;      
+    m_aoFramebuffer = NULL;
 }
 
 Renderer::~Renderer()
@@ -132,18 +171,89 @@ bool Renderer::initialize()
         GLF_LOGERROR("Failed to create blade texture");
         return false;
     }
+
+    // -------------------------------------------------------------- 
+    // Init ambient occlusion
+    // -------------------------------------------------------------- 
+    m_splatTextureX1 = new glf::ImageStorage();
+    m_splatTextureY1 = new glf::ImageStorage();
+    m_splatTextureX2 = new glf::ImageStorage();
+    m_splatTextureY2 = new glf::ImageStorage();
+    if (!m_splatTextureX1->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
+        !m_splatTextureY1->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
+        !m_splatTextureX2->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
+        !m_splatTextureY2->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY))
+    {
+        GLF_LOGERROR("Failed to create splat textures");
+        return false;
+    }
+    m_splatTextureIndexX = new glf::ImageStorage();
+    m_splatTextureIndexY = new glf::ImageStorage();
+    if (!m_splatTextureIndexX->create2D(GL_R32UI, GRID_XRES, GRID_YRES) ||
+        !m_splatTextureIndexY->create2D(GL_R32UI, GRID_XRES, GRID_YRES))
+    {
+        GLF_LOGERROR("Failed to create splat index textures");
+        return false;
+    }
     
+    m_aoAtomic = new glf::Atomic();
+    if (!m_aoAtomic->create())
+    {
+        GLF_LOGERROR("Failed to create the atomic counter for ambient occlusion");
+        return false;
+    }
+    
+    m_aoRect = new glf::Rect(AOCLEAR_VS, AOCLEAR_FS);
+    m_aoRect->setSize(GRID_XRES, GRID_YRES);
+        
+
+    // cameras
+    // Look from right
+    m_aoCameras[0].lookAt(20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    m_aoCameras[0].setOrthogonal(m_grassBox.min().z, 
+                                 m_grassBox.max().z,
+                                 m_grassBox.min().y,
+                                 m_grassBox.max().y,
+                                 -m_grassBox.max().x - 0.01f,
+                                 -m_grassBox.min().x + 0.01f);
+    // Look from front
+    m_aoCameras[1].lookAt(0.0f, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    m_aoCameras[1].setOrthogonal(m_grassBox.min().x, 
+                                 m_grassBox.max().x,
+                                 m_grassBox.min().y,
+                                 m_grassBox.max().y,
+                                 -m_grassBox.max().z - 0.01f,
+                                 -m_grassBox.min().z + 0.01f);
+
+    m_aoInitialIndex = new GLuint [GRID_XRES * GRID_YRES];
+    memset(m_aoInitialIndex, 0xff, GRID_XRES * GRID_YRES * sizeof(GLint));
+
+    bool ret;
+    GLenum colorFormats[] = { GL_RGBA8 };
+    m_aoFramebuffer = new glf::Framebuffer();
+    ret = m_aoFramebuffer->create(GRID_XRES,
+                                GRID_YRES,
+                                colorFormats,
+                                1,
+                                GL_DEPTH_COMPONENT24,
+                                0);
+    if (!ret)
+    {
+        GLF_LOGERROR("Failed to create the framebuffer for ambient occlusion debug");
+        return false;
+    }
+
     // -------------------------------------------------------------- 
     // Create shadow map framebuffer
     // -------------------------------------------------------------- 
-    GLenum colorFormats[] = { GL_RGBA32F };
+    colorFormats[0] = GL_RGBA32F;
     m_renderingSetting.smFramebuffer = new glf::Framebuffer();
-    bool ret = m_renderingSetting.smFramebuffer->create(m_renderingSetting.smSize,
-                                                        m_renderingSetting.smSize,
-                                                        colorFormats,
-                                                        1,
-                                                        GL_DEPTH_COMPONENT24,
-                                                        0);
+    ret = m_renderingSetting.smFramebuffer->create(m_renderingSetting.smSize,
+                                                   m_renderingSetting.smSize,
+                                                   colorFormats,
+                                                   1,
+                                                   GL_DEPTH_COMPONENT24,
+                                                   0);
     if (!ret)
     {
         GLF_LOGERROR("Failed to create the framebuffer for shadow map");
@@ -155,6 +265,14 @@ bool Renderer::initialize()
     m_shadowmap->setTexture(m_renderingSetting.smFramebuffer->getColorBuffer(0));
     m_shadowmap->setSize(512, 512);
     m_shadowmap->setPosition(0, 0);
+    
+    
+    // Visualize the ambient occlusion map
+    m_ao = new glf::RectTexture();
+    //m_ao->setTexture(m_aoFramebuffer->getColorBuffer(0));
+    m_ao->setTexture(m_renderingSetting.smFramebuffer->getColorBuffer(0));
+    m_ao->setSize(256, 256);
+    m_ao->setPosition(512, 0);
     
     return true;
 }
@@ -169,6 +287,17 @@ void Renderer::cleanup()
 
     delete m_renderingSetting.smFramebuffer;
     delete m_renderingSetting.bladeTexture;
+    delete m_splatTextureX1;
+    delete m_splatTextureY1;
+    delete m_splatTextureX2;
+    delete m_splatTextureY2;
+    delete m_splatTextureIndexX;
+    delete m_splatTextureIndexY;
+    delete m_aoAtomic;
+    delete m_aoRect;
+    delete [] m_aoInitialIndex;
+    delete m_aoFramebuffer;
+    delete m_ao;
 }
 
 void Renderer::render()
@@ -197,6 +326,16 @@ void Renderer::render()
     {
         renderShadowMap();
     }
+
+    // -------------------------------------------------------------- 
+    // Render ambient occlusion if needed
+    // -------------------------------------------------------------- 
+    if (m_renderingSetting.ambientOcclusion)
+    {
+        generateAmbientOcclusion();
+    }
+
+    goto end;
 
     // -------------------------------------------------------------- 
     // Draw grass
@@ -241,41 +380,80 @@ void Renderer::render()
             else if (m_renderingSetting.lightingMode == PHONG)
             {
                 glf::Shader* shader = NULL;
-                if (m_renderingSetting.translucency)
+
+                if (m_renderingSetting.ambientOcclusion)
                 {
-                    shader = &m_shaders[PHONG_TEXTURE_SSS];
-
-                    glf::Camera camera;
-                    camera.fromLight(m_renderingSetting.light, m_grassBox);
-                    glm::mat4 mat = camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
-
-                    shader->getUniform("LightMVP")->setValue(mat);
-                    shader->getUniform("Scale")->setValue(2.0f);
+                    shader = &m_shaders[AO];
                 }
                 else
                 {
-                    shader = &m_shaders[PHONG_TEXTURE];
+                    if (m_renderingSetting.translucency)
+                    {
+                        shader = &m_shaders[PHONG_TEXTURE_SSS];
+
+                        glf::Camera camera;
+                        camera.fromLight(m_renderingSetting.light, m_grassBox);
+                        glm::mat4 mat = camera.getProjectionModelviewMatrix() * m_grass->getTransformation();
+
+                        shader->getUniform("LightMVP")->setValue(mat);
+                        shader->getUniform("Scale")->setValue(2.0f);
+                    }
+                    else
+                    {
+                        shader = &m_shaders[PHONG_TEXTURE];
+                    }
                 }
 
-                shader->getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
-                shader->getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
-                shader->getUniform("MVP")->setValue(mat);
-        
-                shader->getUniform("Light.direction")->setValue(m_renderingSetting.light.position);
-                shader->getUniform("Light.ambient")->setValue(m_renderingSetting.light.ambient);
-                shader->getUniform("Light.diffuse")->setValue(m_renderingSetting.light.diffuse);
-                shader->getUniform("Light.specular")->setValue(m_renderingSetting.light.specular);
-                shader->getUniform("Light.shinness")->setValue(m_renderingSetting.light.shininess);
+                if (shader != &m_shaders[AO])
+                {
+                    shader->getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+                    shader->getUniform("NormalMatrix")->setValue(glm::inverseTranspose(m_grass->getTransformation()));
+                    shader->getUniform("MVP")->setValue(mat);
+            
+                    shader->getUniform("Light.direction")->setValue(m_renderingSetting.light.position);
+                    shader->getUniform("Light.ambient")->setValue(m_renderingSetting.light.ambient);
+                    shader->getUniform("Light.diffuse")->setValue(m_renderingSetting.light.diffuse);
+                    shader->getUniform("Light.specular")->setValue(m_renderingSetting.light.specular);
+                    shader->getUniform("Light.shinness")->setValue(m_renderingSetting.light.shininess);
+                        
+                    m_renderingSetting.bladeTexture->enable(0);
+                    m_renderingSetting.smFramebuffer->getColorBuffer(0)->enable(1);
+                    shader->enable();
+
+                    m_grass->render(1);
+
+                    shader->disable();
+                    m_renderingSetting.smFramebuffer->getColorBuffer(0)->disable();
+                    m_renderingSetting.bladeTexture->disable();
+                }
+                else
+                {
+                    shader->getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
+                    shader->getUniform("MVP")->setValue(mat);
+
+                    shader->getUniform("MVPX")->setValue(m_aoCameras[0].getProjectionModelviewMatrix());
+                    //shader->getUniform("MVPY")->setValue(m_aoCameras[1].getProjectionModelviewMatrix());
+
+                    m_splatTextureIndexX->enableRead(0);
+                    m_splatTextureX1->enableRead(1);
+                    m_splatTextureX2->enableRead(2);
                     
-                m_renderingSetting.bladeTexture->enable(0);
-                m_renderingSetting.smFramebuffer->getColorBuffer(0)->enable(1);
-                shader->enable();
+                    m_splatTextureIndexY->enableRead(3);
+                    m_splatTextureY1->enableRead(4);
+                    m_splatTextureY2->enableRead(5);
 
-                m_grass->render(1);
+                    shader->enable();
+                    //m_grass->render(1);
+                    shader->disable();
 
-                shader->disable();
-                m_renderingSetting.smFramebuffer->getColorBuffer(0)->disable();
-                m_renderingSetting.bladeTexture->disable();
+                    m_splatTextureIndexX->disable();
+                    m_splatTextureX1->disable();
+                    m_splatTextureX2->disable();
+                    
+                    m_splatTextureIndexY->disable();
+                    m_splatTextureY1->disable();
+                    m_splatTextureY2->disable();
+                }
             }
             else
             {
@@ -312,10 +490,18 @@ void Renderer::render()
         m_shaders[STEM].disable();
     }
 
+end:
+
     if (m_renderingSetting.smShow)
     {
         m_shadowmap->render();
     }
+
+    if (m_renderingSetting.ambientOcclusion)
+    {
+        m_ao->render();
+    }
+
 }
 
 void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)
@@ -486,6 +672,26 @@ bool Renderer::loadShaders()
         m_shaders[PHONG_TEXTURE_SSS].getUniform("ShadowMap")->setValue(GLuint(1));
     }
 
+    // AO
+    if (!m_shaders[AO_GENERATE].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/shadowmap.fs", NULL, NULL,
+        PATH_PREFIX"/grass_expansion.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading ambient occlusion generation shader succeeded");
+    }
+    if (!m_shaders[AO].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/ao.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
+    {
+        return false;
+    }
+    else
+    {
+        GLF_LOGINFO("Loading ambient occlusion rendering shader succeeded");
+    }
+
 #undef PATH_PREFIX
 
     return true;
@@ -524,4 +730,80 @@ void Renderer::renderShadowMap()
     glViewport(0, 0, m_width, m_height);
 
     glEnable(GL_CULL_FACE);
+}
+    
+void Renderer::generateAmbientOcclusion()
+{
+    m_renderingSetting.smFramebuffer->enable();
+    
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glViewport(0, 0, 512, 512);
+
+    glClearColor(1, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    /*
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+
+    //glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    
+    m_shaders[AO_GENERATE].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth * 1.1f); // Increase the blade width
+    m_shaders[AO_GENERATE].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+
+    glf::ImageStorage *buffers[] =
+    {
+        m_splatTextureIndexX,
+        m_splatTextureX1, 
+        m_splatTextureX2,
+
+        m_splatTextureIndexY,
+        m_splatTextureY1, 
+        m_splatTextureY2,
+    };
+
+    for (GLuint i = 0; i < 2; ++i)
+    {
+        m_aoAtomic->enable(0);
+        m_aoAtomic->set(0);
+
+        buffers[i * 3 + 0]->enableReadAndWrite(1);
+        buffers[i * 3 + 1]->enableWrite(2);
+        buffers[i * 3 + 2]->enableWrite(3);
+
+        // Clear offset buffer to -1
+        //m_aoRect->render(); 
+        //buffers[i * 3]->uploadData(m_aoInitialIndex);
+
+        // Write splats into grids.
+        //glf::Camera* camera = &m_aoCameras[i];
+        glf::Camera* camera = &m_camera;
+        
+        glm::mat4 mat = camera->getProjectionModelviewMatrix() * m_grass->getTransformation();
+        m_shaders[AO_GENERATE].getUniform("MVP")->setValue(mat);
+        glm::vec3 cameraPosition = camera->getCameraPosition();
+        m_shaders[AO_GENERATE].getUniform("CameraPosition")->setValue(cameraPosition.x, 
+            cameraPosition.y, cameraPosition.z); 
+
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+        m_shaders[AO_GENERATE].enable();
+        m_grass->render(1);
+        m_shaders[AO_GENERATE].disable();
+        //glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+        m_aoAtomic->disable();
+        buffers[i * 3 + 0]->disable();
+        buffers[i * 3 + 1]->disable();
+        buffers[i * 3 + 2]->disable();
+    }
+    */
+        
+    glViewport(0, 0, m_width, m_height);
+
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
+    //m_aoFramebuffer->disable();
+    m_renderingSetting.smFramebuffer->disable();
 }
