@@ -52,6 +52,9 @@ protected slots:
     // Translucent
     void onShowShadowmapChanged(const QVariant& value, bool interim);
     void onTranslucencyChanged(const QVariant& value, bool interim);
+
+    // Ambient occlusion
+    void onAmbientOcclusionChanged(const QVariant& value, bool interim);
 };
 
 #endif // !CONTROL_H
