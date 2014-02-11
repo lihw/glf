@@ -19,6 +19,8 @@ layout(binding = 3, r32ui) coherent uniform uimage2D StartOffsetBufferY;
 layout(binding = 4, rgba32ui) coherent uniform uimage2D GBufferY1;
 layout(binding = 5, rgba32ui) coherent uniform uimage2D GBufferY2;
 
+layout (binding = 6) uniform sampler2D Texture;
+
 uniform mat4 MVPX; 
 uniform mat4 MVPY;
 
@@ -38,12 +40,16 @@ uniform vec2 InvViewport;
 float computeShadow(vec3 neighborPosition, vec3 neighborNormal,
                     vec3 position, vec3 normal)
 {
-    vec3 v = neighborPosition - position;
-    float rSq = dot(v, v);
+    //vec3 v = neighborPosition - position;
+    //float rSq = dot(v, v);
 
-    return (1.0 - inversesqrt(1.0 / rSq + 1)) * 
-        clamp(0, 1, dot(neighborNormal, v)) * 
-        clamp(0, 1, 4.0 * dot(normal, -v));
+    //v = normalize(v);
+
+    //return (1 - inversesqrt(1.0 / rSq + 1)) * 
+    //    clamp(0, 1, dot(normalize(neighborNormal), -v)) * 
+    //    clamp(0, 1, 4.0 * dot(normalize(normal), v));
+
+    return 0.05;
 }
 
 ivec2 getImageCoord(uint index, uvec2 size)
@@ -66,32 +72,47 @@ void main()
 
     // Transform the the pixel's world position to the pixel location in the start offset buffer.
     pos = MVPX * vec4(In.position, 1.0);
-    texcoord = pos.xy / pos.w * 0.5 + vec2(0.5); 
+    texcoord = pos.xy / pos.w * 0.5 + vec2(0.5, 0.5); 
+    vec3 color = texture2D(Texture, texcoord).rgb;
     // For those out of the frustum, we put them to the closest grid cell.
-    texcoord = clamp(texcoord * vec2(imageSize(StartOffsetBufferX)), vec2(0), 
-        imageSize(StartOffsetBufferX) - vec2(1));
+    texcoord = texcoord * vec2(imageSize(StartOffsetBufferX));
     nodeIndex = imageLoad(StartOffsetBufferX, ivec2(texcoord)).x;
 
-    if (nodeIndex != 0xffffffff)
-    {
-        shadow = 0.5;
-    }
-
-    //while (nodeIndex != 0xffffffff)
+    //if (nodeIndex == 0xffffffff)
+    //{
+    //    color = vec3(0, 0, 1);
+    //}
+    //else
     //{
     //    uvec4 p = imageLoad(GBufferX1, getImageCoord(nodeIndex, imageSize(GBufferX1)));
     //    uvec4 n = imageLoad(GBufferX2, getImageCoord(nodeIndex, imageSize(GBufferX2)));
 
-    //    shadow += computeShadow(In.position, In.normal, 
-    //                            vec3(floatBitsToUint(p.x),
-    //                                 floatBitsToUint(p.y),
-    //                                 floatBitsToUint(p.z)),
-    //                            vec3(floatBitsToUint(n.x),
-    //                                 floatBitsToUint(n.y),
-    //                                 floatBitsToUint(n.z))),
+    //    //color = normalize(vec3(uintBitsToFloat(n.x),
+    //    //                       uintBitsToFloat(n.y),
+    //    //                       uintBitsToFloat(n.z))) * 0.5 + vec3(0.5);
+    //    color = vec3(0, 1, 0);
+    //    if (p.w == 0xffffffff)
+    //    {
+    //        color = vec3(1, 1, 0);
+    //    }
 
-    //   nodeIndex = p.w;
     //}
+
+    while (nodeIndex != 0xffffffff)
+    {
+        uvec4 p = imageLoad(GBufferX1, getImageCoord(nodeIndex, imageSize(GBufferX1)));
+        uvec4 n = imageLoad(GBufferX2, getImageCoord(nodeIndex, imageSize(GBufferX2)));
+
+        shadow -= computeShadow(In.position, normalize(In.normal), 
+                                vec3(uintBitsToFloat(p.x),
+                                     uintBitsToFloat(p.y),
+                                     uintBitsToFloat(p.z)),
+                                vec3(uintBitsToFloat(n.x),
+                                     uintBitsToFloat(n.y),
+                                     uintBitsToFloat(n.z))),
+
+        nodeIndex = p.w;
+    }
 
     // -------------------------------------------------------------- 
     // Y direciton.
@@ -106,12 +127,12 @@ void main()
     //    uvec4 n = imageLoad(GBufferY2, getImageCoord(nodeIndex, imageSize(GBufferY2)));
 
     //    shadow += computeShadow(In.position, In.normal, 
-    //                            vec3(floatBitsToUint(p.x),
-    //                                 floatBitsToUint(p.y),
-    //                                 floatBitsToUint(p.z)),
-    //                            vec3(floatBitsToUint(n.x),
-    //                                 floatBitsToUint(n.y),
-    //                                 floatBitsToUint(n.z))),
+    //                            vec3(UintBitsToFloat(p.x),
+    //                                 UintBitsToFloat(p.y),
+    //                                 UintBitsToFloat(p.z)),
+    //                            vec3(UintBitsToFloat(n.x),
+    //                                 UintBitsToFloat(n.y),
+    //                                 UintBitsToFloat(n.z))),
 
     //   nodeIndex = p.w;
     //}
@@ -119,6 +140,7 @@ void main()
     // -------------------------------------------------------------- 
     // Final color
     // -------------------------------------------------------------- 
-    FragColor = vec4(shadow, shadow, shadow, 1.0);
+    //color = normalize(In.normal) * 0.5 + vec3(0.5);
+    FragColor = vec4(shadow, shadow, shadow, 1.0);// * 0.001 + vec4(color, 1);
 }
 

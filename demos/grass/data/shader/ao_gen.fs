@@ -47,8 +47,6 @@ void storeFragment(vec2 coord, vec3 position, vec3 normal)
     // Update the start offset at this pixel location.
     uint previousNode = imageAtomicExchange(StartOffsetBuffer, ivec2(coord), index);
     
-    imageStore(StartOffsetBuffer, ivec2(coord), uvec4(0x11111111)); 
-
     uvec2 size = imageSize(GBuffer1);
     // The next storage position.
     uvec2 p = uvec2(index % size.x, index / size.x);

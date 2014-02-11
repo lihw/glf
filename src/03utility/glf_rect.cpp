@@ -76,8 +76,8 @@ const char TEXTURE_FRAGMENT_SHADER[] =
     "\n"
     "void main()\n"
     "{\n"
-    "    float value = texture(Texture, vTexcoord).x;\n"
-    "    FragColor = vec4(value, value, value, 1.0);\n"
+    "    vec3 value = texture(Texture, vTexcoord).xyz;\n"
+    "    FragColor = vec4(value, 1.0);\n"
     "}\n";
 
 // -------------------------------------------------------------- 

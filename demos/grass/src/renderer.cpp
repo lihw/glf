@@ -209,21 +209,21 @@ bool Renderer::initialize()
 
     // cameras
     // Look from right
-    m_aoCameras[0].lookAt(20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    m_aoCameras[0].setOrthogonal(m_grassBox.min().z, 
-                                 m_grassBox.max().z,
+    m_aoCameras[0].lookAt(m_grassBox.max().x + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    m_aoCameras[0].setOrthogonal(m_grassBox.min().z - 2.0f, 
+                                 m_grassBox.max().z + 2.0f,
                                  m_grassBox.min().y,
-                                 m_grassBox.max().y,
-                                 -m_grassBox.max().x - 0.01f,
-                                 -m_grassBox.min().x + 0.01f);
+                                 m_grassBox.max().y + 2.0f,
+                                 0.01f,
+                                 m_grassBox.max().x - m_grassBox.min().x + 0.01f);
     // Look from front
-    m_aoCameras[1].lookAt(0.0f, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    m_aoCameras[1].lookAt(0.0f, 0.0f, m_grassBox.max().z + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     m_aoCameras[1].setOrthogonal(m_grassBox.min().x, 
                                  m_grassBox.max().x,
                                  m_grassBox.min().y,
                                  m_grassBox.max().y,
-                                 -m_grassBox.max().z - 0.01f,
-                                 -m_grassBox.min().z + 0.01f);
+                                 0.01f,
+                                 m_grassBox.max().z - m_grassBox.min().z + 0.01f);
 
     m_aoInitialIndex = new GLuint [GRID_XRES * GRID_YRES];
     memset(m_aoInitialIndex, 0xff, GRID_XRES * GRID_YRES * sizeof(GLint));
@@ -269,8 +269,7 @@ bool Renderer::initialize()
     
     // Visualize the ambient occlusion map
     m_ao = new glf::RectTexture();
-    //m_ao->setTexture(m_aoFramebuffer->getColorBuffer(0));
-    m_ao->setTexture(m_renderingSetting.smFramebuffer->getColorBuffer(0));
+    m_ao->setTexture(m_aoFramebuffer->getColorBuffer(0));
     m_ao->setSize(256, 256);
     m_ao->setPosition(512, 0);
     
@@ -334,8 +333,6 @@ void Renderer::render()
     {
         generateAmbientOcclusion();
     }
-
-    goto end;
 
     // -------------------------------------------------------------- 
     // Draw grass
@@ -428,6 +425,7 @@ void Renderer::render()
                 }
                 else
                 {
+                    //mat = m_aoCameras[0].getProjectionModelviewMatrix() * m_grass->getTransformation();
                     shader->getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth);
                     shader->getUniform("MVP")->setValue(mat);
 
@@ -442,14 +440,17 @@ void Renderer::render()
                     m_splatTextureY1->enableRead(4);
                     m_splatTextureY2->enableRead(5);
 
+                    m_aoFramebuffer->getColorBuffer(0)->enable(6);
+
                     shader->enable();
-                    //m_grass->render(1);
+                    m_grass->render(1);
                     shader->disable();
 
                     m_splatTextureIndexX->disable();
                     m_splatTextureX1->disable();
                     m_splatTextureX2->disable();
                     
+                    m_aoFramebuffer->getColorBuffer(0)->disable();
                     m_splatTextureIndexY->disable();
                     m_splatTextureY1->disable();
                     m_splatTextureY2->disable();
@@ -490,8 +491,6 @@ void Renderer::render()
         m_shaders[STEM].disable();
     }
 
-end:
-
     if (m_renderingSetting.smShow)
     {
         m_shadowmap->render();
@@ -499,7 +498,7 @@ end:
 
     if (m_renderingSetting.ambientOcclusion)
     {
-        m_ao->render();
+        //m_ao->render();
     }
 
 }
@@ -673,8 +672,8 @@ bool Renderer::loadShaders()
     }
 
     // AO
-    if (!m_shaders[AO_GENERATE].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/shadowmap.fs", NULL, NULL,
-        PATH_PREFIX"/grass_expansion.gs"))
+    if (!m_shaders[AO_GENERATE].loadFromFiles(PATH_PREFIX"/grass.vs", PATH_PREFIX"/ao_gen.fs", NULL, NULL,
+        PATH_PREFIX"/grass.gs"))
     {
         return false;
     }
@@ -690,6 +689,7 @@ bool Renderer::loadShaders()
     else
     {
         GLF_LOGINFO("Loading ambient occlusion rendering shader succeeded");
+        //m_shaders[AO].getUniform("Texture")->setValue(GLuint(6));
     }
 
 #undef PATH_PREFIX
@@ -704,6 +704,7 @@ void Renderer::renderShadowMap()
 
     m_renderingSetting.smFramebuffer->enable();
 
+    glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_CULL_FACE);
@@ -734,22 +735,18 @@ void Renderer::renderShadowMap()
     
 void Renderer::generateAmbientOcclusion()
 {
-    m_renderingSetting.smFramebuffer->enable();
+    m_aoFramebuffer->enable();
     
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    glViewport(0, 0, 512, 512);
-
-    glClearColor(1, 0, 0, 1);
+    glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    /*
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
 
-    //glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glViewport(0, 0, GRID_XRES, GRID_YRES);
     
     m_shaders[AO_GENERATE].getUniform("BladeWidth")->setValue(m_geometrySetting.bladeWidth * 1.1f); // Increase the blade width
-    m_shaders[AO_GENERATE].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
+    //m_shaders[AO_GENERATE].getUniform("ThicknessThreshold")->setValue(m_geometrySetting.bladeThicknessThreshold);
 
     glf::ImageStorage *buffers[] =
     {
@@ -762,7 +759,7 @@ void Renderer::generateAmbientOcclusion()
         m_splatTextureY2,
     };
 
-    for (GLuint i = 0; i < 2; ++i)
+    for (GLuint i = 0; i < 1; ++i)
     {
         m_aoAtomic->enable(0);
         m_aoAtomic->set(0);
@@ -772,38 +769,35 @@ void Renderer::generateAmbientOcclusion()
         buffers[i * 3 + 2]->enableWrite(3);
 
         // Clear offset buffer to -1
-        //m_aoRect->render(); 
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        m_aoRect->render(); 
+
         //buffers[i * 3]->uploadData(m_aoInitialIndex);
 
         // Write splats into grids.
-        //glf::Camera* camera = &m_aoCameras[i];
-        glf::Camera* camera = &m_camera;
+        glf::Camera* camera = &m_aoCameras[i];
+        //glf::Camera* camera = &m_camera;
         
         glm::mat4 mat = camera->getProjectionModelviewMatrix() * m_grass->getTransformation();
         m_shaders[AO_GENERATE].getUniform("MVP")->setValue(mat);
-        glm::vec3 cameraPosition = camera->getCameraPosition();
-        m_shaders[AO_GENERATE].getUniform("CameraPosition")->setValue(cameraPosition.x, 
-            cameraPosition.y, cameraPosition.z); 
+        //glm::vec3 cameraPosition = camera->getCameraPosition();
+        //m_shaders[AO_GENERATE].getUniform("CameraPosition")->setValue(cameraPosition.x, 
+        //    cameraPosition.y, cameraPosition.z); 
 
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         m_shaders[AO_GENERATE].enable();
         m_grass->render(1);
         m_shaders[AO_GENERATE].disable();
-        //glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
         m_aoAtomic->disable();
         buffers[i * 3 + 0]->disable();
         buffers[i * 3 + 1]->disable();
         buffers[i * 3 + 2]->disable();
     }
-    */
         
     glViewport(0, 0, m_width, m_height);
 
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
 
-    //m_aoFramebuffer->disable();
-    m_renderingSetting.smFramebuffer->disable();
+    m_aoFramebuffer->disable();
 }
