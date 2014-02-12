@@ -175,22 +175,15 @@ bool Renderer::initialize()
     // -------------------------------------------------------------- 
     // Init ambient occlusion
     // -------------------------------------------------------------- 
-    m_splatTextureX1 = new glf::ImageStorage();
-    m_splatTextureY1 = new glf::ImageStorage();
-    m_splatTextureX2 = new glf::ImageStorage();
-    m_splatTextureY2 = new glf::ImageStorage();
-    if (!m_splatTextureX1->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
-        !m_splatTextureY1->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
-        !m_splatTextureX2->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY) ||
-        !m_splatTextureY2->create2D(GL_RGBA32UI, GRID_XRES, GRID_YRES * DENSITY))
+    m_splatTexture = new glf::ImageStorage();
+    m_startOffsetTexture = new glf::ImageStorage();
+    if (!m_splatTexture->create2D(GL_RGBA32UI, m_setting.aoSize * 2, m_setting.aoSize * m_setting.aoNumLayers))
     {
         GLF_LOGERROR("Failed to create splat textures");
         return false;
     }
-    m_splatTextureIndexX = new glf::ImageStorage();
-    m_splatTextureIndexY = new glf::ImageStorage();
-    if (!m_splatTextureIndexX->create2D(GL_R32UI, GRID_XRES, GRID_YRES) ||
-        !m_splatTextureIndexY->create2D(GL_R32UI, GRID_XRES, GRID_YRES))
+    m_startOffsetTexture = new glf::ImageStorage();
+    if (!m_startOffsetTexture->create2D(GL_R32UI, m_setting.aoSize, m_setting.aoSize))
     {
         GLF_LOGERROR("Failed to create splat index textures");
         return false;
@@ -204,39 +197,25 @@ bool Renderer::initialize()
     }
     
     m_aoRect = new glf::Rect(AOCLEAR_VS, AOCLEAR_FS);
-    m_aoRect->setSize(GRID_XRES, GRID_YRES);
-        
+    m_aoRect->setSize(m_setting.aoSize, m_setting.aoSize);
 
-    // cameras
-    // Look from right
-    m_aoCameras[0].lookAt(m_grassBox.max().x + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    m_aoCameras[0].setOrthogonal(m_grassBox.min().z - 2.0f, 
-                                 m_grassBox.max().z + 2.0f,
-                                 m_grassBox.min().y,
-                                 m_grassBox.max().y + 2.0f,
+    m_aoCameras[0].lookAt(0.0f, m_scene->getAABB().max().y + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    m_aoCameras[0].setOrthogonal(m_scene->getAABB().min().x - 0.01f, 
+                                 m_scene->getAABB().max().x + 0.01f,
+                                 m_scene->getAABB().min().z - 0.01f,
+                                 m_scene->getAABB().max().z + 0.01f,
                                  0.01f,
-                                 m_grassBox.max().x - m_grassBox.min().x + 0.01f);
-    // Look from front
-    m_aoCameras[1].lookAt(0.0f, 0.0f, m_grassBox.max().z + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    m_aoCameras[1].setOrthogonal(m_grassBox.min().x, 
-                                 m_grassBox.max().x,
-                                 m_grassBox.min().y,
-                                 m_grassBox.max().y,
-                                 0.01f,
-                                 m_grassBox.max().z - m_grassBox.min().z + 0.01f);
-
-    m_aoInitialIndex = new GLuint [GRID_XRES * GRID_YRES];
-    memset(m_aoInitialIndex, 0xff, GRID_XRES * GRID_YRES * sizeof(GLint));
+                                 m_scene->getAABB().max().y - m_scene->getAABB().min().y + 0.01f);
 
     bool ret;
     GLenum colorFormats[] = { GL_RGBA8 };
     m_aoFramebuffer = new glf::Framebuffer();
-    ret = m_aoFramebuffer->create(GRID_XRES,
-                                GRID_YRES,
-                                colorFormats,
-                                1,
-                                GL_DEPTH_COMPONENT24,
-                                0);
+    ret = m_aoFramebuffer->create(m_setting.aoSize,
+                                  m_setting.aoSize,
+                                  colorFormats,
+                                  1,
+                                  GL_DEPTH_COMPONENT24,
+                                  0);
     if (!ret)
     {
         GLF_LOGERROR("Failed to create the framebuffer for ambient occlusion debug");
@@ -498,7 +477,7 @@ void Renderer::render()
 
     if (m_renderingSetting.ambientOcclusion)
     {
-        //m_ao->render();
+        m_ao->render();
     }
 
 }
@@ -740,7 +719,7 @@ void Renderer::generateAmbientOcclusion()
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
 
     glViewport(0, 0, GRID_XRES, GRID_YRES);
@@ -798,6 +777,7 @@ void Renderer::generateAmbientOcclusion()
     glViewport(0, 0, m_width, m_height);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
     m_aoFramebuffer->disable();
 }

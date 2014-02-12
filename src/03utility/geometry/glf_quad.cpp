@@ -54,7 +54,7 @@ Quad::Quad(const GLfloat* points)
         glm::vec3 e0 = glm::vec3(p0[0], p0[1], p0[2]) - glm::vec3(p1[0], p1[1], p1[2]);
         glm::vec3 e1 = glm::vec3(p2[0], p2[1], p2[2]) - glm::vec3(p1[0], p1[1], p1[2]);
 
-        glm::vec3 n = glm::normalize(glm::cross(e1, e0));
+        glm::vec3 n = glm::normalize(glm::cross(e0, e1));
 
         v[0] = points[i * 3];
         v[1] = points[i * 3 + 1];
@@ -95,6 +95,21 @@ void Quad::createQuad(const GLfloat* vertices)
 
     bool ret = _vertexArray.create(GL_TRIANGLES, vertices, 4, &desc[0], 3, indices, 6);
     GLF_ASSERT(ret);
+}
+    
+void Quad::fillScreen()
+{
+    GLfloat vertices[][3] = 
+    {
+        {-1.0f, 0, -1.0f}, 
+        {1.0f,  0, -1.0f}, 
+        {1.0f,  0,  1.0f}, 
+        {-1.0f, 0,  1.0f}, 
+    };
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+    glEnableVertexAttribArray(0);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
 GLF_NAMESPACE_END

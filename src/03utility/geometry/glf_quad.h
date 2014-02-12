@@ -23,6 +23,9 @@ public:
     Quad();
     virtual ~Quad();
 
+    // Draw a full screen quad, e.g., in post processing effect.
+    static void fillScreen();
+
 private:
     void createQuad(const GLfloat* points);
 };
