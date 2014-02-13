@@ -44,7 +44,7 @@ Renderer::Renderer()
     m_grid       = NULL;
     m_scene      = NULL;
 
-    m_setting.aoEnabled   = false;
+    m_setting.aoEnabled   = true;
     m_setting.aoSize      = 512;
     m_setting.aoNumLayers = 32;
 
@@ -54,6 +54,7 @@ Renderer::Renderer()
     m_aoFramebuffer = NULL;
     m_aoClearRect = NULL;
     m_aoDebugRect = NULL;
+    m_aoBlendRect = NULL;
 }
 
 Renderer::~Renderer()
@@ -164,7 +165,15 @@ bool Renderer::initialize()
     m_aoDebugRect->setSize(m_setting.aoSize, m_setting.aoSize);
     m_aoDebugRect->setPosition(0, 0);
 
-
+#define PATH_PREFIX "../demos/vao/data/shader"
+    const char* blendVS = glf::Shader::readTextFile(PATH_PREFIX"/blend.vs");
+    const char* blendFS = glf::Shader::readTextFile(PATH_PREFIX"/ao_blend.fs");
+    m_aoBlendRect = new glf::Rect(blendVS, blendFS);
+    m_aoBlendRect->setSize(m_width, m_height);
+    m_aoBlendRect->setPosition(0, 0);
+    delete [] blendVS;
+    delete [] blendFS;
+#undef PATH_PREFIX
     
     return true;
 }
@@ -180,6 +189,7 @@ void Renderer::cleanup()
     delete m_aoAtomic;
     delete m_aoClearRect;
     delete m_aoDebugRect;
+    delete m_aoBlendRect;
     delete m_aoFramebuffer;
 }
 
@@ -306,15 +316,6 @@ bool Renderer::loadShaders()
     {
         GLF_LOGINFO("Loading ambient occlusion map generation shader succeeded");
     }
-    // AO blend shader
-    if (!m_aoBlendShader.loadFromFiles(PATH_PREFIX"/blend.vs", PATH_PREFIX"/ao_blend.fs", NULL, NULL, NULL))
-    {
-        return false;
-    }
-    else
-    {
-        GLF_LOGINFO("Loading ambient occlusion rendering shader succeeded");
-    }
     /*
     // AO render shader
     if (!m_aoRenderShader.loadFromFiles(PATH_PREFIX"/simple.vs", PATH_PREFIX"/ao_render.fs", NULL, NULL, NULL))
@@ -350,8 +351,8 @@ void Renderer::generateAmbientOcclusionMap()
     m_aoAtomic->enable(0);
     m_aoAtomic->set(0);
 
-    m_aoFragmentTexture->enableReadAndWrite(1);
-    m_aoStartOffsetTexture->enableWrite(2);
+    m_aoStartOffsetTexture->enableWrite(1);
+    m_aoFragmentTexture->enableReadAndWrite(2);
     
     // -------------------------------------------------------------- 
     // Render fragments into UAV buffers
@@ -376,9 +377,7 @@ void Renderer::generateAmbientOcclusionMap()
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    m_aoBlendShader.enable();
-    glf::Quad::fillScreen();
-    m_aoBlendShader.disable();
+    m_aoBlendRect->render();
     
     // -------------------------------------------------------------- 
     // Cleanup

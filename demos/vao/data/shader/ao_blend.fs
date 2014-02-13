@@ -20,16 +20,9 @@ layout(binding = 0, offset = 0) uniform atomic_uint Atomic;
 layout(binding = 1, r32ui) coherent uniform uimage2D StartOffsetBuffer;
 layout(binding = 2, rgba32ui) coherent uniform uimage2D FragmentBuffer; 
 
-uniform mat4 AOMVP;
-
 // -------------------------------------------------------------- 
 // in
 // -------------------------------------------------------------- 
-in block
-{
-    vec3 position; // the pixel position in world space.
-    vec3 normal;
-} In; 
 
 in vec4 gl_FragCoord;
 
@@ -45,39 +38,29 @@ void main()
 {
     float density = 0.0;
 
-    vec4 pos;
-    vec2 texcoord;
     uint nodeIndex;
 
-    // Transform the the pixel's world position to the pixel location in the start offset buffer.
-    pos = AOMVP * vec4(In.position, 1.0);
-    texcoord = pos.xy / pos.w * 0.5 + vec2(0.5, 0.5); 
     // For those out of the frustum, we put them to the closest grid cell.
-    texcoord = texcoord * vec2(imageSize(StartOffsetBuffer));
     
-    for (int dx = (1 - KERNEL_SIZE) / 2; dx <= KERNEL_SIZE / 2; dx++) 
-    { 
-        for (int dy = (1 - KERNEL_SIZE) / 2; dy <= KERNEL_SIZE / 2; dy++) 
-        { 
-            ivec2 tc = ivec2(texcoord) + ivec2(dx, dy);
-            nodeIndex = imageLoad(StartOffsetBuffer, tc).x;
+    ivec2 tc = ivec2(gl_FragCoord.xy);
+    nodeIndex = imageLoad(StartOffsetBuffer, tc).x;
+        
+    uvec2 size = imageSize(FragmentBuffer);
 
-            while (nodeIndex != 0xffffffff)
-            {
-                uvec2 size = imageSize(StartOffsetBuffer);
-                ivec2 c = ivec2(nodeIndex % size.x, nodeIndex / size.x);
-                
-                uvec4 p = imageLoad(FragmentBuffer, c);
-                uvec4 n = imageLoad(FragmentBuffer, ivec2(c.x + 1, c.y));
+    while (nodeIndex != 0xffffffff)
+    {
+        ivec2 c1 = ivec2(nodeIndex % size.x, nodeIndex / size.x);
+        ivec2 c2 = ivec2((nodeIndex + 1) % size.x, (nodeIndex + 1) / size.x);
 
-                density += 0.1f;
+        uvec4 p = imageLoad(FragmentBuffer, c1);
+        uvec4 n = imageLoad(FragmentBuffer, c2);
 
-                nodeIndex = p.w;
-            }
-        }
+        density += 0.2;
+
+        nodeIndex = p.w;
     }
     
-    FragColor = vec4(density, density, density, 1.0);
+    FragColor = vec4(density, density, density, 1.0);// * 0.01 + vec4(1, 0, 0, 1);
 }
 
 

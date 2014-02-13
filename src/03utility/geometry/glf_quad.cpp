@@ -99,17 +99,27 @@ void Quad::createQuad(const GLfloat* vertices)
     
 void Quad::fillScreen()
 {
+    static GLuint vertexArray = 0;
+    if (vertexArray == 0)
+    {
+        glGenVertexArrays(1, &vertexArray);
+    }
+
     GLfloat vertices[][3] = 
     {
         {-1.0f, 0, -1.0f}, 
-        {1.0f,  0, -1.0f}, 
-        {1.0f,  0,  1.0f}, 
-        {-1.0f, 0,  1.0f}, 
+        {-1.0f,  0, 1.0f}, 
+        { 1.0f,  0,  1.0f}, 
+        { 1.0f, 0,  -1.0f}, 
     };
+
+    glBindVertexArray(vertexArray);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    glBindVertexArray(0);
 }
 
 GLF_NAMESPACE_END

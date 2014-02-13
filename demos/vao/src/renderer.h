@@ -63,6 +63,7 @@ private:
     glf::Atomic*            m_aoAtomic;
     glf::Rect*              m_aoClearRect;
     glf::RectTexture*       m_aoDebugRect;
+    glf::Rect*              m_aoBlendRect;
     glf::Framebuffer*       m_aoFramebuffer;
 
 };

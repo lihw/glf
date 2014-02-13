@@ -32,18 +32,9 @@ out gl_PerVertex
     vec4 gl_Position;
 };
 
-out block
-{
-    vec3 position;
-    vec3 normal; 
-} Out;
-
 void main()
 {
     gl_Position = vec4(Position, 1);
-
-    Out.position = Position;
-    Out.normal   = Normal;
 }
 
 

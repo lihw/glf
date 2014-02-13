@@ -65,11 +65,11 @@ public:
     void enable();
     void disable();
 
+    static char* readTextFile(const char* filename);
+
 private:
     bool validateProgram(GLuint program);
     GLuint compileShader(GLenum shaderType, const char* source);
-
-    char* readTextFile(const char* filename);
 
 private:
     GLuint _program;
