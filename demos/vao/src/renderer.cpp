@@ -137,7 +137,7 @@ bool Renderer::initialize()
     m_aoClearRect->setSize(m_setting.aoSize, m_setting.aoSize);
     
    
-    m_aoCamera.lookAt(0.0f, m_scene->getAABB().max().y + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    m_aoCamera.lookAt(0.0f, m_scene->getAABB().max().y + 0.01, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f);
     m_aoCamera.setOrthogonal(m_scene->getAABB().min().x - 0.05f, 
                              m_scene->getAABB().max().x + 0.05f,
                              m_scene->getAABB().min().z - 0.05f,
@@ -226,17 +226,38 @@ void Renderer::render()
     // -------------------------------------------------------------- 
     mat = m_camera.getProjectionModelviewMatrix();
 
-    m_sceneShader.getUniform("MVP")->setValue(mat);
-    m_sceneShader.enable();
-    m_scene->render();
-    m_sceneShader.disable();
+    if (m_setting.aoEnabled)
+    {
+        m_aoStartOffsetTexture->enableRead(1);
+        m_aoFragmentTexture->enableRead(2);
+
+        glm::mat4 aomat = m_aoCamera.getProjectionModelviewMatrix();
+        m_aoRenderShader.getUniform("MVP")->setValue(mat);
+        m_aoRenderShader.getUniform("AOMVP")->setValue(aomat);
+
+        m_aoRenderShader.enable();
+
+        m_scene->render();
+
+        m_aoRenderShader.disable();
+    
+        m_aoFragmentTexture->disable();
+        m_aoStartOffsetTexture->disable();
+    }
+    else
+    {
+        m_sceneShader.getUniform("MVP")->setValue(mat);
+        m_sceneShader.enable();
+        m_scene->render();
+        m_sceneShader.disable();
+    }
 
     // -------------------------------------------------------------- 
     // Render ambient occlusion map 
     // -------------------------------------------------------------- 
     if (m_setting.aoEnabled)
     {
-        m_aoDebugRect->render();
+        //m_aoDebugRect->render();
     }
 }
 
@@ -316,7 +337,7 @@ bool Renderer::loadShaders()
     {
         GLF_LOGINFO("Loading ambient occlusion map generation shader succeeded");
     }
-    /*
+    
     // AO render shader
     if (!m_aoRenderShader.loadFromFiles(PATH_PREFIX"/simple.vs", PATH_PREFIX"/ao_render.fs", NULL, NULL, NULL))
     {
@@ -326,7 +347,7 @@ bool Renderer::loadShaders()
     {
         GLF_LOGINFO("Loading ambient occlusion rendering shader succeeded");
     }
-    */
+    
 #undef PATH_PREFIX
 
     return true;
@@ -351,7 +372,7 @@ void Renderer::generateAmbientOcclusionMap()
     m_aoAtomic->enable(0);
     m_aoAtomic->set(0);
 
-    m_aoStartOffsetTexture->enableWrite(1);
+    m_aoStartOffsetTexture->enableReadAndWrite(1);
     m_aoFragmentTexture->enableReadAndWrite(2);
     
     // -------------------------------------------------------------- 

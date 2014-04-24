@@ -106,7 +106,7 @@ void Control::createGeneralTab(KxColumnLayout* mainLayout)
     m_knotOption->menu()->clear();
     m_knotOption->clear();
     
-    for (int i = 1; i < 8; ++i)
+    for (int i = 1; i < BLADE_NUM_KNOTS; ++i)
     {
         menuItem = new KxMenuItem(QString("%1").arg(i), NULL);
         menuItem->setValue(QVariant(i));

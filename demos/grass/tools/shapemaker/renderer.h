@@ -10,7 +10,8 @@
 
 #include <glf/glf.h>
 
-class GrassBlade;
+#include "grassblade.h"
+
 
 class Renderer : public GLFAbstractRenderer
 {

@@ -10,6 +10,7 @@
 
 #include <glf/glf.h>
 
+#define BLADE_NUM_KNOTS     16
 
 class GrassBlade 
 {

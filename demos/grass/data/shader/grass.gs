@@ -24,7 +24,7 @@ in block
 
 layout(stream = 0) out block
 {
-    vec3 position;
+    vec4 position;
     vec3 normal;
     vec3 color;
     vec2 texcoord;

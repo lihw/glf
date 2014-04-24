@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 
-#define BLADE_NUM_KNOTS     8
+
 #define BLADE_LENGTH        4.0f
 
 GrassBlade::GrassBlade()

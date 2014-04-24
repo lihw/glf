@@ -126,7 +126,7 @@ bool Renderer::initialize()
         return false;
     }
     m_grassBladeViewShader.getUniform("BladeWidth")->setValue(0.01f);
-    m_grassBladeViewShader.getUniform("ThicknessThreshold")->setValue(5.0f);
+    //m_grassBladeViewShader.getUniform("ThicknessThreshold")->setValue(5.0f);
     m_grassBladeViewShader.getUniform("Texture")->setValue(GLuint(0));
 
     glf::Image grassBladeImage;
@@ -260,7 +260,7 @@ void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
             cy = ((GLfloat)m_height - 1.0f - (GLfloat)y) / (GLfloat)m_height;
 
             m_arcball.updateMouse(cx, cy);
-            m_viewCamera.setRotation(m_arcball.getRotationMatrix());
+            m_viewCamera.setRotation(&(m_arcball.getRotationMatrix()[0][0]));
 
         }       
     }

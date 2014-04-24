@@ -101,6 +101,7 @@ bool Shader::loadFromMemory(const char* vertexSource,
     GLuint geometryShader            = compileShader(GL_GEOMETRY_SHADER, geometrySource);
 
     GLF_ASSERT(vertexShader != 0 && fragmentShader != 0);
+	GLF_ASSERT(geometrySource == NULL || (geometrySource != NULL && geometryShader != 0));
     if (vertexShader == 0 ||
             fragmentShader == 0 ||
             (tessellationControlSource != NULL && tessellationControlShader == 0) ||
