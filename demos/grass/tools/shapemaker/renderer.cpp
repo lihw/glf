@@ -8,6 +8,7 @@
 #include "renderer.h"
 
 #include "grassblade.h"
+#include "control.h"
 
 Renderer::Renderer()
     : GLFAbstractRenderer()
@@ -22,6 +23,8 @@ Renderer::Renderer()
     m_mode                  = EDIT_MODE;
     m_rotation              = 0;
     m_selfRotating          = false;
+
+    m_editBlade             = NULL;
 }
 
 Renderer::~Renderer()
@@ -235,10 +238,18 @@ void Renderer::onMouseButtonDown(int x, int y, int buttons, int modifiers)
             m_arcball.restart();
         }
     }
+    else if (m_mode == EDIT_MODE)
+    {
+        m_editBlade = m_grassBlades[m_currentBladeIndex];
+    }
 }
 
 void Renderer::onMouseButtonUp(int x, int y, int buttons, int modifiers)
 {
+    if (m_mode == EDIT_MODE)
+    {
+        m_editBlade = NULL;
+    }
 }
 
 void Renderer::onMouseWheel(int numDegrees)
@@ -247,6 +258,7 @@ void Renderer::onMouseWheel(int numDegrees)
     {
         m_viewCamera.translate(0, 0, (GLfloat)numDegrees * 0.1f);
     }
+    
 }
 
 void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
@@ -264,6 +276,22 @@ void Renderer::onMouseMove(int x, int y, int buttons, int modifiers)
 
         }       
     }
+    else if (m_mode == EDIT_MODE && m_editBlade != NULL)
+    {
+        glm::vec3 p = m_editBlade->getKnotPosition(m_currentBladeKnotIndex);
+        
+        GLfloat nx = (GLfloat)x / (GLfloat)m_width;
+        GLfloat ny = (GLfloat)(m_height - 1 - y) / (GLfloat)m_height;
+
+        p.x = 6.0f * nx - 3.0f;
+        p.y = 6.0f * ny - 1.0f;
+
+        m_editBlade->setKnotPosition(m_currentBladeKnotIndex, p);
+
+        Control* ctrl = (Control*)glfGetControl();
+        ctrl->syncKnotPosition(p);
+    }
+
 }
     
 void Renderer::onKeyUp(int key, int modifiers)
@@ -277,11 +305,12 @@ void Renderer::onKeyUp(int key, int modifiers)
 void Renderer::onResized(int w, int h)
 {
     GLfloat aspect = (GLfloat)w / (GLfloat)h;
-    m_editCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
-    m_viewCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
+    m_editCamera.setOrthogonal(-3.0f * aspect, 3.0f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
+    m_viewCamera.setOrthogonal(-3.0f * aspect, 3.0f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
     m_viewSelfRotatingCamera.setOrthogonal(-2.5f * aspect, 2.5f * aspect, -1.0f, 5.0f, 0.0f, 100.0f);
     glViewport(0, 0, w, h);
 
     m_width = w;
     m_height = h;
 }
+

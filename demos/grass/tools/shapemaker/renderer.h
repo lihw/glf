@@ -70,6 +70,8 @@ private:
     GLfloat        m_rotation;
     GLint          m_width;
     GLint          m_height;
+
+    GrassBlade*    m_editBlade;
 };
 
 #endif // !RENDERER_H

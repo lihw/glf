@@ -287,6 +287,14 @@ void Control::onXChanged(const QVariant& value, bool interim)
     blade->setKnotPosition(renderer->m_currentBladeKnotIndex, p);
 }
 
+void Control::syncKnotPosition(const glm::vec3& p)
+{
+    m_xSliderGrp->slider()->setValueF(p.x);
+    m_xSliderGrp->inputField()->setValueF(p.x);
+    m_ySliderGrp->slider()->setValueF(p.y);
+    m_ySliderGrp->inputField()->setValueF(p.y);
+}
+
 void Control::onYChanged(const QVariant& value, bool interim)
 {
     Renderer* renderer = (Renderer*)glfGetRenderer();

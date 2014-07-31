@@ -26,6 +26,8 @@ public:
     Control(QWidget* parent);  
     virtual ~Control();
 
+    void syncKnotPosition(const glm::vec3& p);
+
 private:
     void createGeneralTab(KxColumnLayout* mainLayout);
     void createIOTab(KxColumnLayout* mainLayout);
