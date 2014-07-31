@@ -128,7 +128,7 @@ bool Renderer::initialize()
     {
         return false;
     }
-    m_grassBladeViewShader.getUniform("BladeWidth")->setValue(0.01f);
+    m_grassBladeViewShader.getUniform("BladeWidth")->setValue(0.08f);
     //m_grassBladeViewShader.getUniform("ThicknessThreshold")->setValue(5.0f);
     m_grassBladeViewShader.getUniform("Texture")->setValue(GLuint(0));
 
@@ -206,7 +206,7 @@ void Renderer::render()
     else // view mode
     {
         glm::vec3 cameraPosition = m_viewCamera.getCameraPosition();
-        m_grassBladeViewShader.getUniform("CameraPosition")->setValue(cameraPosition.x, cameraPosition.y, cameraPosition.z); 
+        //m_grassBladeViewShader.getUniform("CameraPosition")->setValue(cameraPosition.x, cameraPosition.y, cameraPosition.z); 
 
         if (m_selfRotating)
         {
@@ -215,10 +215,13 @@ void Renderer::render()
         }
         else
         {
-            mat = m_viewCamera.getProjectionModelviewMatrix();
+			mat = m_viewSelfRotatingCamera.getProjectionModelviewMatrix() * glm::eulerAngleY(3.14159265358979f * -0.2f);;
+            //mat = m_viewCamera.getProjectionModelviewMatrix();
         }
             
         m_grassBladeViewShader.getUniform("MVP")->setValue(mat);
+
+		glDisable(GL_CULL_FACE);
 
         m_grassBladeTexture->enable(0);
         m_grassBladeViewShader.enable();
@@ -226,6 +229,7 @@ void Renderer::render()
         m_grassBladeViewShader.disable();
         m_grassBladeTexture->disable();
 
+		glEnable(GL_CULL_FACE);
     }
 }
 

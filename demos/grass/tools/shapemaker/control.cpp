@@ -173,10 +173,10 @@ void Control::createGeneralTab(KxColumnLayout* mainLayout)
     m_bladeWidthSliderGrp->slider()->setMinimumWidth(240);
 
     m_bladeWidthSliderGrp->slider()->setSliderRangeF(0, 1.0f);
-    m_bladeWidthSliderGrp->slider()->setValueF(0.01f);
+    m_bladeWidthSliderGrp->slider()->setValueF(0.08f);
     m_bladeWidthSliderGrp->inputField()->setMinValueF(0.0f);
     m_bladeWidthSliderGrp->inputField()->setMaxValueF(1.0f);
-    m_bladeWidthSliderGrp->inputField()->setValueF(0.01f);
+    m_bladeWidthSliderGrp->inputField()->setValueF(0.08f);
     
     formLayout->addRow(new KxLabel(QString("Blade width: ")), m_bladeWidthSliderGrp);
 

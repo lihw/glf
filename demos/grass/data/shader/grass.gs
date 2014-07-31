@@ -12,7 +12,7 @@
 #version 430 core
 
 layout(lines, invocations = 1) in;
-layout(triangle_strip, max_vertices = 8) out;
+layout(triangle_strip, max_vertices = 4) out;
 
 in block
 {
@@ -92,14 +92,14 @@ void main()
     gl_Position = p[1];
     Out.position = pWorld[1];
     Out.normal = In[0].Normal;
-    Out.color = color;
+    Out.color = vec3(0, 0, t[0]);
     Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[0];
     Out.position = pWorld[0];
     Out.normal = In[0].Normal;
-    Out.color = color;
+    Out.color = vec3(0, 0, t[0]);
     Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
@@ -107,51 +107,51 @@ void main()
     Out.position = pWorld[3];
     Out.normal = In[1].Normal;
     Out.texcoord = vec2((1.0f + w1 / BladeWidth) * 0.5, t[1]);
-    Out.color = color;
+    Out.color = vec3(0, 0, t[1]);
     EmitVertex();
     
     gl_Position = p[2];
     Out.position = pWorld[2];
     Out.normal = In[1].Normal;
-    Out.color = color;
+    Out.color = vec3(0, 0, t[1]);
     Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
     EmitVertex();
 
     EndPrimitive();
     
+/*
     //
     // The back side
     //
     gl_Position = p[0];
     Out.position = pWorld[0];
     Out.normal = -In[0].Normal;
-    Out.color = color;
+    Out.color = vec3(0.25, 0, t[0]);
     Out.texcoord = vec2((1.0f - w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[1];
     Out.position = pWorld[1];
     Out.normal = -In[0].Normal;
-    Out.color = color;
+    Out.color = vec3(0.25, 0, t[0]);
     Out.texcoord = vec2((1.0f + w0 / BladeWidth) * 0.5, t[0]);
     EmitVertex();
     
     gl_Position = p[2];
     Out.position = pWorld[2];
     Out.normal = -In[1].Normal;
-    Out.color = color;
+    Out.color = vec3(0.25, 0, t[1]);
     Out.texcoord = vec2((1.0f - w1 / BladeWidth) * 0.5, t[1]);
     EmitVertex();
     
     gl_Position = p[3];
     Out.position = pWorld[3];
     Out.normal = -In[1].Normal;
-    //Out.color = In[1].Color;
-    //Out.color = vec3(length(d[1]) / 4, 0, 0);
     Out.texcoord = vec2((1.0f + w1 / BladeWidth) * 0.5, t[1]);
-    Out.color = color;
+    Out.color = vec3(0.25, 0, t[1]);
     EmitVertex();
 
+*/
     EndPrimitive();
 }
 
